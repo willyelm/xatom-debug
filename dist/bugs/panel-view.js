@@ -6,7 +6,8 @@ export class BugsPanelView {
         this.element = document.createElement('atom-bugs-panel');
         this.scheme = {
             icon: createIconFromPath(''),
-            name: createText('')
+            name: createText(''),
+            plugin: null
         };
         this.schemePath = {
             name: createText('Current File'),
@@ -16,14 +17,18 @@ export class BugsPanelView {
         };
         insertElement(this.element, createIcon('logo'));
         insertElement(this.element, createButton({
-            click() {
+            click: () => {
+                let currentPlugin = this.scheme.plugin;
+                console.log('run', currentPlugin);
             }
         }, [
             createIcon('run'),
             createText('Run')
         ]));
         insertElement(this.element, createButton({
-            click() {
+            click: () => {
+                let currentPlugin = this.scheme.plugin;
+                console.log('pause', currentPlugin);
             }
         }, [
             createIcon('stop')
@@ -55,9 +60,10 @@ export class BugsPanelView {
     getSelectedSchemeName() {
         return 'Node.js';
     }
-    setScheme(scheme) {
-        this.scheme.icon.style.backgroundImage = `url(${scheme.iconPath})`;
-        this.scheme.name.nodeValue = ` ${scheme.name}`;
+    setScheme(plugin) {
+        this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
+        this.scheme.name.nodeValue = ` ${plugin.name}`;
+        this.scheme.plugin = plugin;
     }
     setPathName(name) {
         let baseName = parse(name).base;

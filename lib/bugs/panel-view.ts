@@ -17,7 +17,8 @@ export class BugsPanelView {
   private element: HTMLElement;
   private scheme: {
     icon: HTMLElement,
-    name: Text
+    name: Text,
+    plugin: any
   };
   private schemePath: {
     select: HTMLElement,
@@ -29,7 +30,8 @@ export class BugsPanelView {
     // create schemes
     this.scheme = {
       icon: createIconFromPath(''),
-      name: createText('')
+      name: createText(''),
+      plugin: null
     };
     // create scheme path
     this.schemePath = {
@@ -43,8 +45,10 @@ export class BugsPanelView {
     insertElement(this.element, createIcon('logo'))
     // Run
     insertElement(this.element, createButton({
-      click () {
+      click: () => {
         // run
+        let currentPlugin = this.scheme.plugin;
+        console.log('run', currentPlugin)
       }
     },[
       createIcon('run'),
@@ -52,8 +56,10 @@ export class BugsPanelView {
     ]))
     // Pause
     insertElement(this.element, createButton({
-      click () {
+      click: () => {
         // pause
+        let currentPlugin = this.scheme.plugin;
+        console.log('pause', currentPlugin)
       }
     },[
       createIcon('stop')
@@ -87,11 +93,13 @@ export class BugsPanelView {
   getSelectedSchemeName () {
     return 'Node.js';
   }
-  setScheme (scheme) {
-    // set icon bg
-    this.scheme.icon.style.backgroundImage = `url(${scheme.iconPath})`;
-    // set scheme name
-    this.scheme.name.nodeValue = ` ${scheme.name}`
+  setScheme (plugin) {
+    // set element icon bg
+    this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
+    // set element scheme name
+    this.scheme.name.nodeValue = ` ${plugin.name}`
+    // set current plugin reference
+    this.scheme.plugin = plugin;
   }
   public setPathName (name: string) {
     let baseName = parse(name).base

@@ -5,7 +5,7 @@ export declare class BugsPanelView {
     private selectPath;
     constructor();
     getSelectedSchemeName(): string;
-    setScheme(scheme: any): void;
+    setScheme(plugin: any): void;
     setPathName(name: string): void;
     setPaths(paths: Array<string>): void;
     getElement(): HTMLElement;
