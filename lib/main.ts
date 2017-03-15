@@ -2,7 +2,7 @@
 
 import { Bugs } from './bugs/index';
 const { CompositeDisposable } = require('atom');
-//
+
 // function delay(milliseconds: number) {
 //   return new Promise<void>(resolve => {
 //     setTimeout(resolve, milliseconds);
@@ -31,6 +31,15 @@ export default {
       item: this.bugs.getPanelViewElement(),
       visible: true
     });
+    //
+    console.log('workspace', atom.workspace)
+    console.log('project', atom.project)
+    // set Paths
+    let projects = atom.project['getPaths']()
+    this.bugs.panelView.setPaths(projects)
+    // observe path changes
+    atom.project.onDidChangePaths((projects) => this.bugs.panelView.setPaths(projects))
+    // observe editors
     atom.workspace.observeTextEditors((editor) => {
       if (!editor.getPath || !editor.editorElement) return
       this.bugs.observeEditor(editor)

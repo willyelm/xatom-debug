@@ -21,6 +21,6 @@ export class BugsPluginManager {
     }
   }
   removePlugin (plugin: BugsPlugin) {
-    console.log('removing plugin', plugin);
+    
   }
 }

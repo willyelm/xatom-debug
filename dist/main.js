@@ -11,6 +11,11 @@ export default {
             item: this.bugs.getPanelViewElement(),
             visible: true
         });
+        console.log('workspace', atom.workspace);
+        console.log('project', atom.project);
+        let projects = atom.project['getPaths']();
+        this.bugs.panelView.setPaths(projects);
+        atom.project.onDidChangePaths((projects) => this.bugs.panelView.setPaths(projects));
         atom.workspace.observeTextEditors((editor) => {
             if (!editor.getPath || !editor.editorElement)
                 return;

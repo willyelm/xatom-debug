@@ -1,5 +1,6 @@
 'use babel';
 
+import { parse } from 'path';
 import {
   createGroupButtons,
   createButton,
@@ -7,21 +8,36 @@ import {
   createIconFromPath,
   createText,
   createElement,
+  createSelect,
+  createOption,
   insertElement
 } from '../element/index';
 
 export class BugsPanelView {
   private element: HTMLElement;
-  private currentScheme: {
+  private scheme: {
     icon: HTMLElement,
     name: Text
   };
+  private schemePath: {
+    select: HTMLElement,
+    name: Text
+  };
+  private selectPath: HTMLElement;
   constructor () {
     this.element = document.createElement('atom-bugs-panel');
-    this.currentScheme = {
+    // create schemes
+    this.scheme = {
       icon: createIconFromPath(''),
       name: createText('')
     };
+    // create scheme path
+    this.schemePath = {
+      name: createText('Current File'),
+      select: createSelect({
+        change: (e) => this.setPathName(e.target.value)
+      }, [])
+    }
 
     // Icon
     insertElement(this.element, createIcon('logo'))
@@ -48,14 +64,15 @@ export class BugsPanelView {
         className: 'bugs-scheme'
       }, [
         createIcon('atom'),
-        createText('atom-bugs'),
+        this.schemePath.name,
+        this.schemePath.select,
         createElement('div', {
           className: 'bugs-scheme-arrow'
         })
       ]),
       createButton([
-        this.currentScheme.icon,
-        this.currentScheme.name
+        this.scheme.icon,
+        this.scheme.name
       ])
     ]))
   }
@@ -63,13 +80,32 @@ export class BugsPanelView {
     return 'Node.js';
   }
   setScheme (scheme) {
-    this.currentScheme.icon.style.backgroundImage = `url(${scheme.iconPath})`;
-    this.currentScheme.name.nodeValue = ` ${scheme.name}`
+    // set icon bg
+    this.scheme.icon.style.backgroundImage = `url(${scheme.iconPath})`;
+    // set scheme name
+    this.scheme.name.nodeValue = ` ${scheme.name}`
   }
-  getElement () {
+  public setPathName (name: string) {
+    let baseName = parse(name).base
+    this.schemePath.name.nodeValue = ` ${baseName}`
+  }
+  public setPaths (paths: Array<string>) {
+    // clear old list
+    this.schemePath.select.innerHTML = '';
+    // add new paths
+    paths.forEach((p: string, index: number) => {
+      // activate first
+      if (index === 0) {
+        this.setPathName(p)
+      }
+      // insert option to path select
+      insertElement(this.schemePath.select, createOption(p, p))
+    })
+  }
+  public getElement () {
     return this.element;
   }
-  destroy () {
+  public destroy () {
     this.element.remove();
   }
 }

@@ -13,7 +13,7 @@ import {
 export class BugsSchemeView {
   private element: HTMLElement;
   constructor () {
-    this.element = document.createElement('atom-bugs-panel');
+    this.element = document.createElement('atom-bugs-scheme-panel');
     
   }
   getElement () {

@@ -15,7 +15,6 @@ export class BugsPluginManager {
         }
     }
     removePlugin(plugin) {
-        console.log('removing plugin', plugin);
     }
 }
 //# sourceMappingURL=plugin-manager.js.map
