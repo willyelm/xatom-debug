@@ -44,18 +44,18 @@ export class BugsPanelView {
     // Run
     insertElement(this.element, createButton({
       click () {
-        let panel = document.createElement('div');
-        panel.innerHTML = '<div class="figure"></div>';
-        atom.workspace.addModalPanel({
-          item: panel
-        })
+        // run
       }
     },[
       createIcon('run'),
       createText('Run')
     ]))
     // Pause
-    insertElement(this.element, createButton([
+    insertElement(this.element, createButton({
+      click () {
+        // pause
+      }
+    },[
       createIcon('stop')
     ]))
     // Scheme Buttons
@@ -70,7 +70,15 @@ export class BugsPanelView {
           className: 'bugs-scheme-arrow'
         })
       ]),
-      createButton([
+      createButton({
+        click () {
+          // scheme editor
+          let panel = document.createElement('div');
+          atom.workspace.addModalPanel({
+            item: panel
+          })
+        }
+      }, [
         this.scheme.icon,
         this.scheme.name
       ])
@@ -99,7 +107,7 @@ export class BugsPanelView {
         this.setPathName(p)
       }
       // insert option to path select
-      insertElement(this.schemePath.select, createOption(p, p))
+      insertElement(this.schemePath.select, createOption(parse(p).base, p))
     })
   }
   public getElement () {
