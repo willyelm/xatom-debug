@@ -1,11 +1,18 @@
 'use babel';
 export class BugsPluginManager {
-    constructor() {
+    constructor(panelView) {
+        this.panelView = panelView;
         this.plugins = [];
     }
+    getPlugins() {
+        return this.plugins;
+    }
     addPlugin(plugin) {
-        console.log('adding plugin', plugin);
         this.plugins.push(plugin);
+        let activeName = this.panelView.getSelectedSchemeName();
+        if (plugin.name === activeName) {
+            this.panelView.setScheme(plugin);
+        }
     }
     removePlugin(plugin) {
         console.log('removing plugin', plugin);

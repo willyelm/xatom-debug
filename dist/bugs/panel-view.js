@@ -3,8 +3,20 @@ import { createGroupButtons, createButton, createIcon, createIconFromPath, creat
 export class BugsPanelView {
     constructor() {
         this.element = document.createElement('atom-bugs-panel');
+        this.currentScheme = {
+            icon: createIconFromPath(''),
+            name: createText('')
+        };
         insertElement(this.element, createIcon('logo'));
-        insertElement(this.element, createButton([
+        insertElement(this.element, createButton({
+            click() {
+                let panel = document.createElement('div');
+                panel.innerHTML = '<div class="figure"></div>';
+                atom.workspace.addModalPanel({
+                    item: panel
+                });
+            }
+        }, [
             createIcon('run'),
             createText('Run')
         ]));
@@ -22,10 +34,17 @@ export class BugsPanelView {
                 })
             ]),
             createButton([
-                createIconFromPath('atom://atom-bugs-nodejs/icons/nodejs.svg'),
-                createText('Node.js')
+                this.currentScheme.icon,
+                this.currentScheme.name
             ])
         ]));
+    }
+    getSelectedSchemeName() {
+        return 'Node.js';
+    }
+    setScheme(scheme) {
+        this.currentScheme.icon.style.backgroundImage = `url(${scheme.iconPath})`;
+        this.currentScheme.name.nodeValue = ` ${scheme.name}`;
     }
     getElement() {
         return this.element;

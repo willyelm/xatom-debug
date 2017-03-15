@@ -10,8 +10,8 @@ export class Bugs {
   public panelView: BugsPanelView;
   constructor () {
     // this.breakpointManager = new BugsBreakpointManager();
-    this.pluginManager = new BugsPluginManager();
     this.panelView = new BugsPanelView();
+    this.pluginManager = new BugsPluginManager(this.panelView);
   }
   getPanelViewElement () {
     return this.panelView.getElement();

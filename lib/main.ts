@@ -2,7 +2,7 @@
 
 import { Bugs } from './bugs/index';
 const { CompositeDisposable } = require('atom');
-
+//
 // function delay(milliseconds: number) {
 //   return new Promise<void>(resolve => {
 //     setTimeout(resolve, milliseconds);
@@ -52,6 +52,7 @@ export default {
   },
 
   debug () {
+    // toggle debug
     console.log('toggle')
   }
 };

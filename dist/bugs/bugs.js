@@ -5,8 +5,8 @@ import { BugsPanelView } from './panel-view';
 export class Bugs {
     constructor() {
         this.breakpoints = [];
-        this.pluginManager = new BugsPluginManager();
         this.panelView = new BugsPanelView();
+        this.pluginManager = new BugsPluginManager(this.panelView);
     }
     getPanelViewElement() {
         return this.panelView.getElement();
