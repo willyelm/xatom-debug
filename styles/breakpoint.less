@@ -1,0 +1,28 @@
+@accent-color: hsl(hue(@syntax-background-color), 100%, 66%);
+@import "ui-variables";
+
+// Breakpoint
+.bugs-breakpoint {
+  z-index: 1;
+  color: lighten(@accent-color, 15%);
+  &.cursor-line {
+    color: inherit;
+  }
+  &:after {
+    content: '';
+    background-color: @accent-color;
+    background-repeat: no-repeat;
+    background-position: center left;
+    background-size: 100% auto;
+    -webkit-mask-image: url(atom://atom-bugs/icons/breakpoint.svg);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: top right;
+    -webkit-mask-size: cover;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0.1em;
+    z-index: -1;
+  }
+}

@@ -1,0 +1,67 @@
+@import "ui-variables";
+
+// Panel
+atom-bugs-panel {
+  display: block;
+  padding: 4px 10px;
+  .bugs-icon-logo {
+    margin-right: 5px;
+  }
+  & > button,
+  & > .btn-group {
+    margin-left: 5px;
+  }
+  .btn {
+    background-image: none!important;
+    background-color: @button-background-color!important;
+    outline: none!important;
+    &:hover,
+    &:focus {
+      background-color: @button-background-color-hover!important;
+    }
+    &:active {
+      background-color: darken(@button-background-color, 4%)!important;
+    }
+    i.bugs-icon {
+      width: 16px;
+    }
+  }
+
+  // Arrow
+  .bugs-scheme {
+    position: relative;
+    z-index: 1!important;
+    & + .btn {
+      z-index: 0!important;
+      padding-left: 20px;
+    }
+    &:hover .bugs-scheme-arrow:before,
+    &:focus .bugs-scheme-arrow:before {
+      background-color: @button-background-color-hover;
+    }
+    &:active .bugs-scheme-arrow:before {
+      background-color: darken(@button-background-color, 4%);
+    }
+    .bugs-scheme-arrow {
+      position: absolute;
+      overflow: hidden;
+      z-index: 2;
+      width: 15px;
+      height: 30px;
+      top: -2px;
+      right: -15px;
+      &:before {
+        content: '';
+        transform: rotate(45deg);
+        background-color: @button-background-color;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        border-radius: 0 4px 0 0;
+        border: 1px solid @button-border-color;
+      }
+    }
+  }
+}

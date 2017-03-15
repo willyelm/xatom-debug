@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "outDir": "dist",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "sourceMap": true,
+    "inlineSources": true
+  },
+  "compileOnSave": false,
+  "include": [
+    "node_modules/@types",
+    "lib/**/*.ts"
+  ]
+}

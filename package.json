@@ -1,0 +1,47 @@
+{
+  "name": "atom-bugs",
+  "version": "1.0.0",
+  "author": "Williams Medina <williams.medinaa@gmail.com>",
+  "description": "A Simple Javascript Debugger for Atom",
+  "keywords": [
+    "javascript",
+    "debugger",
+    "debug",
+    "atom",
+    "repl",
+    "bugs",
+    "chrome",
+    "browser",
+    "willyelm",
+    "node",
+    "breakpoint",
+    "console"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/atom-bugs/atom-bugs",
+  "main": "./dist/main",
+  "showWelcome": true,
+  "scripts": {
+    "start": "tsc -w "
+  },
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "providedServices": {
+    "atom-bugs": {
+      "versions": {
+        "1.0.0": "provideBugsService"
+      }
+    }
+  },
+  "dependencies": {
+    "atom-package-deps": "^4.4.1",
+    "atom-bugs": "^4.4.1",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "@types/atom": "0.0.36",
+    "@types/node": "^7.0.8",
+    "typescript": "^2.2.1"
+  }
+}
