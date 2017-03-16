@@ -1,0 +1,61 @@
+@import "ui-variables";
+
+atom-bugs-debug {
+  display: block;
+  min-height: 160px;
+  atom-bugs-console,
+  atom-bugs-area {
+    float: left;
+    min-height: 160px;
+  }
+  atom-bugs-console,
+  atom-bugs-controls,
+  atom-bugs-area,
+  atom-bugs-control-group,
+  atom-bugs-control-title {
+    box-shadow: 0 0 0 1px @base-border-color;
+  }
+  atom-bugs-control-group,
+  atom-bugs-console {
+    font-size: 90%;
+  }
+  atom-bugs-console {
+    width: 65%;
+    padding: 5px 0;
+    background-color: lighten(@input-background-color, 5%);
+    atom-bugs-console-line {
+      padding: 1px 10px ;
+      display: block;
+    }
+  }
+  atom-bugs-area {
+    width: 35%;
+    atom-bugs-control-group,
+    atom-bugs-controls {
+      width: 100%;
+      display: block;
+    }
+    atom-bugs-control-title,
+    atom-bugs-control-content {
+      padding: 2px 5px;
+      display: block;
+    }
+    atom-bugs-control-title {
+      background-color: lighten(@input-background-color, 5%);
+    }
+    atom-bugs-controls {
+      background-color: lighten(@input-background-color, 5%);
+      margin-bottom: 1px;
+      padding: 2px 5px;
+      .btn {
+        background-color: transparent!important;
+        padding: 5px;
+        line-height: 1;
+      }
+      .bugs-icon {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}

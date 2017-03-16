@@ -1,11 +1,19 @@
 'use babel';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import { parse } from 'path';
 import { EventEmitter } from 'events';
 import { createGroupButtons, createButton, createIcon, createIconFromPath, createText, createElement, createSelect, createOption, insertElement } from '../element/index';
 export class BugsToolbarView {
     constructor() {
         this.events = new EventEmitter();
-        this.element = document.createElement('atom-bugs-panel');
+        this.element = document.createElement('atom-bugs-toolbar');
         this.scheme = {
             icon: createIconFromPath(''),
             name: createText(''),
@@ -17,24 +25,35 @@ export class BugsToolbarView {
                 change: (e) => this.setPathName(e.target.value)
             }, [])
         };
-        insertElement(this.element, createIcon('logo'));
-        insertElement(this.element, createButton({
-            click: () => {
+        this.runButton = createButton({
+            click: () => __awaiter(this, void 0, void 0, function* () {
                 let currentPlugin = this.scheme.plugin;
-                console.log('run', currentPlugin);
-            }
+                let run = yield currentPlugin.run();
+                if (run) {
+                    this.events.emit('didRun', currentPlugin, run);
+                    this.stopButton['disabled'] = false;
+                }
+            })
         }, [
             createIcon('run'),
             createText('Run')
-        ]));
-        insertElement(this.element, createButton({
-            click: () => {
+        ]);
+        this.stopButton = createButton({
+            disabled: true,
+            click: () => __awaiter(this, void 0, void 0, function* () {
                 let currentPlugin = this.scheme.plugin;
-                console.log('pause', currentPlugin);
-            }
+                let stop = yield currentPlugin.stop();
+                if (stop) {
+                    this.events.emit('didStop', currentPlugin, stop);
+                    this.stopButton['disabled'] = true;
+                }
+            })
         }, [
             createIcon('stop')
-        ]));
+        ]);
+        insertElement(this.element, createIcon('logo'));
+        insertElement(this.element, this.runButton);
+        insertElement(this.element, this.stopButton);
         insertElement(this.element, createGroupButtons([
             createButton({
                 className: 'bugs-scheme'
@@ -72,6 +91,12 @@ export class BugsToolbarView {
     }
     didOpenSchemeEditor(callback) {
         this.events.on('openEditor', callback);
+    }
+    didRun(callback) {
+        this.events.on('didRun', callback);
+    }
+    didStop(callback) {
+        this.events.on('didStop', callback);
     }
     setPaths(paths) {
         this.schemePath.select.innerHTML = '';

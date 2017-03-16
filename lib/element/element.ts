@@ -23,6 +23,9 @@ export function createElement (tagName, options) {
     if (extras.change) {
       element.addEventListener('change', (e) => extras.change(e));
     }
+    if (extras.disabled) {
+      element['disabled'] = extras.disabled;
+    }
     if (options.elements) {
       let contents = Array.isArray(options.elements) ? options.elements: [options.elements];
       contents.forEach((content) => insertElement(element, content))

@@ -17,33 +17,41 @@
   vertical-align: middle;
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: top center;
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: top center;
   &.bugs-icon-logo {
     background-image: url('atom://atom-bugs/icons/atom-bugs.svg');
     // animation: spinning 3s infinite;
   }
   &.bugs-icon-run {
     -webkit-mask-image: url('atom://atom-bugs/icons/run.svg');
-    background-color: @text-color-success;
+    background-color: fadeout(@text-color, 20%);
+    // background-color: @text-color-success;
   }
   &.bugs-icon-stop {
     -webkit-mask-image: url('atom://atom-bugs/icons/stop.svg');
-    background-color: fadeout(@text-color, 20%);
+    background-color: fadeout(@text-color, 20%)
   }
   &.bugs-icon-pause {
-    background-image: url('atom://atom-bugs/icons/pause.svg');
+    -webkit-mask-image: url('atom://atom-bugs/icons/pause.svg');
+    background-color: fadeout(@text-color, 20%)
   }
-  &.bugs-icon-application {
-    -webkit-mask-image: url('atom://atom-bugs/icons/application.svg');
-    background-color: fadeout(@text-color, 20%);
+  &.bugs-icon-step-over {
+    -webkit-mask-image: url('atom://atom-bugs/icons/step-over.svg');
+    background-color: fadeout(@text-color, 20%)
   }
-  &.bugs-icon-folder {
-    -webkit-mask-image: url('atom://atom-bugs/icons/folder.svg');
-    background-color: fadeout(@text-color, 20%);
+  &.bugs-icon-step-into {
+    -webkit-mask-image: url('atom://atom-bugs/icons/step-into.svg');
+    background-color: fadeout(@text-color, 20%)
+  }
+  &.bugs-icon-step-out {
+    -webkit-mask-image: url('atom://atom-bugs/icons/step-out.svg');
+    background-color: fadeout(@text-color, 20%)
   }
   &.bugs-icon-atom {
     -webkit-mask-image: url('atom://atom-bugs/icons/atom.svg');
-    background-color: fadeout(@text-color, 20%);
+    background-color: @text-color;
   }
 }

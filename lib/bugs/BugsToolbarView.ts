@@ -16,6 +16,9 @@ import {
 
 export class BugsToolbarView {
   private element: HTMLElement;
+  private runButton: HTMLElement;
+  private stopButton: HTMLElement;
+  private stepButtons: HTMLElement;
   private scheme: {
     icon: HTMLElement,
     name: Text,
@@ -31,7 +34,7 @@ export class BugsToolbarView {
   constructor () {
 
     this.events = new EventEmitter();
-    this.element = document.createElement('atom-bugs-panel');
+    this.element = document.createElement('atom-bugs-toolbar');
     // create schemes
     this.scheme = {
       icon: createIconFromPath(''),
@@ -45,30 +48,41 @@ export class BugsToolbarView {
         change: (e) => this.setPathName(e.target.value)
       }, [])
     }
-
-    // Icon
-    insertElement(this.element, createIcon('logo'))
-    // Run
-    insertElement(this.element, createButton({
-      click: () => {
+    this.runButton = createButton({
+      click: async () => {
         // run
         let currentPlugin = this.scheme.plugin;
-        console.log('run', currentPlugin)
+        let run = await currentPlugin.run()
+        if (run) {
+          this.events.emit('didRun', currentPlugin, run);
+          this.stopButton['disabled'] = false;
+        }
       }
     },[
       createIcon('run'),
       createText('Run')
-    ]))
-    // Pause
-    insertElement(this.element, createButton({
-      click: () => {
+    ]);
+    this.stopButton = createButton({
+      disabled: true,
+      click: async () => {
         // pause
         let currentPlugin = this.scheme.plugin;
-        console.log('pause', currentPlugin)
+        let stop = await currentPlugin.stop()
+        if (stop) {
+          this.events.emit('didStop', currentPlugin, stop);
+          this.stopButton['disabled'] = true;
+        }
       }
     },[
       createIcon('stop')
-    ]))
+    ]);
+
+    // Icon
+    insertElement(this.element, createIcon('logo'))
+    // Run
+    insertElement(this.element, this.runButton)
+    // Stop
+    insertElement(this.element, this.stopButton)
     // Scheme Buttons
     insertElement(this.element, createGroupButtons([
       createButton({
@@ -97,13 +111,13 @@ export class BugsToolbarView {
     this.schemePath.name.nodeValue = ` ${baseName}`
   }
 
-  getSelectedScheme () {
+  public getSelectedScheme () {
     return {
       name: 'Node.js'
     };
   }
 
-  setScheme (plugin) {
+  public setScheme (plugin) {
     // set element icon bg
     this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
     // set element scheme name
@@ -114,6 +128,14 @@ export class BugsToolbarView {
 
   public didOpenSchemeEditor (callback) {
     this.events.on('openEditor', callback)
+  }
+
+  public didRun (callback) {
+    this.events.on('didRun', callback)
+  }
+
+  public didStop (callback) {
+    this.events.on('didStop', callback)
   }
 
   public setPaths (paths: Array<string>) {
@@ -130,7 +152,7 @@ export class BugsToolbarView {
     })
   }
 
-  public getElement () {
+  public getElement (): HTMLElement {
     return this.element;
   }
 

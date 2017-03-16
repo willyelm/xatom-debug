@@ -1,20 +1,28 @@
 'use babel';
-import { BugsToolbarView, BugsBreakpointManager, BugsPluginManager } from './bugs/index';
+import { BugsToolbarView, BugsBreakpointManager, BugsPluginManager, BugsDebugView } from './bugs/index';
 const { CompositeDisposable } = require('atom');
 export default {
     subscriptions: null,
     breakpointManager: null,
     pluginManager: null,
     toolbarView: null,
-    panelView: null,
+    schemeView: null,
+    debugView: null,
+    toolbarPanel: null,
     activate(state) {
         this.toolbarView = new BugsToolbarView();
+        this.debugView = new BugsDebugView();
         this.breakpointManager = new BugsBreakpointManager();
         this.pluginManager = new BugsPluginManager();
-        this.panelView = atom.workspace.addTopPanel({
+        this.toolbarPanel = atom.workspace.addTopPanel({
             item: this.toolbarView.getElement(),
             visible: true
         });
+        this.debugPanel = atom.workspace.addTopPanel({
+            item: this.debugView.getElement(),
+            visible: true
+        });
+        console.log('this.debugPanel', this.debugPanel);
         this.pluginManager.didAddPlugin((plugin) => {
             let currentPlugin = this.toolbarView.getSelectedScheme();
             if (plugin.name === currentPlugin.name) {
@@ -34,7 +42,9 @@ export default {
         });
         this.subscriptions = new CompositeDisposable();
         this.subscriptions.add(atom.commands.add('atom-workspace', {
-            'atom-bugs:debug': () => this.debug()
+            'atom-bugs:debug': () => this.debug(),
+            'atom-bugs:pause': () => this.debug(),
+            'atom-bugs:stop': () => this.debug()
         }));
     },
     provideBugsService() {
@@ -42,8 +52,10 @@ export default {
     },
     deactivate() {
         this.subscriptions.dispose();
-        this.panelView.destroy();
+        this.toolbarPanel.destroy();
+        this.debugPanel.destroy();
         this.toolbarView.destroy();
+        this.debugView.destroy();
     },
     debug() {
         console.log('toggle');

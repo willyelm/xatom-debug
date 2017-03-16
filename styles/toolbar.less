@@ -1,20 +1,14 @@
 @import "ui-variables";
 
-// Panel
-atom-bugs-panel {
-  display: block;
-  padding: 4px 10px;
-  .bugs-icon-logo {
-    margin-right: 5px;
-  }
-  & > button,
-  & > .btn-group {
-    margin-left: 5px;
-  }
+atom-bugs-toolbar,
+atom-bugs-area {
   .btn {
     background-image: none!important;
     background-color: @button-background-color!important;
     outline: none!important;
+    &[disabled] {
+      opacity: .5;
+    }
     &:hover,
     &:focus {
       background-color: @button-background-color-hover!important;
@@ -25,6 +19,19 @@ atom-bugs-panel {
     i.bugs-icon {
       width: 16px;
     }
+  }
+}
+
+// Toolbar
+atom-bugs-toolbar {
+  display: block;
+  padding: 4px 10px;
+  .bugs-icon-logo {
+    margin-right: 5px;
+  }
+  & > button,
+  & > .btn-group {
+    margin-left: 5px;
   }
 
   // Arrow

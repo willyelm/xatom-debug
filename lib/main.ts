@@ -3,7 +3,8 @@
 import {
   BugsToolbarView,
   BugsBreakpointManager,
-  BugsPluginManager
+  BugsPluginManager,
+  BugsDebugView
 } from './bugs/index';
 
 const { CompositeDisposable } = require('atom');
@@ -30,20 +31,36 @@ export default {
 
   breakpointManager: null,
   pluginManager: null,
+
   toolbarView: null,
-  panelView: null,
+  schemeView: null,
+  debugView: null,
+
+  toolbarPanel: null,
+
 
   activate (state: any) {
+
     // Create bugs instances
     this.toolbarView = new BugsToolbarView();
+    this.debugView = new BugsDebugView();
     this.breakpointManager = new BugsBreakpointManager();
     this.pluginManager = new BugsPluginManager();
 
-    // Add Top Panel
-    this.panelView = atom.workspace.addTopPanel({
+    // Toolbar Panel
+    this.toolbarPanel = atom.workspace.addTopPanel({
       item: this.toolbarView.getElement(),
       visible: true
     });
+
+    // Debug Area Panel
+    this.debugPanel = atom.workspace.addTopPanel({
+      item: this.debugView.getElement(),
+      visible: true
+    });
+
+    console.log('this.debugPanel', this.debugPanel)
+
     // Activate Selected Plugin
     this.pluginManager.didAddPlugin((plugin) => {
       let currentPlugin = this.toolbarView.getSelectedScheme()
@@ -55,9 +72,6 @@ export default {
     this.toolbarView.didOpenSchemeEditor(() => {
       console.log('open editor')
     })
-
-    // console.log('workspace', atom.workspace)
-    // console.log('project', atom.project)
     // set Paths
     let projects = atom.project['getPaths']()
     this.toolbarView.setPaths(projects)
@@ -72,7 +86,9 @@ export default {
     // Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     this.subscriptions = new CompositeDisposable();
     this.subscriptions.add(atom.commands.add('atom-workspace', {
-      'atom-bugs:debug': () => this.debug()
+      'atom-bugs:debug': () => this.debug(),
+      'atom-bugs:pause': () => this.debug(),
+      'atom-bugs:stop': () => this.debug()
     }));
   },
 
@@ -82,8 +98,12 @@ export default {
 
   deactivate () {
     this.subscriptions.dispose();
-    this.panelView.destroy();
+    // destroy panels
+    this.toolbarPanel.destroy();
+    this.debugPanel.destroy();
+    // destroys views
     this.toolbarView.destroy();
+    this.debugView.destroy();
   },
 
   debug () {

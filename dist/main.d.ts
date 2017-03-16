@@ -3,7 +3,9 @@ declare var _default: {
     breakpointManager: any;
     pluginManager: any;
     toolbarView: any;
-    panelView: any;
+    schemeView: any;
+    debugView: any;
+    toolbarPanel: any;
     activate(state: any): void;
     provideBugsService(): any;
     deactivate(): void;
