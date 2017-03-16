@@ -1,14 +1,11 @@
 'use babel';
-const { TextEditor } = require('atom');
-export class Bugs {
+export class BugsBreakpointManager {
     constructor() {
         this.breakpoints = [];
     }
-    destroy() {
-    }
-    observeEditor(editor) {
+    getHandler(editor) {
         let sourceFile = editor.getPath();
-        editor.editorElement.addEventListener('click', (e) => {
+        return (e) => {
             let element = e.target;
             if (element.classList.contains('line-number')) {
                 let lineNumber = Number(element.textContent);
@@ -26,7 +23,12 @@ export class Bugs {
                     this.addBreakpoint(marker, lineNumber, sourceFile);
                 }
             }
-        });
+        };
+    }
+    observeEditor(editor) {
+        let handler = this.getHandler(editor);
+        editor.editorElement.removeEventListener('click', handler);
+        editor.editorElement.addEventListener('click', handler);
     }
     getBreakpoint(filePath, lineNumber) {
         let index = this.breakpoints.findIndex((item) => {
@@ -46,4 +48,4 @@ export class Bugs {
         });
     }
 }
-//# sourceMappingURL=bugs.js.map
+//# sourceMappingURL=BugsBreakpointManager.js.map

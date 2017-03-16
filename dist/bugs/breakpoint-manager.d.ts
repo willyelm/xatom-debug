@@ -1,4 +1,4 @@
-export declare class Bugs {
+export declare class BugsBreakpointManager {
     private breakpoints;
     constructor();
     destroy(): void;

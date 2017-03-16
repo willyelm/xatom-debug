@@ -2,7 +2,7 @@
 import { parse } from 'path';
 import { EventEmitter } from 'events';
 import { createGroupButtons, createButton, createIcon, createIconFromPath, createText, createElement, createSelect, createOption, insertElement } from '../element/index';
-export class BugsPanelView {
+export class BugsToolbarView {
     constructor() {
         this.events = new EventEmitter();
         this.element = document.createElement('atom-bugs-panel');
@@ -56,8 +56,14 @@ export class BugsPanelView {
             ])
         ]));
     }
-    getSelectedSchemeName() {
-        return 'Node.js';
+    setPathName(name) {
+        let baseName = parse(name).base;
+        this.schemePath.name.nodeValue = ` ${baseName}`;
+    }
+    getSelectedScheme() {
+        return {
+            name: 'Node.js'
+        };
     }
     setScheme(plugin) {
         this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
@@ -66,10 +72,6 @@ export class BugsPanelView {
     }
     didOpenSchemeEditor(callback) {
         this.events.on('openEditor', callback);
-    }
-    setPathName(name) {
-        let baseName = parse(name).base;
-        this.schemePath.name.nodeValue = ` ${baseName}`;
     }
     setPaths(paths) {
         this.schemePath.select.innerHTML = '';
@@ -87,4 +89,4 @@ export class BugsPanelView {
         this.element.remove();
     }
 }
-//# sourceMappingURL=panel-view.js.map
+//# sourceMappingURL=toolbar-view.js.map

@@ -1,6 +1,5 @@
 'use babel';
-const { TextEditor } = require('atom');
-export class Bugs {
+export class BugsBreakpointManager {
     constructor() {
         this.breakpoints = [];
     }
@@ -46,4 +45,4 @@ export class Bugs {
         });
     }
 }
-//# sourceMappingURL=bugs.js.map
+//# sourceMappingURL=breakpoint-manager.js.map

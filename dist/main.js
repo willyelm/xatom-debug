@@ -1,25 +1,36 @@
 'use babel';
-import { Bugs } from './bugs/index';
+import { BugsToolbarView, BugsBreakpointManager, BugsPluginManager } from './bugs/index';
 const { CompositeDisposable } = require('atom');
 export default {
     subscriptions: null,
-    bugs: null,
+    breakpointManager: null,
+    pluginManager: null,
+    toolbarView: null,
     panelView: null,
     activate(state) {
-        this.bugs = new Bugs();
+        this.toolbarView = new BugsToolbarView();
+        this.breakpointManager = new BugsBreakpointManager();
+        this.pluginManager = new BugsPluginManager();
         this.panelView = atom.workspace.addTopPanel({
-            item: this.bugs.getPanelViewElement(),
+            item: this.toolbarView.getElement(),
             visible: true
         });
-        console.log('workspace', atom.workspace);
-        console.log('project', atom.project);
+        this.pluginManager.didAddPlugin((plugin) => {
+            let currentPlugin = this.toolbarView.getSelectedScheme();
+            if (plugin.name === currentPlugin.name) {
+                this.toolbarView.setScheme(plugin);
+            }
+        });
+        this.toolbarView.didOpenSchemeEditor(() => {
+            console.log('open editor');
+        });
         let projects = atom.project['getPaths']();
-        this.bugs.panelView.setPaths(projects);
-        atom.project.onDidChangePaths((projects) => this.bugs.panelView.setPaths(projects));
-        atom.workspace.observeTextEditors((editor) => {
-            if (!editor.getPath || !editor.editorElement)
-                return;
-            this.bugs.observeEditor(editor);
+        this.toolbarView.setPaths(projects);
+        atom.project.onDidChangePaths((projects) => this.toolbarView.setPaths(projects));
+        atom.workspace['observeActivePaneItem']((editor) => {
+            if (editor.getPath && editor.editorElement) {
+                this.breakpointManager.observeEditor(editor);
+            }
         });
         this.subscriptions = new CompositeDisposable();
         this.subscriptions.add(atom.commands.add('atom-workspace', {
@@ -27,11 +38,12 @@ export default {
         }));
     },
     provideBugsService() {
-        return this.bugs.pluginManager;
+        return this.pluginManager;
     },
     deactivate() {
         this.subscriptions.dispose();
-        this.bugs.destroy();
+        this.panelView.destroy();
+        this.toolbarView.destroy();
     },
     debug() {
         console.log('toggle');

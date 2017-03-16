@@ -18,4 +18,4 @@ export class BugsPluginManager {
     removePlugin(plugin) {
     }
 }
-//# sourceMappingURL=plugin-manager.js.map
+//# sourceMappingURL=BugsPluginManager.js.map

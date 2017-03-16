@@ -10,4 +10,4 @@ export class BugsSchemeEditorView {
         this.element.remove();
     }
 }
-//# sourceMappingURL=scheme-view.js.map
+//# sourceMappingURL=BugsSchemeEditorView.js.map

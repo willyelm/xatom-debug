@@ -1,27 +1,16 @@
 'use babel';
 
-const { TextEditor } = require('atom');
-import { BugsPluginManager } from './plugin-manager';
-import { BugsPanelView } from './panel-view';
+export class BugsBreakpointManager {
 
-export class Bugs {
   private breakpoints: Array<any> = [];
-  private pluginManager: BugsPluginManager;
-  public panelView: BugsPanelView;
+
   constructor () {
-    // this.breakpointManager = new BugsBreakpointManager();
-    this.panelView = new BugsPanelView();
-    this.pluginManager = new BugsPluginManager(this.panelView);
+
   }
-  getPanelViewElement () {
-    return this.panelView.getElement();
-  }
-  destroy () {
-    this.panelView.destroy();
-  }
-  observeEditor (editor: any) {
+
+  getHandler (editor) {
     let sourceFile = editor.getPath()
-    editor.editorElement.addEventListener('click', (e) => {
+    return (e) => {
       let element = e.target
       if (element.classList.contains('line-number')) {
         // toggle breakpoints
@@ -39,15 +28,23 @@ export class Bugs {
           this.addBreakpoint(marker, lineNumber, sourceFile)
         }
       }
-    })
+    }
   }
+
+  observeEditor (editor: any) {
+    let handler = this.getHandler(editor);
+    editor.editorElement.removeEventListener('click', handler);
+    editor.editorElement.addEventListener('click', handler);
+  }
+
   getBreakpoint (filePath: String, lineNumber: Number) {
     let index = this.breakpoints.findIndex((item) => {
       return (item.filePath === filePath && item.lineNumber === lineNumber)
     })
     return this.breakpoints[index];
   }
-  addBreakpoint (marker, lineNumber: Number, filePath: String) {
+
+  addBreakpoint (marker: any, lineNumber: Number, filePath: String) {
     let self = this;
     let index = this.breakpoints.push({
       lineNumber,

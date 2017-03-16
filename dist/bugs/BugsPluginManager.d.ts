@@ -1,4 +1,4 @@
-import { BugsPlugin } from './plugin';
+import { BugsPlugin } from './BugsPlugin';
 export declare class BugsPluginManager {
     private plugins;
     private events;

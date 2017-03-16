@@ -1,4 +1,6 @@
 'use babel';
-export * from './bugs';
-export * from './plugin-manager';
+export * from './BugsToolbarView';
+export * from './BugsSchemeEditorView';
+export * from './BugsPluginManager';
+export * from './BugsBreakpointManager';
 //# sourceMappingURL=index.js.map

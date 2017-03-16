@@ -1,6 +1,7 @@
 'use babel';
 
 import { parse } from 'path';
+import { EventEmitter }  from 'events';
 import {
   createGroupButtons,
   createButton,
@@ -13,7 +14,7 @@ import {
   insertElement
 } from '../element/index';
 
-export class BugsPanelView {
+export class BugsToolbarView {
   private element: HTMLElement;
   private scheme: {
     icon: HTMLElement,
@@ -25,7 +26,11 @@ export class BugsPanelView {
     name: Text
   };
   private selectPath: HTMLElement;
+  private events: EventEmitter;
+
   constructor () {
+
+    this.events = new EventEmitter();
     this.element = document.createElement('atom-bugs-panel');
     // create schemes
     this.scheme = {
@@ -77,12 +82,8 @@ export class BugsPanelView {
         })
       ]),
       createButton({
-        click () {
-          // scheme editor
-          let panel = document.createElement('div');
-          atom.workspace.addModalPanel({
-            item: panel
-          })
+        click: () => {
+          this.events.emit('openEditor', this.scheme.plugin);
         }
       }, [
         this.scheme.icon,
@@ -90,9 +91,18 @@ export class BugsPanelView {
       ])
     ]))
   }
-  getSelectedSchemeName () {
-    return 'Node.js';
+
+  private setPathName (name: string) {
+    let baseName = parse(name).base
+    this.schemePath.name.nodeValue = ` ${baseName}`
   }
+
+  getSelectedScheme () {
+    return {
+      name: 'Node.js'
+    };
+  }
+
   setScheme (plugin) {
     // set element icon bg
     this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
@@ -101,10 +111,11 @@ export class BugsPanelView {
     // set current plugin reference
     this.scheme.plugin = plugin;
   }
-  public setPathName (name: string) {
-    let baseName = parse(name).base
-    this.schemePath.name.nodeValue = ` ${baseName}`
+
+  public didOpenSchemeEditor (callback) {
+    this.events.on('openEditor', callback)
   }
+
   public setPaths (paths: Array<string>) {
     // clear old list
     this.schemePath.select.innerHTML = '';
@@ -118,9 +129,11 @@ export class BugsPanelView {
       insertElement(this.schemePath.select, createOption(parse(p).base, p))
     })
   }
+
   public getElement () {
     return this.element;
   }
+
   public destroy () {
     this.element.remove();
   }

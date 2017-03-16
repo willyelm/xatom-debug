@@ -1,6 +1,8 @@
 declare var _default: {
     subscriptions: any;
-    bugs: any;
+    breakpointManager: any;
+    pluginManager: any;
+    toolbarView: any;
     panelView: any;
     activate(state: any): void;
     provideBugsService(): any;

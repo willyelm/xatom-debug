@@ -1,7 +1,7 @@
-export declare class Bugs {
+export declare class BugsBreakpointManager {
     private breakpoints;
     constructor();
-    destroy(): void;
+    getHandler(editor: any): (e: any) => void;
     observeEditor(editor: any): void;
     getBreakpoint(filePath: String, lineNumber: Number): any;
     addBreakpoint(marker: any, lineNumber: Number, filePath: String): void;
