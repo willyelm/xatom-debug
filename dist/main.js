@@ -1,8 +1,3 @@
-/*!
- * Atom Bugs
- * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
- * MIT Licensed
- */
 'use babel';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,6 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+/*!
+ * Atom Bugs
+ * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+ * MIT Licensed
+ */
 import { ToolbarView, DebugView } from './ui/index';
 import { PluginManager } from './PluginManager';
 import { BreakpointManager } from './BreakpointManager';
@@ -86,6 +86,12 @@ export default {
     createDebugArea() {
         // Create view instances
         this.debugView = new DebugView();
+        this.debugView.didPause(() => {
+            console.log('paused');
+        });
+        this.debugView.didResume(() => {
+            console.log('resume');
+        });
     },
     activate(state) {
         this.createToolbar();

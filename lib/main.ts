@@ -1,10 +1,9 @@
+'use babel';
 /*!
  * Atom Bugs
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
-'use babel';
-
 import {
   ToolbarView,
   DebugView
@@ -91,6 +90,12 @@ export default {
   createDebugArea () {
     // Create view instances
     this.debugView = new DebugView();
+    this.debugView.didPause(() => {
+      console.log('paused')
+    })
+    this.debugView.didResume(() => {
+      console.log('resume')
+    })
   },
 
   activate (state: any) {

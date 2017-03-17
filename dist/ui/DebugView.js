@@ -1,9 +1,9 @@
+'use babel';
 /*!
  * Atom Bugs
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
-'use babel';
 import { createButton, createIcon, createText, createElement, insertElement } from '../element/index';
 import { EventEmitter } from 'events';
 export class DebugView {
