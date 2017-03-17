@@ -4,12 +4,15 @@ export function createText (text: string) {
   return document.createTextNode(` ${text} `);
 }
 
-export function insertElement (target: HTMLElement, ...elements) {
+export function insertElement (target: HTMLElement, elements) {
+  if (!Array.isArray(elements)) {
+    elements = [ elements ]
+  }
   elements.forEach((el) => target.appendChild(el));
   return target;
 }
 
-export function createElement (tagName, options) {
+export function createElement (tagName, options?) {
   let element = document.createElement(tagName);
   if (options) {
     let extras = options.options || {};

@@ -1,0 +1,1 @@
+{"version":3,"file":"Plugin.js","sourceRoot":"","sources":["../lib/Plugin.ts"],"names":[],"mappings":"AAAA,WAAW,CAAC","sourcesContent":["'use babel';\n\nexport interface Plugin {\n  iconPath: String,\n  name: String\n}\n"]}

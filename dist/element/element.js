@@ -2,7 +2,10 @@
 export function createText(text) {
     return document.createTextNode(` ${text} `);
 }
-export function insertElement(target, ...elements) {
+export function insertElement(target, elements) {
+    if (!Array.isArray(elements)) {
+        elements = [elements];
+    }
     elements.forEach((el) => target.appendChild(el));
     return target;
 }

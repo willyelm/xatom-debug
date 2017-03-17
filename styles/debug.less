@@ -15,17 +15,21 @@ atom-bugs-debug {
   atom-bugs-control-title {
     box-shadow: 0 0 0 1px @base-border-color;
   }
-  atom-bugs-control-group,
+  // atom-bugs-control-group,
   atom-bugs-console {
     font-size: 90%;
   }
   atom-bugs-console {
     width: 65%;
     padding: 5px 0;
+    overflow: auto;
+    max-height: 160px;
     background-color: lighten(@input-background-color, 5%);
     atom-bugs-console-line {
-      padding: 1px 10px ;
+      padding: 2px 10px ;
       display: block;
+      white-space: pre-wrap;
+      border-bottom: 1px solid @input-background-color;
     }
   }
   atom-bugs-area {
@@ -46,15 +50,18 @@ atom-bugs-debug {
     atom-bugs-controls {
       background-color: lighten(@input-background-color, 5%);
       margin-bottom: 1px;
-      padding: 2px 5px;
+      padding: 2px 0px;
       .btn {
         background-color: transparent!important;
+        border: 0!important;
         padding: 5px;
+        margin-left: 5px;
         line-height: 1;
       }
       .bugs-icon {
         width: 14px;
         height: 14px;
+        vertical-align: bottom;
       }
     }
   }
