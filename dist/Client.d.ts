@@ -1,7 +1,7 @@
 import { DebugView } from './ui/index';
 export declare class ClientConsole {
-    private view;
-    constructor(view: DebugView);
+    private debugView;
+    constructor(debugView: DebugView);
     log(message: string): void;
     clear(): void;
 }

@@ -1,3 +1,8 @@
+/*!
+ * Atom Bugs
+ * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+ * MIT Licensed
+ */
 'use babel';
 import { parse } from 'path';
 import { EventEmitter } from 'events';
@@ -6,10 +11,12 @@ export class ToolbarView {
     constructor() {
         this.events = new EventEmitter();
         this.element = document.createElement('atom-bugs-toolbar');
+        // create schemes
         this.scheme = {
             icon: createIconFromPath(''),
             name: createText('')
         };
+        // create scheme path
         this.schemePath = {
             name: createText('Current File'),
             select: createSelect({
@@ -32,9 +39,13 @@ export class ToolbarView {
         }, [
             createIcon('stop')
         ]);
+        // Icon
         insertElement(this.element, createIcon('logo'));
+        // Run
         insertElement(this.element, this.runButton);
+        // Stop
         insertElement(this.element, this.stopButton);
+        // Scheme Buttons
         insertElement(this.element, createGroupButtons([
             createButton({
                 className: 'bugs-scheme'
@@ -61,7 +72,9 @@ export class ToolbarView {
         this.schemePath.name.nodeValue = ` ${baseName}`;
     }
     setScheme(plugin) {
+        // set element icon bg
         this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
+        // set element scheme name
         this.scheme.name.nodeValue = ` ${plugin.name}`;
     }
     didOpenSchemeEditor(callback) {
@@ -74,11 +87,15 @@ export class ToolbarView {
         this.events.on('didStop', callback);
     }
     setPaths(paths) {
+        // clear old list
         this.schemePath.select.innerHTML = '';
+        // add new paths
         paths.forEach((p, index) => {
+            // activate first
             if (index === 0) {
                 this.setPathName(p);
             }
+            // insert option to path select
             insertElement(this.schemePath.select, createOption(parse(p).base, p));
         });
     }

@@ -1,3 +1,8 @@
+/*!
+ * Atom Bugs
+ * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+ * MIT Licensed
+ */
 'use babel';
 import { createElement } from './element';
 export function createGroupButtons(options, elements) {

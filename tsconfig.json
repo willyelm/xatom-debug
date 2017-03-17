@@ -3,7 +3,7 @@
     "target": "es6",
     "declaration": true,
     "noImplicitAny": false,
-    "removeComments": true,
+    "removeComments": false,
     "outDir": "dist",
     "typeRoots": [
       "node_modules/@types"

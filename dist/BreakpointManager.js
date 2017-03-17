@@ -1,3 +1,8 @@
+/*!
+ * Atom Bugs
+ * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+ * MIT Licensed
+ */
 'use babel';
 export class BreakpointManager {
     constructor() {
@@ -8,6 +13,7 @@ export class BreakpointManager {
         return (e) => {
             let element = e.target;
             if (element.classList.contains('line-number')) {
+                // toggle breakpoints
                 let lineNumber = Number(element.textContent);
                 let exists = this.getBreakpoint(sourceFile, lineNumber);
                 if (exists) {

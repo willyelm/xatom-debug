@@ -1,13 +1,18 @@
+/*!
+ * Atom Bugs
+ * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+ * MIT Licensed
+ */
 'use babel';
 export class ClientConsole {
-    constructor(view) {
-        this.view = view;
+    constructor(debugView) {
+        this.debugView = debugView;
     }
     log(message) {
-        this.view.consoleCreateLine(message);
+        this.debugView.consoleCreateLine(message);
     }
     clear() {
-        this.view.consoleClear();
+        this.debugView.consoleClear();
     }
 }
 export class Client {
@@ -18,8 +23,10 @@ export class Client {
     pause(filePath, lineNumber) {
         this.debugView.togglePause(true);
         this.debugView.setPausedScript(filePath, lineNumber);
+        // this.debugView.;
     }
     resume() {
+        // this.debugView.;
     }
 }
 //# sourceMappingURL=Client.js.map

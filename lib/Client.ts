@@ -1,14 +1,19 @@
+/*!
+ * Atom Bugs
+ * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+ * MIT Licensed
+ */
 'use babel';
 
 import { DebugView } from './ui/index';
 
 export class ClientConsole {
-  constructor (private view: DebugView) {}
+  constructor (private debugView: DebugView) {}
   log (message: string): void {
-    this.view.consoleCreateLine(message);
+    this.debugView.consoleCreateLine(message);
   }
   clear (): void {
-    this.view.consoleClear();
+    this.debugView.consoleClear();
   }
 }
 
