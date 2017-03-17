@@ -5,12 +5,23 @@
  * MIT Licensed
  */
 
+import { EventEmitter }  from 'events';
+
 export class BreakpointManager {
 
   private breakpoints: Array<any> = [];
+  public events: EventEmitter;
 
   constructor () {
+    this.events = new EventEmitter();
+  }
 
+  public didAddBreakpoint (callback) {
+    this.events.on('addBreakpoint', callback);
+  }
+
+  public didRemoveBreakpoint (callback) {
+    this.events.on('removeBreakpoint', callback);
   }
 
   getHandler (editor) {
@@ -50,13 +61,14 @@ export class BreakpointManager {
   }
 
   addBreakpoint (marker: any, lineNumber: Number, filePath: String) {
-    let self = this;
+    this.events.emit('addBreakpoint', filePath, lineNumber);
     let index = this.breakpoints.push({
       lineNumber,
       filePath,
-      remove () {
-        self.breakpoints.splice(index - 1, 1)
-        marker.destroy()
+      remove: () =>  {
+        this.breakpoints.splice(index - 1, 1);
+        marker.destroy();
+        this.events.emit('removeBreakpoint', filePath, lineNumber);
       }
     });
   }

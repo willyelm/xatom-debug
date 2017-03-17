@@ -11,8 +11,9 @@ export declare class DebugView {
     didStepOver(callback: any): void;
     didStepInto(callback: any): void;
     didStepOut(callback: any): void;
+    didBreak(callback: any): void;
     togglePause(status: boolean): void;
-    setPausedScript(filePath: string, lineNumber: number): void;
+    breakOnFile(filePath: string, lineNumber: number): void;
     consoleClear(): void;
     consoleCreateLine(entry: string, elements?: any): HTMLElement;
     getElement(): HTMLElement;

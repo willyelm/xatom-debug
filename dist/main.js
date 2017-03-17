@@ -22,6 +22,7 @@ export default {
     breakpointManager: null,
     pluginManager: null,
     activePlugin: null,
+    activeBreakMarker: null,
     toolbarView: null,
     schemeView: null,
     debugView: null,
@@ -40,11 +41,11 @@ export default {
         });
     },
     createManagers() {
-        // Atom Bugs Client
-        let client = new Client(this.debugView);
         // Create manager intances
         this.breakpointManager = new BreakpointManager();
         this.pluginManager = new PluginManager();
+        // Atom Bugs Client
+        let client = new Client(this.debugView, this.toolbarView);
         // Activate Selected Plugin
         this.pluginManager.didAddPlugin((plugin) => {
             if (plugin.registerClient)
@@ -53,6 +54,12 @@ export default {
                 this.activePlugin = plugin;
                 this.toolbarView.setScheme(plugin);
             }
+        });
+        this.breakpointManager.didAddBreakpoint((filePath, fileNumber) => {
+            this.activePlugin.addBreakpoint(filePath, fileNumber);
+        });
+        this.breakpointManager.didRemoveBreakpoint((filePath, fileNumber) => {
+            this.activePlugin.removeBreakpoint(filePath, fileNumber);
         });
     },
     createToolbar() {
@@ -70,39 +77,69 @@ export default {
                 // other setup here
             });
             if (run) {
-                this.toolbarView.stopButton['disabled'] = false;
-                this.toolbarView.runButton['disabled'] = true;
+                this.toolbarView.toggleRun(false);
             }
         }));
         this.toolbarView.didStop(() => __awaiter(this, void 0, void 0, function* () {
             let stop = yield this.activePlugin.stop();
             if (stop) {
-                this.toolbarView.stopButton['disabled'] = true;
-                this.toolbarView.runButton['disabled'] = false;
+                this.activeBreakMarker.destroy();
+                this.activeBreakMarker = null;
+                this.toolbarView.toggleRun(true);
                 this.debugView.togglePause(false);
             }
         }));
-    },
-    createDebugArea() {
-        // Create view instances
-        this.debugView = new DebugView();
-        this.debugView.didPause(() => {
-            console.log('paused');
-        });
-        this.debugView.didResume(() => {
-            console.log('resume');
-        });
-    },
-    activate(state) {
-        this.createToolbar();
-        this.createDebugArea();
-        this.createPanels();
-        this.createManagers();
         // set Paths
         let projects = atom.project['getPaths']();
         this.toolbarView.setPaths(projects);
         // observe path changes
         atom.project.onDidChangePaths((projects) => this.toolbarView.setPaths(projects));
+    },
+    createDebugArea() {
+        // Create view instances
+        this.debugView = new DebugView();
+        this.debugView.didPause(() => {
+            this.activePlugin.pause();
+        });
+        this.debugView.didResume(() => {
+            this.activePlugin.resume();
+        });
+        this.debugView.didStepOver(() => {
+            this.activePlugin.stepOver();
+        });
+        this.debugView.didStepInto(() => {
+            this.activePlugin.stepInto();
+        });
+        this.debugView.didStepOut(() => {
+            this.activePlugin.stepOut();
+        });
+        this.debugView.didBreak((filePath, lineNumber) => {
+            // /[^(?:<> \n)]+\/[a-zA-Z0-9_ \-\/\-\.\*\+]+(:[0-9:]+)?/g
+            let position = {
+                initialLine: lineNumber,
+                initialColumn: 0
+            };
+            if (this.activeBreakMarker) {
+                this.activeBreakMarker.destroy();
+            }
+            return atom
+                .workspace
+                .open(filePath, position)
+                .then((textEditor) => {
+                let range = [[lineNumber - 1, 0], [lineNumber - 1, 0]];
+                this.activeBreakMarker = textEditor.markBufferRange(range);
+                textEditor.decorateMarker(this.activeBreakMarker, {
+                    type: 'line',
+                    class: 'bugs-break-line'
+                });
+            });
+        });
+    },
+    activate(state) {
+        this.createToolbar();
+        this.createDebugArea();
+        this.createManagers();
+        this.createPanels();
         // observe editors
         atom.workspace['observeActivePaneItem']((editor) => {
             if (editor && editor.getPath && editor.editorElement) {

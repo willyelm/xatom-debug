@@ -5,7 +5,7 @@
  * MIT Licensed
  */
 
-import { DebugView } from './ui/index';
+import { DebugView, ToolbarView } from './ui/index';
 
 export class ClientConsole {
   constructor (private debugView: DebugView) {}
@@ -19,15 +19,24 @@ export class ClientConsole {
 
 export class Client {
   public console: ClientConsole;
-  constructor (private debugView: DebugView) {
+  constructor (private debugView: DebugView,
+    private toolbarView: ToolbarView) {
     this.console = new ClientConsole(debugView);
   }
-  pause (filePath: string, lineNumber: number) {
+  stop () {
+    this.debugView.togglePause(false);
+    this.toolbarView.toggleRun(true);
+    this.debugView.consoleClear();
+  }
+  pause () {
     this.debugView.togglePause(true);
-    this.debugView.setPausedScript(filePath, lineNumber);
+    // this.debugView.setPausedScript(filePath, lineNumber);
     // this.debugView.;
   }
   resume () {
-    // this.debugView.;
+    this.debugView.togglePause(false);
+  }
+  break (filePath: string, lineNumber: number) {
+    this.debugView.breakOnFile(filePath, lineNumber);
   }
 }

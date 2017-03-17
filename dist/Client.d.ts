@@ -1,4 +1,4 @@
-import { DebugView } from './ui/index';
+import { DebugView, ToolbarView } from './ui/index';
 export declare class ClientConsole {
     private debugView;
     constructor(debugView: DebugView);
@@ -7,8 +7,11 @@ export declare class ClientConsole {
 }
 export declare class Client {
     private debugView;
+    private toolbarView;
     console: ClientConsole;
-    constructor(debugView: DebugView);
-    pause(filePath: string, lineNumber: number): void;
+    constructor(debugView: DebugView, toolbarView: ToolbarView);
+    stop(): void;
+    pause(): void;
     resume(): void;
+    break(filePath: string, lineNumber: number): void;
 }

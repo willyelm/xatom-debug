@@ -3,6 +3,7 @@ declare var _default: {
     breakpointManager: any;
     pluginManager: any;
     activePlugin: any;
+    activeBreakMarker: any;
     toolbarView: any;
     schemeView: any;
     debugView: any;

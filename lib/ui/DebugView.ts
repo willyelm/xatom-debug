@@ -100,20 +100,34 @@ export class DebugView {
   public didStepOut (callback) {
     this.events.on('didStepOut', callback)
   }
+  public didBreak (callback) {
+    this.events.on('didBreak', callback)
+  }
 
   togglePause (status: boolean) {
     this.resumeButton.style.display = status ? null : 'none';
     this.pauseButton.style.display = status ? 'none' : null;
   }
-  setPausedScript (filePath: string, lineNumber: number) {
+
+  // setPausedScript (filePath: string, lineNumber: number) {
+  //   this.consoleCreateLine('', [
+  //     createText('Pause on'),
+  //     createText(`${filePath}:${lineNumber}`)
+  //   ])
+  // }
+
+  breakOnFile (filePath: string, lineNumber: number) {
     this.consoleCreateLine('', [
-      createText('Pause on'),
+      createText('Break on'),
       createText(`${filePath}:${lineNumber}`)
     ])
+    this.events.emit('didBreak', filePath, lineNumber)
   }
+
   consoleClear () {
     this.consoleElement.innerHTML = '';
   }
+
   consoleCreateLine (entry: string, elements?) {
     let line = createElement('atom-bugs-console-line');
     if (entry && entry.length > 0) {
@@ -127,9 +141,11 @@ export class DebugView {
     }, 250);
     return insertElement(this.consoleElement, line);
   }
+
   getElement () {
     return this.element;
   }
+
   destroy () {
     this.element.remove();
   }

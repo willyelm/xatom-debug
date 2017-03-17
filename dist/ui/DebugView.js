@@ -75,15 +75,25 @@ export class DebugView {
     didStepOut(callback) {
         this.events.on('didStepOut', callback);
     }
+    didBreak(callback) {
+        this.events.on('didBreak', callback);
+    }
     togglePause(status) {
         this.resumeButton.style.display = status ? null : 'none';
         this.pauseButton.style.display = status ? 'none' : null;
     }
-    setPausedScript(filePath, lineNumber) {
+    // setPausedScript (filePath: string, lineNumber: number) {
+    //   this.consoleCreateLine('', [
+    //     createText('Pause on'),
+    //     createText(`${filePath}:${lineNumber}`)
+    //   ])
+    // }
+    breakOnFile(filePath, lineNumber) {
         this.consoleCreateLine('', [
-            createText('Pause on'),
+            createText('Break on'),
             createText(`${filePath}:${lineNumber}`)
         ]);
+        this.events.emit('didBreak', filePath, lineNumber);
     }
     consoleClear() {
         this.consoleElement.innerHTML = '';

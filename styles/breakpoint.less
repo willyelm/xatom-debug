@@ -1,6 +1,18 @@
 @accent-color: hsl(hue(@syntax-background-color), 100%, 76%);
 @import "ui-variables";
 
+.bugs-break-line {
+  background-color: fadeOut(@accent-color, 70%)!important;
+  // &:before {
+  //   content: '';
+  //   position: absolute;
+  //   background-color: red;
+  //   width: 20px;
+  //   height: 20px;
+  //   margin-left: -20px;
+  // }
+}
+
 // Breakpoint
 .bugs-breakpoint {
   z-index: 1;

@@ -9,6 +9,7 @@ export declare class ToolbarView {
     private events;
     constructor();
     private setPathName(name);
+    toggleRun(status: boolean): void;
     setScheme(plugin: any): void;
     didOpenSchemeEditor(callback: any): void;
     didRun(callback: any): void;

@@ -4,9 +4,17 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
+import { EventEmitter } from 'events';
 export class BreakpointManager {
     constructor() {
         this.breakpoints = [];
+        this.events = new EventEmitter();
+    }
+    didAddBreakpoint(callback) {
+        this.events.on('addBreakpoint', callback);
+    }
+    didRemoveBreakpoint(callback) {
+        this.events.on('removeBreakpoint', callback);
     }
     getHandler(editor) {
         let sourceFile = editor.getPath();
@@ -43,13 +51,14 @@ export class BreakpointManager {
         return this.breakpoints[index];
     }
     addBreakpoint(marker, lineNumber, filePath) {
-        let self = this;
+        this.events.emit('addBreakpoint', filePath, lineNumber);
         let index = this.breakpoints.push({
             lineNumber,
             filePath,
-            remove() {
-                self.breakpoints.splice(index - 1, 1);
+            remove: () => {
+                this.breakpoints.splice(index - 1, 1);
                 marker.destroy();
+                this.events.emit('removeBreakpoint', filePath, lineNumber);
             }
         });
     }

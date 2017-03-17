@@ -71,6 +71,10 @@ export class ToolbarView {
         let baseName = parse(name).base;
         this.schemePath.name.nodeValue = ` ${baseName}`;
     }
+    toggleRun(status) {
+        this.stopButton['disabled'] = status;
+        this.runButton['disabled'] = !status;
+    }
     setScheme(plugin) {
         // set element icon bg
         this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
