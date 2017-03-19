@@ -5,7 +5,8 @@
  * MIT Licensed
  */
 
-import { DebugView, ToolbarView } from './ui/index';
+import { DebugView, ToolbarView, EditorView } from './ui/index';
+import { Breakpoint, BreakpointManager } from './BreakpointManager';
 
 export class ClientConsole {
   constructor (private debugView: DebugView) {}
@@ -20,23 +21,34 @@ export class ClientConsole {
 export class Client {
   public console: ClientConsole;
   constructor (private debugView: DebugView,
-    private toolbarView: ToolbarView) {
+    private toolbarView: ToolbarView,
+    private editorView: EditorView,
+    private breakpointManager: BreakpointManager) {
     this.console = new ClientConsole(debugView);
   }
-  stop () {
+  stop (): void {
     this.debugView.togglePause(false);
     this.toolbarView.toggleRun(true);
+    this.editorView.removeMarkers();
     this.debugView.consoleClear();
   }
-  pause () {
+  run (): void {
+    this.toolbarView.toggleRun(false);
+  }
+  pause (): void {
     this.debugView.togglePause(true);
     // this.debugView.setPausedScript(filePath, lineNumber);
-    // this.debugView.;
   }
-  resume () {
+  resume (): void {
     this.debugView.togglePause(false);
   }
-  break (filePath: string, lineNumber: number) {
+  getBreakpoints (): Array<Breakpoint> {
+    return this.breakpointManager.getBreakpoints();
+  }
+  activateBreakpoint (filePath: string, lineNumber: number): void {
     this.debugView.breakOnFile(filePath, lineNumber);
+  }
+  showEvaluation (result: string, range: any) {
+    this.editorView.addEvaluationMarker(result, range);
   }
 }

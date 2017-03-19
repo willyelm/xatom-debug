@@ -18,7 +18,6 @@ import { EventEmitter }  from 'events';
 
 export class DebugView {
 
-  private element: HTMLElement;
   private consoleElement: HTMLElement;
   private debugAreaElement: HTMLElement;
 
@@ -29,7 +28,6 @@ export class DebugView {
   constructor () {
 
     this.events = new EventEmitter();
-    this.element = document.createElement('atom-bugs-debug');
     this.consoleElement = createElement('atom-bugs-console');
     this.consoleElement.setAttribute('tabindex', '-1');
 
@@ -80,8 +78,6 @@ export class DebugView {
         ]
       })
     ])
-    insertElement(this.element, this.debugAreaElement)
-    insertElement(this.element, this.consoleElement)
   }
 
   public didResume (callback) {
@@ -142,11 +138,16 @@ export class DebugView {
     return insertElement(this.consoleElement, line);
   }
 
-  getElement () {
-    return this.element;
+  getConsoleElement () {
+    return this.consoleElement;
+  }
+
+  getDebugElement () {
+    return this.debugAreaElement;
   }
 
   destroy () {
-    this.element.remove();
+    this.consoleElement.remove();
+    this.debugAreaElement.remove();
   }
 }

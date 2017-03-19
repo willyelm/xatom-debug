@@ -2,14 +2,13 @@ declare var _default: {
     subscriptions: any;
     breakpointManager: any;
     pluginManager: any;
-    activePlugin: any;
-    activeBreakMarker: any;
     toolbarView: any;
-    schemeView: any;
     debugView: any;
+    editorView: any;
+    schemeView: any;
     toolbarPanel: any;
     debugPanel: any;
-    createPanels(): void;
+    consolePanel: any;
     createManagers(): void;
     createToolbar(): void;
     createDebugArea(): void;

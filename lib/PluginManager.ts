@@ -12,14 +12,44 @@ export interface Plugin {
   name: String
 }
 
+export const pluginActions: Array<string> = [
+  'didRun',
+  'didStop',
+  'didPause',
+  'didResume',
+  'didStepOver',
+  'didStepInto',
+  'didStepOut',
+  'didAddBreakpoint',
+  'didRemoveBreakpoint',
+  'didEvaluateExpression'
+];
+
 export class PluginManager {
 
   private plugins: Array<Plugin>;
+  public activePlugin: Plugin;
   public events: EventEmitter;
 
   constructor () {
     this.plugins = [];
     this.events = new EventEmitter();
+    pluginActions.forEach((name) => {
+      this[name] = function () {
+        // console.log('emit', name);
+        // arguments.unshift(name);
+        return this.events.emit(name, arguments);
+      }
+      this.events.on(name, (args) => {
+        if (this.activePlugin && this.activePlugin[name]) {
+          this.activePlugin[name].apply(this.activePlugin, args);
+        }
+      })
+    })
+  }
+
+  activatePlugin (plugin: Plugin) {
+    this.activePlugin = plugin;
   }
 
   didAddPlugin (callback) {

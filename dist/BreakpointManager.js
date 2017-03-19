@@ -10,6 +10,9 @@ export class BreakpointManager {
         this.breakpoints = [];
         this.events = new EventEmitter();
     }
+    getBreakpoints() {
+        return this.breakpoints;
+    }
     didAddBreakpoint(callback) {
         this.events.on('addBreakpoint', callback);
     }
@@ -25,7 +28,7 @@ export class BreakpointManager {
                 let lineNumber = Number(element.textContent);
                 let exists = this.getBreakpoint(sourceFile, lineNumber);
                 if (exists) {
-                    exists.remove();
+                    this.removeBreakpoint(exists);
                 }
                 else {
                     let range = [[lineNumber - 1, 0], [lineNumber - 1, 0]];
@@ -39,27 +42,28 @@ export class BreakpointManager {
             }
         };
     }
-    observeEditor(editor) {
-        let handler = this.getHandler(editor);
-        editor.editorElement.removeEventListener('click', handler);
-        editor.editorElement.addEventListener('click', handler);
-    }
     getBreakpoint(filePath, lineNumber) {
         let index = this.breakpoints.findIndex((item) => {
             return (item.filePath === filePath && item.lineNumber === lineNumber);
         });
         return this.breakpoints[index];
     }
+    removeBreakpoint(breakpoint) {
+        let index = this.breakpoints.indexOf(breakpoint);
+        if (index != -1) {
+            this.events.emit('removeBreakpoint', breakpoint.filePath, breakpoint.lineNumber);
+            breakpoint.marker.destroy();
+            this.breakpoints.splice(index, 1);
+            return true;
+        }
+        return false;
+    }
     addBreakpoint(marker, lineNumber, filePath) {
         this.events.emit('addBreakpoint', filePath, lineNumber);
         let index = this.breakpoints.push({
             lineNumber,
             filePath,
-            remove: () => {
-                this.breakpoints.splice(index - 1, 1);
-                marker.destroy();
-                this.events.emit('removeBreakpoint', filePath, lineNumber);
-            }
+            marker
         });
     }
 }

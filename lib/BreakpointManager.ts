@@ -7,20 +7,30 @@
 
 import { EventEmitter }  from 'events';
 
+export interface Breakpoint {
+  lineNumber: number,
+  filePath: string,
+  marker: any
+}
+
 export class BreakpointManager {
 
-  private breakpoints: Array<any> = [];
+  private breakpoints: Array<Breakpoint> = [];
   public events: EventEmitter;
 
   constructor () {
     this.events = new EventEmitter();
   }
 
-  public didAddBreakpoint (callback) {
+  public getBreakpoints (): Array<Breakpoint> {
+    return this.breakpoints;
+  }
+
+  public didAddBreakpoint (callback: Function) {
     this.events.on('addBreakpoint', callback);
   }
 
-  public didRemoveBreakpoint (callback) {
+  public didRemoveBreakpoint (callback: Function) {
     this.events.on('removeBreakpoint', callback);
   }
 
@@ -33,7 +43,7 @@ export class BreakpointManager {
         let lineNumber = Number(element.textContent)
         let exists = this.getBreakpoint(sourceFile, lineNumber)
         if (exists) {
-          exists.remove();
+          this.removeBreakpoint(exists);
         } else {
           let range = [[lineNumber - 1, 0], [lineNumber - 1, 0]]
           let marker = editor.markBufferRange(range)
@@ -47,29 +57,30 @@ export class BreakpointManager {
     }
   }
 
-  observeEditor (editor: any) {
-    let handler = this.getHandler(editor);
-    editor.editorElement.removeEventListener('click', handler);
-    editor.editorElement.addEventListener('click', handler);
-  }
-
-  getBreakpoint (filePath: String, lineNumber: Number) {
+  getBreakpoint (filePath: String, lineNumber: Number): Breakpoint {
     let index = this.breakpoints.findIndex((item) => {
       return (item.filePath === filePath && item.lineNumber === lineNumber)
     })
     return this.breakpoints[index];
   }
 
-  addBreakpoint (marker: any, lineNumber: Number, filePath: String) {
+  removeBreakpoint (breakpoint: Breakpoint): boolean {
+    let index = this.breakpoints.indexOf(breakpoint);
+    if(index != -1) {
+      this.events.emit('removeBreakpoint', breakpoint.filePath, breakpoint.lineNumber);
+      breakpoint.marker.destroy();
+    	this.breakpoints.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  addBreakpoint (marker: any, lineNumber: number, filePath: string) {
     this.events.emit('addBreakpoint', filePath, lineNumber);
     let index = this.breakpoints.push({
       lineNumber,
       filePath,
-      remove: () =>  {
-        this.breakpoints.splice(index - 1, 1);
-        marker.destroy();
-        this.events.emit('removeBreakpoint', filePath, lineNumber);
-      }
-    });
+      marker
+    } as Breakpoint);
   }
 }

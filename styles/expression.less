@@ -1,0 +1,31 @@
+@accent-color: hsl(hue(@syntax-background-color), 100%, 76%);
+@import "ui-variables";
+
+.bugs-expression .region{
+  background-color: fadeOut(@accent-color, 50%);
+  border-radius: 2px;
+  box-shadow: 2px 0 0 0 fadeOut(@accent-color, 50%),
+             -2px 0 0 0 fadeOut(@accent-color, 50%);
+}
+
+.bugs-expression-overlay {
+  z-index: 1000000;
+  margin-top: -20px;
+}
+
+atom-bugs-inspector {
+  background-color: @overlay-background-color;
+  border: 1px solid @overlay-border-color;
+  padding: 10px;
+  overflow: auto;
+  white-space: normal;
+  border-radius: 4px;
+  margin-left: -30px;
+  margin-top: 20px;
+  display: block;
+  min-width: 160px;
+  max-width: 320px;
+  max-height: 200px;
+  word-wrap: break-word;
+  -webkit-user-select: all;
+}

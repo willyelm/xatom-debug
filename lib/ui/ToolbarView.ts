@@ -68,13 +68,9 @@ export class ToolbarView {
       createIcon('stop')
     ]);
 
-    // Icon
     insertElement(this.element, createIcon('logo'))
-    // Run
     insertElement(this.element, this.runButton)
-    // Stop
     insertElement(this.element, this.stopButton)
-    // Scheme Buttons
     insertElement(this.element, createGroupButtons([
       createButton({
         className: 'bugs-scheme'

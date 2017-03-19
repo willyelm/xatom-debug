@@ -11,26 +11,37 @@ export class ClientConsole {
     }
 }
 export class Client {
-    constructor(debugView, toolbarView) {
+    constructor(debugView, toolbarView, editorView, breakpointManager) {
         this.debugView = debugView;
         this.toolbarView = toolbarView;
+        this.editorView = editorView;
+        this.breakpointManager = breakpointManager;
         this.console = new ClientConsole(debugView);
     }
     stop() {
         this.debugView.togglePause(false);
         this.toolbarView.toggleRun(true);
+        this.editorView.removeMarkers();
         this.debugView.consoleClear();
+    }
+    run() {
+        this.toolbarView.toggleRun(false);
     }
     pause() {
         this.debugView.togglePause(true);
         // this.debugView.setPausedScript(filePath, lineNumber);
-        // this.debugView.;
     }
     resume() {
         this.debugView.togglePause(false);
     }
-    break(filePath, lineNumber) {
+    getBreakpoints() {
+        return this.breakpointManager.getBreakpoints();
+    }
+    activateBreakpoint(filePath, lineNumber) {
         this.debugView.breakOnFile(filePath, lineNumber);
+    }
+    showEvaluation(result, range) {
+        this.editorView.addEvaluationMarker(result, range);
     }
 }
 //# sourceMappingURL=Client.js.map

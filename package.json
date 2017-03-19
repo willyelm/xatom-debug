@@ -22,7 +22,7 @@
   "main": "./dist/main",
   "showWelcome": true,
   "scripts": {
-    "start": "tsc -w "
+    "start": "tsc -w"
   },
   "engines": {
     "atom": ">=1.0.0 <2.0.0"

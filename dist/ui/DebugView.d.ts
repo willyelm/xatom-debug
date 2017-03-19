@@ -1,5 +1,4 @@
 export declare class DebugView {
-    private element;
     private consoleElement;
     private debugAreaElement;
     private pauseButton;
@@ -16,6 +15,7 @@ export declare class DebugView {
     breakOnFile(filePath: string, lineNumber: number): void;
     consoleClear(): void;
     consoleCreateLine(entry: string, elements?: any): HTMLElement;
-    getElement(): HTMLElement;
+    getConsoleElement(): HTMLElement;
+    getDebugElement(): HTMLElement;
     destroy(): void;
 }
