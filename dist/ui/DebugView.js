@@ -48,6 +48,18 @@ export class DebugView {
             createElement('atom-bugs-control-group', {
                 elements: [
                     createElement('atom-bugs-control-title', {
+                        elements: [createText('Call Stack')]
+                    }),
+                    createElement('atom-bugs-control-content', {
+                        elements: [createText('Some Content')]
+                    }),
+                    createElement('atom-bugs-control-title', {
+                        elements: [createText('Scope')]
+                    }),
+                    createElement('atom-bugs-control-content', {
+                        elements: [createText('Some Content')]
+                    }),
+                    createElement('atom-bugs-control-title', {
                         elements: [createText('Breakpoints')]
                     }),
                     createElement('atom-bugs-control-content', {
