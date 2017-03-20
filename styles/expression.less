@@ -10,15 +10,17 @@
 
 .bugs-expression-overlay {
   z-index: 1000000;
-  margin-top: -20px;
 }
 
 atom-bugs-inspector {
   atom-bugs-inspector-item {
     display: block;
-    padding: 2px 5px;
-    margin: -2px -5px;
-    border-bottom: 1px solid @overlay-border-color;
+    // padding: 2px 5px;
+    // margin: -2px -5px;
+    // border-bottom: 1px solid @overlay-border-color;
+    & atom-bugs-inspector-item {
+      padding-left: 15px;
+    }
   }
   .property-name {
 
@@ -36,7 +38,7 @@ atom-bugs-overlay {
   border: 1px solid @overlay-border-color;
   white-space: normal;
   border-radius: 3px;
-  margin-top: 20px;
+  // margin-top: -20px;
   display: block;
   min-width: 160px;
   max-width: 320px;

@@ -4,7 +4,7 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
-import { createText, createButton, createElement, insertElement } from '../element/index';
+import { createIcon, createText, createElement, insertElement } from '../element/index';
 import { EventEmitter } from 'events';
 export class EditorView {
     constructor(breakpointManager) {
@@ -87,8 +87,7 @@ export class EditorView {
             }
         }
     }
-    expressionListener(e) {
-        let sourceFile = this.currentEditor.getPath();
+    getPositionFromEvent(e) {
         let lines = this.currentEditor.editorElement.querySelector('.lines');
         var clientX = e.clientX;
         var clientY = e.clientY;
@@ -97,26 +96,33 @@ export class EditorView {
             top: (clientY - clientRect.top) + this.currentEditor.editorElement.getScrollTop(),
             left: (clientX - clientRect.left) + this.currentEditor.editorElement.getScrollLeft()
         });
-        let bufferPosition = this.currentEditor.bufferPositionForScreenPosition(screenPosition);
-        let prevRow = this.currentEditor.buffer.previousNonBlankRow(bufferPosition.row);
-        let endRow = this.currentEditor.buffer.nextNonBlankRow(bufferPosition.row);
+        return this.currentEditor.bufferPositionForScreenPosition(screenPosition);
+    }
+    getWordRangeFromPosition(position) {
+        let prevRow = this.currentEditor.buffer.previousNonBlankRow(position.row);
+        let endRow = this.currentEditor.buffer.nextNonBlankRow(position.row);
         if (!endRow) {
-            endRow = bufferPosition.row;
+            endRow = position.row;
         }
-        let startWord = bufferPosition;
-        let endWord = bufferPosition;
-        this.currentEditor.scanInBufferRange(/[ \,\{\}\(\;\)\[\]^\n]+/gm, [[prevRow, 0], bufferPosition], (s) => {
+        let startWord = position;
+        let endWord = position;
+        this.currentEditor.scanInBufferRange(/[ \,\{\}\(\;\)\[\]^\n]+/gm, [[prevRow, 0], position], (s) => {
             if (s.matchText) {
                 startWord = s.range.end;
             }
         });
-        this.currentEditor.scanInBufferRange(/[ \,\{\}\(\.\;\)\[\]\n]+/g, [bufferPosition, [endRow, 50]], (s) => {
+        this.currentEditor.scanInBufferRange(/[ \,\{\}\(\.\;\)\[\]\n]+/g, [position, [endRow, 50]], (s) => {
             if (s.matchText) {
                 endWord = s.range.start;
                 s.stop();
             }
         });
-        let scanRange = [startWord, endWord];
+        return [startWord, endWord];
+    }
+    expressionListener(e) {
+        let sourceFile = this.currentEditor.getPath();
+        let bufferPosition = this.getPositionFromEvent(e);
+        let scanRange = this.getWordRangeFromPosition(bufferPosition);
         let expression = this.currentEditor.getTextInBufferRange(scanRange);
         clearTimeout(this.evaluateHandler);
         this.evaluateHandler = setTimeout(() => {
@@ -144,6 +150,7 @@ export class EditorView {
                                 let itemElement = insertElement(element, [
                                     createElement('atom-bugs-inspector-item', {
                                         elements: [
+                                            createIcon(''),
                                             createElement('span', {
                                                 className: 'property-name',
                                                 elements: [createText(desc.name)]
@@ -162,11 +169,15 @@ export class EditorView {
                 loadProperties();
             }
             else {
-                insertElement(element, [
-                    createButton({
-                        click: () => loadProperties()
-                    }, [createText('toggle')])
-                ]);
+                // get parent
+                let icon = element.parentElement.querySelector('.bugs-icon');
+                if (icon) {
+                    icon.classList.add('bugs-icon-indicate');
+                    icon.addEventListener('click', () => {
+                        // toggle
+                        loadProperties();
+                    });
+                }
             }
         }
     }
@@ -176,6 +187,10 @@ export class EditorView {
         });
         let inspectorElement = createElement('atom-bugs-inspector');
         element.setAttribute('tabindex', '-1');
+        inspectorElement.addEventListener('mousewheel', (e) => {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+        });
         this.createInspectorForElement(inspectorElement, result, true);
         return insertElement(element, [
             createElement('atom-bugs-overlay-header', {
@@ -198,7 +213,6 @@ export class EditorView {
         this.currentEvaluationMarker = this.currentEditor.markBufferRange(range);
         this.currentEditor.decorateMarker(this.currentEvaluationMarker, {
             type: 'overlay',
-            position: 'tail',
             class: 'bugs-expression-overlay',
             item: element
         });

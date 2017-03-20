@@ -4,7 +4,7 @@ var person = {
 }
 
 function Greet (m) {
-  console.log(m, process);
+  console.log(m);
 }
 
 function Bye (m) {
@@ -19,7 +19,7 @@ setTimeout(function () {
   console.log('yep');
 }, 10000);
 
-console.log('person', person);
+console.log('person', process, person);
 
 Greet('Hello World');
 Bye('Good Bye');

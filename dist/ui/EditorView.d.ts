@@ -19,6 +19,8 @@ export declare class EditorView {
     removeExpressionMarker(): void;
     addFeatures(editor: any): void;
     private breakpointListener(e);
+    private getPositionFromEvent(e);
+    private getWordRangeFromPosition(position);
     private expressionListener(e);
     createInspectorForElement(element: HTMLElement, result: any, load?: boolean): void;
     createInspectorOverlay(result: any): HTMLElement;
