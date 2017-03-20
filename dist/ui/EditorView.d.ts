@@ -12,6 +12,7 @@ export declare class EditorView {
     constructor(breakpointManager: BreakpointManager);
     destroy(): void;
     didEvaluateExpression(cb: Function): void;
+    didRequestProperties(cb: Function): void;
     createBreakMarker(editor: any, lineNumber: number): void;
     removeMarkers(): void;
     removeBreakMarker(): void;
@@ -19,6 +20,8 @@ export declare class EditorView {
     addFeatures(editor: any): void;
     private breakpointListener(e);
     private expressionListener(e);
+    createInspectorForElement(element: HTMLElement, result: any, load?: boolean): void;
+    createInspectorOverlay(result: any): HTMLElement;
     addEvaluationMarker(result: any, range: any): void;
     removeEvaluationMarker(): void;
 }

@@ -5,7 +5,12 @@
  * MIT Licensed
  */
 
-import { DebugView, ToolbarView, EditorView } from './ui/index';
+import {
+  DebugView,
+  CallStackFrames,
+  ToolbarView,
+  EditorView
+} from './ui/index';
 import { Breakpoint, BreakpointManager } from './BreakpointManager';
 
 export class ClientConsole {
@@ -41,6 +46,7 @@ export class Client {
   }
   resume (): void {
     this.debugView.togglePause(false);
+    this.debugView.callStackClear();
   }
   getBreakpoints (): Array<Breakpoint> {
     return this.breakpointManager.getBreakpoints();
@@ -48,7 +54,10 @@ export class Client {
   activateBreakpoint (filePath: string, lineNumber: number): void {
     this.debugView.breakOnFile(filePath, lineNumber);
   }
-  showEvaluation (result: string, range: any) {
+  showCallStack (items: CallStackFrames) {
+    this.debugView.insertCallStackFromFrames(items);
+  }
+  showEvaluation (result: any, range: any) {
     this.editorView.addEvaluationMarker(result, range);
   }
 }

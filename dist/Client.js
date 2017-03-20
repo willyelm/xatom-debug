@@ -33,12 +33,16 @@ export class Client {
     }
     resume() {
         this.debugView.togglePause(false);
+        this.debugView.callStackClear();
     }
     getBreakpoints() {
         return this.breakpointManager.getBreakpoints();
     }
     activateBreakpoint(filePath, lineNumber) {
         this.debugView.breakOnFile(filePath, lineNumber);
+    }
+    showCallStack(items) {
+        this.debugView.insertCallStackFromFrames(items);
     }
     showEvaluation(result, range) {
         this.editorView.addEvaluationMarker(result, range);

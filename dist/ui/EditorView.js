@@ -1,4 +1,10 @@
 'use babel';
+/*!
+ * Atom Bugs
+ * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+ * MIT Licensed
+ */
+import { createText, createButton, createElement, insertElement } from '../element/index';
 import { EventEmitter } from 'events';
 export class EditorView {
     constructor(breakpointManager) {
@@ -15,6 +21,9 @@ export class EditorView {
     }
     didEvaluateExpression(cb) {
         this.events.on('evaluateExpression', cb);
+    }
+    didRequestProperties(cb) {
+        this.events.on('requestProperties', cb);
     }
     createBreakMarker(editor, lineNumber) {
         this.removeBreakMarker();
@@ -116,6 +125,65 @@ export class EditorView {
             }
         }, 250);
     }
+    createInspectorForElement(element, result, load) {
+        // value
+        if (result.value) {
+            console.log('value', result);
+            insertElement(element, [createText(result.value)]);
+        }
+        // object
+        if (result.objectId) {
+            let loadProperties = () => {
+                this.events.emit('requestProperties', result, {
+                    insertFromDescription: (descriptions) => {
+                        descriptions.forEach((desc) => {
+                            if (desc.value) {
+                                let valueElement = createElement('span', {
+                                    className: 'property-value'
+                                });
+                                let itemElement = insertElement(element, [
+                                    createElement('atom-bugs-inspector-item', {
+                                        elements: [
+                                            createElement('span', {
+                                                className: 'property-name',
+                                                elements: [createText(desc.name)]
+                                            }),
+                                            valueElement
+                                        ]
+                                    })
+                                ]);
+                                this.createInspectorForElement(valueElement, desc.value, false);
+                            }
+                        });
+                    }
+                });
+            };
+            if (load === true) {
+                loadProperties();
+            }
+            else {
+                insertElement(element, [
+                    createButton({
+                        click: () => loadProperties()
+                    }, [createText('toggle')])
+                ]);
+            }
+        }
+    }
+    createInspectorOverlay(result) {
+        let element = createElement('atom-bugs-overlay', {
+            className: 'native-key-bindings'
+        });
+        let inspectorElement = createElement('atom-bugs-inspector');
+        element.setAttribute('tabindex', '-1');
+        this.createInspectorForElement(inspectorElement, result, true);
+        return insertElement(element, [
+            createElement('atom-bugs-overlay-header', {
+                elements: [createText(result.className || result.type)]
+            }),
+            inspectorElement
+        ]);
+    }
     addEvaluationMarker(result, range) {
         // highlight expression
         this.removeExpressionMarker();
@@ -126,21 +194,21 @@ export class EditorView {
         });
         // overlay inspector
         this.removeEvaluationMarker();
-        let element = document.createElement('atom-bugs-inspector');
-        element.setAttribute('tabindex', '-1');
-        element.className = 'native-key-bindings';
-        element.innerHTML = JSON.stringify(result);
+        let element = this.createInspectorOverlay(result);
         this.currentEvaluationMarker = this.currentEditor.markBufferRange(range);
         this.currentEditor.decorateMarker(this.currentEvaluationMarker, {
             type: 'overlay',
-            position: 'head',
+            position: 'tail',
             class: 'bugs-expression-overlay',
             item: element
         });
         setTimeout(() => {
-            element.parentElement.addEventListener('mouseout', () => {
-                this.removeEvaluationMarker();
+            element.parentElement.addEventListener('mousemove', (e) => {
+                e.stopPropagation();
             });
+            // element.parentElement.addEventListener('mouseout', () => {
+            //   this.removeEvaluationMarker();
+            // });
         }, 100);
     }
     removeEvaluationMarker() {

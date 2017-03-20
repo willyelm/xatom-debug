@@ -13,8 +13,9 @@
 .bugs-icon {
   width: 20px;
   height: 20px;
-  display: inline-block;
+  line-height: 1;
   vertical-align: middle;
+  display: inline-block;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top center;
@@ -54,6 +55,10 @@
   &.bugs-icon-step-out {
     -webkit-mask-image: url('atom://atom-bugs/icons/step-out.svg');
     background-color: fadeout(@text-color, 20%)
+  }
+  &.bugs-icon-indicate {
+    -webkit-mask-image: url('atom://atom-bugs/icons/indicate.svg');
+    background-color: hsl(hue(@syntax-background-color), 100%, 60%);
   }
   &.bugs-icon-atom {
     -webkit-mask-image: url('atom://atom-bugs/icons/atom.svg');

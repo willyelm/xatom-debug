@@ -22,7 +22,8 @@ export const pluginActions: Array<string> = [
   'didStepOut',
   'didAddBreakpoint',
   'didRemoveBreakpoint',
-  'didEvaluateExpression'
+  'didEvaluateExpression',
+  'didRequestProperties'
 ];
 
 export class PluginManager {

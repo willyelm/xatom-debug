@@ -19,5 +19,7 @@ setTimeout(function () {
   console.log('yep');
 }, 10000);
 
+console.log('person', person);
+
 Greet('Hello World');
 Bye('Good Bye');

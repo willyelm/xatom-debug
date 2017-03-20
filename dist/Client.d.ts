@@ -1,4 +1,4 @@
-import { DebugView, ToolbarView, EditorView } from './ui/index';
+import { DebugView, CallStackFrames, ToolbarView, EditorView } from './ui/index';
 import { Breakpoint, BreakpointManager } from './BreakpointManager';
 export declare class ClientConsole {
     private debugView;
@@ -19,5 +19,6 @@ export declare class Client {
     resume(): void;
     getBreakpoints(): Array<Breakpoint>;
     activateBreakpoint(filePath: string, lineNumber: number): void;
-    showEvaluation(result: string, range: any): void;
+    showCallStack(items: CallStackFrames): void;
+    showEvaluation(result: any, range: any): void;
 }

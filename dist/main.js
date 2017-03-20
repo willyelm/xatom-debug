@@ -62,6 +62,10 @@ export default {
         this.breakpointManager.didRemoveBreakpoint((filePath, fileNumber) => {
             this.pluginManager.didRemoveBreakpoint(filePath, fileNumber);
         });
+        // Request Properties
+        this.editorView.didRequestProperties((result, inspectView) => {
+            this.pluginManager.didRequestProperties(result, inspectView);
+        });
     },
     createToolbar() {
         // Create Toolbar View
@@ -95,11 +99,17 @@ export default {
         this.debugView.didBreak((filePath, lineNumber) => __awaiter(this, void 0, void 0, function* () {
             // /[^(?:<> \n)]+\/[a-zA-Z0-9_ \-\/\-\.\*\+]+(:[0-9:]+)?/g
             let textEditor = yield atom.workspace.open(filePath, {
-                initialLine: lineNumber,
+                initialLine: lineNumber - 1,
                 initialColumn: 0
             });
             this.editorView.createBreakMarker(textEditor, lineNumber);
         }));
+        this.debugView.didOpenFile((filePath, lineNumber, columnNumber) => {
+            atom.workspace.open(filePath, {
+                initialLine: lineNumber - 1,
+                initialColumn: columnNumber - 1
+            });
+        });
     },
     activate(state) {
         this.createToolbar();

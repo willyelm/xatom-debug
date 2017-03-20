@@ -6,6 +6,7 @@
  */
 import { createButton, createIcon, createText, createElement, insertElement } from '../element/index';
 import { EventEmitter } from 'events';
+import { parse } from 'path';
 export class DebugView {
     constructor() {
         this.events = new EventEmitter();
@@ -23,6 +24,11 @@ export class DebugView {
         }, [createIcon('resume'), createText('Resume')]);
         this.togglePause(false);
         this.debugAreaElement = createElement('atom-bugs-area');
+        this.callStackContentElement = createElement('atom-bugs-group-content', {
+            elements: [
+                createText('Not Paused')
+            ]
+        });
         insertElement(this.debugAreaElement, [
             createElement('atom-bugs-controls', {
                 elements: [
@@ -45,24 +51,30 @@ export class DebugView {
                     }, [createIcon('step-out')])
                 ]
             }),
-            createElement('atom-bugs-control-group', {
+            createElement('atom-bugs-group', {
                 elements: [
-                    createElement('atom-bugs-control-title', {
+                    createElement('atom-bugs-group-header', {
                         elements: [createText('Call Stack')]
                     }),
-                    createElement('atom-bugs-control-content', {
-                        elements: [createText('Some Content')]
-                    }),
-                    createElement('atom-bugs-control-title', {
+                    this.callStackContentElement
+                ]
+            }),
+            createElement('atom-bugs-group', {
+                elements: [
+                    createElement('atom-bugs-group-header', {
                         elements: [createText('Scope')]
                     }),
-                    createElement('atom-bugs-control-content', {
+                    createElement('atom-bugs-group-content', {
                         elements: [createText('Some Content')]
-                    }),
-                    createElement('atom-bugs-control-title', {
+                    })
+                ]
+            }),
+            createElement('atom-bugs-group', {
+                elements: [
+                    createElement('atom-bugs-group-header', {
                         elements: [createText('Breakpoints')]
                     }),
-                    createElement('atom-bugs-control-content', {
+                    createElement('atom-bugs-group-content', {
                         elements: [createText('Some Content')]
                     })
                 ]
@@ -87,6 +99,9 @@ export class DebugView {
     didBreak(callback) {
         this.events.on('didBreak', callback);
     }
+    didOpenFile(callback) {
+        this.events.on('didOpenFile', callback);
+    }
     togglePause(status) {
         this.resumeButton.style.display = status ? null : 'none';
         this.pauseButton.style.display = status ? 'none' : null;
@@ -104,6 +119,40 @@ export class DebugView {
         ]);
         this.events.emit('didBreak', filePath, lineNumber);
     }
+    // Debug
+    createFrameLine(frame, indicate) {
+        let file = parse(frame.filePath);
+        let indicator = createIcon(indicate ? 'indicate' : '');
+        return createElement('atom-bugs-group-item', {
+            options: {
+                click: () => {
+                    this.events.emit('didOpenFile', frame.filePath, frame.lineNumber, frame.columnNumber);
+                }
+            },
+            elements: [
+                createElement('span', {
+                    elements: [indicator, createText(frame.name || '(anonymous)')]
+                }),
+                createElement('span', {
+                    className: 'file-reference',
+                    elements: [createText(file.base)]
+                })
+            ]
+        });
+    }
+    insertCallStackFromFrames(frames) {
+        this.callStackClear();
+        frames.forEach((frame, index) => {
+            return insertElement(this.callStackContentElement, this.createFrameLine(frame, index === 0));
+        });
+    }
+    callStackClear() {
+        this.callStackContentElement.innerHTML = '';
+    }
+    getDebugElement() {
+        return this.debugAreaElement;
+    }
+    // Console
     consoleClear() {
         this.consoleElement.innerHTML = '';
     }
@@ -123,9 +172,7 @@ export class DebugView {
     getConsoleElement() {
         return this.consoleElement;
     }
-    getDebugElement() {
-        return this.debugAreaElement;
-    }
+    // Destroy all
     destroy() {
         this.consoleElement.remove();
         this.debugAreaElement.remove();

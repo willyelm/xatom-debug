@@ -15,11 +15,22 @@ import {
   insertElement
 } from '../element/index';
 import { EventEmitter }  from 'events';
+import { parse } from 'path';
+
+export interface CallStackFrame {
+  name: string,
+  columnNumber: number,
+  lineNumber: number,
+  filePath: string
+}
+
+export type CallStackFrames = Array<CallStackFrame>;
 
 export class DebugView {
 
   private consoleElement: HTMLElement;
   private debugAreaElement: HTMLElement;
+  private callStackContentElement: HTMLElement;
 
   private pauseButton: HTMLElement;
   private resumeButton: HTMLElement;
@@ -35,7 +46,8 @@ export class DebugView {
       click: () => {
         this.events.emit('didPause')
       }
-    }, [createIcon('pause'), createText('Pause')])
+    }, [createIcon('pause'), createText('Pause')]);
+
     this.resumeButton = createButton({
       click: () => {
         this.events.emit('didResume')
@@ -45,6 +57,12 @@ export class DebugView {
     this.togglePause(false);
 
     this.debugAreaElement = createElement('atom-bugs-area');
+    this.callStackContentElement = createElement('atom-bugs-group-content', {
+      elements: [
+        createText('Not Paused')
+      ]
+    });
+
     insertElement(this.debugAreaElement, [
       createElement('atom-bugs-controls', {
         elements: [
@@ -67,24 +85,30 @@ export class DebugView {
           }, [createIcon('step-out')])
         ]
       }),
-      createElement('atom-bugs-control-group', {
+      createElement('atom-bugs-group', {
         elements: [
-          createElement('atom-bugs-control-title', {
+          createElement('atom-bugs-group-header', {
             elements: [createText('Call Stack')]
           }),
-          createElement('atom-bugs-control-content', {
-            elements: [createText('Some Content')]
-          }),
-          createElement('atom-bugs-control-title', {
+          this.callStackContentElement
+        ]
+      }),
+      createElement('atom-bugs-group', {
+        elements: [
+          createElement('atom-bugs-group-header', {
             elements: [createText('Scope')]
           }),
-          createElement('atom-bugs-control-content', {
+          createElement('atom-bugs-group-content', {
             elements: [createText('Some Content')]
-          }),
-          createElement('atom-bugs-control-title', {
+          })
+        ]
+      }),
+      createElement('atom-bugs-group', {
+        elements: [
+          createElement('atom-bugs-group-header', {
             elements: [createText('Breakpoints')]
           }),
-          createElement('atom-bugs-control-content', {
+          createElement('atom-bugs-group-content', {
             elements: [createText('Some Content')]
           })
         ]
@@ -112,6 +136,10 @@ export class DebugView {
     this.events.on('didBreak', callback)
   }
 
+  public didOpenFile (callback) {
+    this.events.on('didOpenFile', callback)
+  }
+
   togglePause (status: boolean) {
     this.resumeButton.style.display = status ? null : 'none';
     this.pauseButton.style.display = status ? 'none' : null;
@@ -128,10 +156,51 @@ export class DebugView {
     this.consoleCreateLine('', [
       createText('Break on'),
       createText(`${filePath}:${lineNumber}`)
-    ])
-    this.events.emit('didBreak', filePath, lineNumber)
+    ]);
+    this.events.emit('didBreak', filePath, lineNumber);
   }
 
+  // Debug
+  createFrameLine (frame: CallStackFrame, indicate: boolean) {
+    let file = parse(frame.filePath);
+    let indicator = createIcon(indicate ? 'indicate' : '');
+    return createElement('atom-bugs-group-item', {
+      options: {
+        click: () => {
+          this.events.emit('didOpenFile',
+            frame.filePath,
+            frame.lineNumber,
+            frame.columnNumber);
+        }
+      },
+      elements: [
+        createElement('span', {
+          elements: [indicator, createText(frame.name || '(anonymous)')]
+        }),
+        createElement('span', {
+          className: 'file-reference',
+          elements: [createText(file.base)]
+        })
+      ]
+    });
+  }
+
+  insertCallStackFromFrames (frames: CallStackFrames) {
+    this.callStackClear();
+    frames.forEach((frame, index) => {
+      return insertElement(this.callStackContentElement,
+        this.createFrameLine(frame, index === 0))
+    })
+  }
+
+  callStackClear () {
+    this.callStackContentElement.innerHTML = '';
+  }
+
+  getDebugElement () {
+    return this.debugAreaElement;
+  }
+  // Console
   consoleClear () {
     this.consoleElement.innerHTML = '';
   }
@@ -154,10 +223,7 @@ export class DebugView {
     return this.consoleElement;
   }
 
-  getDebugElement () {
-    return this.debugAreaElement;
-  }
-
+  // Destroy all
   destroy () {
     this.consoleElement.remove();
     this.debugAreaElement.remove();

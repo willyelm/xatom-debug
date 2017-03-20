@@ -15,7 +15,8 @@ export const pluginActions = [
     'didStepOut',
     'didAddBreakpoint',
     'didRemoveBreakpoint',
-    'didEvaluateExpression'
+    'didEvaluateExpression',
+    'didRequestProperties'
 ];
 export class PluginManager {
     constructor() {

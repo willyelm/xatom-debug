@@ -68,6 +68,10 @@ export default {
     // Remove Breakpoint
     this.breakpointManager.didRemoveBreakpoint((filePath: string, fileNumber: number) => {
       this.pluginManager.didRemoveBreakpoint(filePath, fileNumber);
+    });
+    // Request Properties
+    this.editorView.didRequestProperties((result, inspectView) => {
+      this.pluginManager.didRequestProperties(result, inspectView);
     })
   },
 
@@ -104,10 +108,16 @@ export default {
     this.debugView.didBreak(async (filePath, lineNumber) => {
       // /[^(?:<> \n)]+\/[a-zA-Z0-9_ \-\/\-\.\*\+]+(:[0-9:]+)?/g
       let textEditor = await atom.workspace.open(filePath, {
-        initialLine: lineNumber,
+        initialLine: lineNumber - 1,
         initialColumn: 0
       })
       this.editorView.createBreakMarker(textEditor, lineNumber);
+    })
+    this.debugView.didOpenFile((filePath: string, lineNumber: number, columnNumber: number) => {
+      atom.workspace.open(filePath, {
+        initialLine: lineNumber - 1,
+        initialColumn: columnNumber - 1
+      })
     })
   },
 

@@ -7,8 +7,8 @@ atom-bugs-area {
 atom-bugs-console,
 atom-bugs-controls,
 atom-bugs-area,
-atom-bugs-control-group,
-atom-bugs-control-title {
+atom-bugs-group,
+atom-bugs-group-header {
   box-shadow: 0 0 0 1px @base-border-color;
 }
 // atom-bugs-control-group,
@@ -30,23 +30,45 @@ atom-bugs-console {
 }
 atom-bugs-area {
   width: 240px;
+  .file-reference {
+    float: right;
+    opacity: .5;
+  }
   atom-bugs-control-group,
-  atom-bugs-controls {
+  atom-bugs-controls,
+  atom-bugs-group-content {
     width: 100%;
     display: block;
   }
-  atom-bugs-control-title,
-  atom-bugs-control-content {
+  atom-bugs-group-header {
     padding: 2px 5px;
     display: block;
   }
-  atom-bugs-control-title {
-
-  }
-  atom-bugs-control-content {
-    background-color: lighten(@input-background-color, 5%);
-    min-height: 100px;
+  atom-bugs-group-header {
     margin-top: 1px;
+  }
+  atom-bugs-group-content {
+    background-color: lighten(@input-background-color, 5%);
+    min-height: 40px;
+    max-height: 170px;
+    margin-top: 1px;
+    font-size: 90%;
+    overflow: auto;
+    .file-reference {
+      float: right;
+    }
+  }
+  atom-bugs-group-item {
+    display: block;
+    padding: 2px 5px;
+    border-bottom: 1px solid @input-background-color;
+    .bugs-icon {
+      width: 12px;
+      height: 14px;
+    }
+    &:hover {
+      background-color: lighten(@input-background-color, 10%);
+    }
   }
   atom-bugs-controls {
     // background-color: lighten(@input-background-color, 5%);
@@ -62,7 +84,6 @@ atom-bugs-area {
     .bugs-icon {
       width: 14px;
       height: 14px;
-      vertical-align: bottom;
     }
   }
 }
