@@ -148,7 +148,7 @@ export class EditorView {
             }
             switch (result.type) {
                 case 'string':
-                    value = `"${value}"`;
+                    value = `"${result.value}"`;
                     valueClass = 'syntax--string';
                     break;
                 case 'number':
@@ -260,6 +260,7 @@ export class EditorView {
             e.stopPropagation();
             e.stopImmediatePropagation();
         });
+        console.log('result', result);
         this.createInspectorForElement(inspectorElement, result, true);
         return insertElement(element, [
             createElement('atom-bugs-overlay-header', {
@@ -294,7 +295,7 @@ export class EditorView {
                 this.activateExpressionListerner = false;
                 element.addEventListener('mouseleave', () => {
                     this.activateExpressionListerner = true;
-                    // this.removeEvaluationMarker();
+                    this.removeEvaluationMarker();
                 });
             });
         }, 0);

@@ -182,7 +182,13 @@ export class DebugView {
         }),
         createElement('span', {
           className: 'file-reference',
-          elements: [createText(file.base)]
+          elements: [
+            createText(file.base),
+            createElement('span', {
+              className: 'file-position',
+              elements: [ createText(`${frame.lineNumber}${ frame.columnNumber > 0 ? ':' + frame.columnNumber : '' }`) ]
+            })
+          ]
         })
       ]
     });
