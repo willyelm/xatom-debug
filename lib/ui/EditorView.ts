@@ -165,7 +165,7 @@ export class EditorView {
   createInspectorForElement (element: HTMLElement, result: any, load?: boolean) {
     // value
     if (!load) {
-      console.log('result', result);
+      // console.log('result', result);
       let value = result.value;
       let valueClass = 'syntax--other';
       if (value === null) {
