@@ -122,7 +122,10 @@ export class DebugView {
     // Debug
     createFrameLine(frame, indicate) {
         let file = parse(frame.filePath);
-        let indicator = createIcon(indicate ? 'indicate' : '');
+        let indicator = createIcon(indicate ? 'arrow-right-solid' : '');
+        if (indicate) {
+            indicator.classList.add('active');
+        }
         return createElement('atom-bugs-group-item', {
             options: {
                 click: () => {

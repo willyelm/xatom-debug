@@ -4,19 +4,20 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
-import { createIcon, createText, createElement, insertElement } from '../element/index';
+import { createText, createElement, insertElement } from '../element/index';
 import { EventEmitter } from 'events';
 export class EditorView {
     constructor(breakpointManager) {
         this.breakpointManager = breakpointManager;
+        this.activateExpressionListerner = true;
         this.events = new EventEmitter();
         this.breakpointHandler = this.breakpointListener.bind(this);
         this.expressionHandler = this.expressionListener.bind(this);
     }
     destroy() {
-        this.currentBreakMarker = null;
-        this.currentExpressionMarker = null;
-        this.currentEvaluationMarker = null;
+        this.currentBreakMarker = undefined;
+        this.currentExpressionMarker = undefined;
+        this.currentEvaluationMarker = undefined;
         this.removeMarkers();
     }
     didEvaluateExpression(cb) {
@@ -120,40 +121,90 @@ export class EditorView {
         return [startWord, endWord];
     }
     expressionListener(e) {
-        let sourceFile = this.currentEditor.getPath();
-        let bufferPosition = this.getPositionFromEvent(e);
-        let scanRange = this.getWordRangeFromPosition(bufferPosition);
-        let expression = this.currentEditor.getTextInBufferRange(scanRange);
-        clearTimeout(this.evaluateHandler);
-        this.evaluateHandler = setTimeout(() => {
-            if (expression && String(expression).trim().length > 0) {
-                this.events.emit('evaluateExpression', expression, scanRange);
-            }
-        }, 250);
+        if (this.activateExpressionListerner) {
+            let sourceFile = this.currentEditor.getPath();
+            let bufferPosition = this.getPositionFromEvent(e);
+            let scanRange = this.getWordRangeFromPosition(bufferPosition);
+            let expression = this.currentEditor.getTextInBufferRange(scanRange);
+            clearTimeout(this.evaluateHandler);
+            this.evaluateHandler = setTimeout(() => {
+                if (expression && String(expression).trim().length > 0) {
+                    this.events.emit('evaluateExpression', expression, scanRange);
+                }
+            }, 500);
+        }
     }
     createInspectorForElement(element, result, load) {
         // value
-        if (result.value) {
-            console.log('value', result);
-            insertElement(element, [createText(result.value)]);
+        if (!load) {
+            console.log('result', result);
+            let value = result.value;
+            let valueClass = 'syntax--other';
+            if (value === null) {
+                value = 'null';
+            }
+            if (value === undefined) {
+                value = 'undefined';
+            }
+            switch (result.type) {
+                case 'string':
+                    value = `"${value}"`;
+                    valueClass = 'syntax--string';
+                    break;
+                case 'number':
+                    value = result.value;
+                    valueClass = 'syntax--constant syntax--numeric';
+                    break;
+                case 'object':
+                    value = result.description || result.className || value;
+                    if (result.subtype) {
+                        valueClass = 'syntax--other';
+                    }
+                    else {
+                        valueClass = 'syntax--support syntax--class';
+                    }
+                    break;
+                case 'function':
+                    value = 'function'; //result.className;
+                    valueClass = 'syntax--keyword';
+                    // valueClass = 'syntax--entity syntax--name syntax--function';
+                    break;
+            }
+            insertElement(element, [
+                createElement('span', {
+                    className: valueClass,
+                    elements: [createText(value)]
+                })
+            ]);
         }
         // object
         if (result.objectId) {
             let loadProperties = () => {
                 this.events.emit('requestProperties', result, {
                     insertFromDescription: (descriptions) => {
+                        let propertiesElement = createElement('section', {
+                            className: 'property-properties'
+                        });
+                        insertElement(element, [propertiesElement]);
                         descriptions.forEach((desc) => {
                             if (desc.value) {
                                 let valueElement = createElement('span', {
                                     className: 'property-value'
                                 });
-                                let itemElement = insertElement(element, [
+                                let propertyClass = 'property-name';
+                                if (desc.enumerable === false) {
+                                    propertyClass += ' syntax--comment';
+                                }
+                                else {
+                                    propertyClass += ' syntax--variable';
+                                }
+                                insertElement(propertiesElement, [
                                     createElement('atom-bugs-inspector-item', {
                                         elements: [
-                                            createIcon(''),
+                                            createElement('i', { className: 'bugs-icon' }),
                                             createElement('span', {
-                                                className: 'property-name',
-                                                elements: [createText(desc.name)]
+                                                className: propertyClass,
+                                                elements: [createText(`${desc.name}:`)]
                                             }),
                                             valueElement
                                         ]
@@ -169,13 +220,31 @@ export class EditorView {
                 loadProperties();
             }
             else {
-                // get parent
-                let icon = element.parentElement.querySelector('.bugs-icon');
+                let item = element.parentElement;
+                let request = true;
+                let icon = item.querySelector('.bugs-icon');
                 if (icon) {
-                    icon.classList.add('bugs-icon-indicate');
-                    icon.addEventListener('click', () => {
-                        // toggle
-                        loadProperties();
+                    icon.classList.add('bugs-icon-arrow-right');
+                    icon.addEventListener('click', (e) => {
+                        let properties = item.querySelector('.property-properties');
+                        if (icon.classList.contains('bugs-icon-arrow-right')) {
+                            icon.classList.add('active');
+                            icon.classList.remove('bugs-icon-arrow-right');
+                            icon.classList.add('bugs-icon-arrow-down');
+                            if (request) {
+                                loadProperties();
+                            }
+                            else {
+                                properties.style.display = null;
+                            }
+                            request = false;
+                        }
+                        else {
+                            icon.classList.remove('active');
+                            icon.classList.remove('bugs-icon-arrow-down');
+                            icon.classList.add('bugs-icon-arrow-right');
+                            properties.style.display = 'none';
+                        }
                     });
                 }
             }
@@ -186,7 +255,7 @@ export class EditorView {
             className: 'native-key-bindings'
         });
         let inspectorElement = createElement('atom-bugs-inspector');
-        element.setAttribute('tabindex', '-1');
+        element.setAttribute('tabindex', '0');
         inspectorElement.addEventListener('mousewheel', (e) => {
             e.stopPropagation();
             e.stopImmediatePropagation();
@@ -217,17 +286,33 @@ export class EditorView {
             item: element
         });
         setTimeout(() => {
-            element.parentElement.addEventListener('mousemove', (e) => {
-                e.stopPropagation();
-            });
-            // element.parentElement.addEventListener('mouseout', () => {
+            // element.focus();
+            // element.addEventListener('blur', () => {
             //   this.removeEvaluationMarker();
-            // });
-        }, 100);
+            // })
+            element.addEventListener('mouseenter', () => {
+                this.activateExpressionListerner = false;
+                element.addEventListener('mouseleave', () => {
+                    this.activateExpressionListerner = true;
+                    // this.removeEvaluationMarker();
+                });
+            });
+        }, 0);
+        // wait to attach element
+        // setTimeout(() => {
+        //   // let overlay = element.parentElement;
+        //   // overlay.addEventListener('mouseenter', () => {
+        //   //   clearTimeout(this.evaluateHandler);
+        //   //   overlay.addEventListener('mouseout', () => {
+        //   //     this.removeEvaluationMarker();
+        //   //   });
+        //   // });
+        // }, 100);
     }
     removeEvaluationMarker() {
         if (this.currentEvaluationMarker) {
             this.currentEvaluationMarker.destroy();
+            this.currentEvaluationMarker = undefined;
         }
     }
 }

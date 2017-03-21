@@ -8,6 +8,7 @@
 export function createIcon (name: string) {
   let icon = document.createElement('i');
   icon.className = `bugs-icon bugs-icon-${name}`;
+  icon.innerHTML = '&nbsp;'
   return icon;
 }
 

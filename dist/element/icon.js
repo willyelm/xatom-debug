@@ -7,6 +7,7 @@
 export function createIcon(name) {
     let icon = document.createElement('i');
     icon.className = `bugs-icon bugs-icon-${name}`;
+    icon.innerHTML = '&nbsp;';
     return icon;
 }
 export function createIconFromPath(path) {

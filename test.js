@@ -1,6 +1,8 @@
 var person = {
   firstName: 'Williams',
-  lastName: 'Medina'
+  lastName: 'Medina',
+  age: 28,
+  dateOfBirth: new Date()
 }
 
 function Greet (m) {
@@ -10,11 +12,11 @@ function Greet (m) {
 function Bye (m) {
   console.log(m);
 }
-//
+
 // for (i = 0; i < cars.length; i++) {
 //   console.log('hello', i);
 // }
-//
+
 setTimeout(function () {
   console.log('yep');
 }, 10000);

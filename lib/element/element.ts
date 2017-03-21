@@ -6,7 +6,7 @@
  */
 
 export function createText (text: string) {
-  return document.createTextNode(` ${text} `);
+  return document.createTextNode(`${text}`);
 }
 
 export function insertElement (target: HTMLElement, elements) {

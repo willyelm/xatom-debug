@@ -5,7 +5,7 @@
  * MIT Licensed
  */
 export function createText(text) {
-    return document.createTextNode(` ${text} `);
+    return document.createTextNode(`${text}`);
 }
 export function insertElement(target, elements) {
     if (!Array.isArray(elements)) {

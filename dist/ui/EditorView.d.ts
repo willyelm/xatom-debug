@@ -5,6 +5,7 @@ export declare class EditorView {
     private currentBreakMarker;
     private currentExpressionMarker;
     private currentEvaluationMarker;
+    private activateExpressionListerner;
     private breakpointHandler;
     private expressionHandler;
     private evaluateHandler;

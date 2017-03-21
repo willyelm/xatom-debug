@@ -46,22 +46,33 @@
   }
   &.bugs-icon-step-over {
     -webkit-mask-image: url('atom://atom-bugs/icons/step-over.svg');
-    background-color: fadeout(@text-color, 20%)
+    background-color: fadeout(@text-color, 20%);
   }
   &.bugs-icon-step-into {
     -webkit-mask-image: url('atom://atom-bugs/icons/step-into.svg');
-    background-color: fadeout(@text-color, 20%)
+    background-color: fadeout(@text-color, 20%);
   }
   &.bugs-icon-step-out {
     -webkit-mask-image: url('atom://atom-bugs/icons/step-out.svg');
-    background-color: fadeout(@text-color, 20%)
+    background-color: fadeout(@text-color, 20%);
   }
-  &.bugs-icon-indicate {
-    -webkit-mask-image: url('atom://atom-bugs/icons/indicate.svg');
-    background-color: hsl(hue(@syntax-background-color), 100%, 60%);
+  &.bugs-icon-arrow-right-solid {
+    -webkit-mask-image: url('atom://atom-bugs/icons/arrow-right-solid.svg');
+    background-color: fadeout(@text-color, 20%);
+  }
+  &.bugs-icon-arrow-right {
+    -webkit-mask-image: url('atom://atom-bugs/icons/arrow-right.svg');
+    background-color: fadeout(@text-color, 20%);
+  }
+  &.bugs-icon-arrow-down {
+    -webkit-mask-image: url('atom://atom-bugs/icons/arrow-down.svg');
+    background-color: fadeout(@text-color, 20%);
   }
   &.bugs-icon-atom {
     -webkit-mask-image: url('atom://atom-bugs/icons/atom.svg');
     background-color: @text-color;
+  }
+  &.active {
+    background-color: hsl(hue(@syntax-background-color), 100%, 60%);
   }
 }
