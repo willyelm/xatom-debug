@@ -30,7 +30,6 @@ export class SchemeView {
   constructor (options: SchemeOptions) {
     this.events = new EventEmitter();
     this.element = document.createElement('atom-bugs-scheme')
-
     insertElement(this.element, [
       createElement('atom-bugs-scheme-content', {
         elements: [
@@ -46,12 +45,10 @@ export class SchemeView {
         ]
       })
     ])
-
     this.panel = atom.workspace.addModalPanel({
       item: this.element,
       visible: false
     })
-
     attachEventFromObject(this.events, [
       'didSelectPlugin',
       'didChange'

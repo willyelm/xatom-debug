@@ -5,7 +5,7 @@ export declare class ConsoleView {
     private events;
     constructor(options?: ConsoleOptions);
     clearConsole(): void;
-    createConsoleLine(entry: string, elements?: any): HTMLElement;
+    createConsoleLine(entry: string, options?: any): HTMLElement;
     getElement(): HTMLElement;
     destroy(): void;
 }

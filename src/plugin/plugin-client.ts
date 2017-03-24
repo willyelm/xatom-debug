@@ -13,6 +13,11 @@ export class PluginClientConsole {
   log (message: string): void {
     this.consoleView.createConsoleLine(message);
   }
+  info (message: string): void {
+    this.consoleView.createConsoleLine(message, {
+      className: 'line-info'
+    });
+  }
   clear (): void {
     this.consoleView.clearConsole();
   }

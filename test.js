@@ -2,6 +2,8 @@ function Person (name) {
   this.name = name;
 }
 
+throw new Error('fail')
+
 Person.prototype.greet = function () {
   console.log(this.name);
 }

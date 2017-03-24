@@ -5,6 +5,7 @@ export declare class PluginClientConsole {
     private consoleView;
     constructor(consoleView: ConsoleView);
     log(message: string): void;
+    info(message: string): void;
     clear(): void;
 }
 export interface ClientOptions {

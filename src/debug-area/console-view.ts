@@ -32,19 +32,17 @@ export class ConsoleView {
 
     this.events = new EventEmitter()
     this.element = createElement('atom-bugs-console')
+    this.element.setAttribute('tabindex', '-1');
   }
 
   clearConsole () {
     this.element.innerHTML = ''
   }
 
-  createConsoleLine (entry: string, elements?) {
-    let line = createElement('atom-bugs-console-line')
+  createConsoleLine (entry: string, options?) {
+    let line = createElement('atom-bugs-console-line', options)
     if (entry && entry.length > 0) {
       line.innerHTML = entry
-    }
-    if (elements) {
-      insertElement(line, elements)
     }
     setTimeout (() => {
       this.element.scrollTop = this.element.scrollHeight
