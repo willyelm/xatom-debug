@@ -94,7 +94,7 @@ export class ToolbarView {
       ]),
       createButton({
         click: () => {
-          this.events.emit('openEditor');
+          this.events.emit('didOpenSchemeEditor');
         }
       }, [
         this.scheme.icon,
