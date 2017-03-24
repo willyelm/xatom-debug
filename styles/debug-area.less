@@ -61,8 +61,8 @@ atom-bugs-area {
   atom-bugs-group-content {
     background-color: lighten(@input-background-color, 5%);
     min-height: 50px;
-    max-height: 170px;
     margin-top: 1px;
+    margin-bottom: 1px;
     // font-size: 90%;
     overflow: auto;
     .file-reference {
@@ -105,7 +105,9 @@ atom-bugs-area {
     &:before,
     &:after {
       display: table;
-      content: "";
+      content: " ";
+    }
+    &:after {
       clear: both;
     }
   }
@@ -124,5 +126,18 @@ atom-bugs-area {
       width: 22px!important;
       height: 14px;
     }
+  }
+}
+
+atom-bugs-resize {
+  &.resize-left {
+    position: absolute;
+    top: 0;
+    height: 0;
+    bottom: 0;
+    height: 100%;
+    width: 3px;
+    z-index: 1000;
+    cursor: col-resize;
   }
 }

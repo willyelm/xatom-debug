@@ -21,10 +21,13 @@ export declare class DebugAreaView {
     private callStackContentElement;
     private scopeContentElement;
     private breakpointContentElement;
+    private resizeElement;
     private pauseButton;
     private resumeButton;
     private events;
     constructor(options?: DebugAreaOptions);
+    adjustDebugArea(): void;
+    resizeDebugArea(): void;
     togglePause(status: boolean): void;
     createFrameLine(frame: CallStackFrame, indicate: boolean): any;
     getBreakpointId(filePath: string, lineNumber: number): string;

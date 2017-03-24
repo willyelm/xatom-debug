@@ -54,6 +54,10 @@ export class EditorManager {
       'didRemoveBreakpoint',
       'didBreak'
     ], options);
+    this.createSavedBreakpoints();
+  }
+
+  createSavedBreakpoints () {
     this
       .breakpointManager
       .getSavedBreakpoints()

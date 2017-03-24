@@ -2,7 +2,7 @@
   "name": "atom-bugs",
   "version": "1.0.0",
   "author": "Williams Medina <williams.medinaa@gmail.com>",
-  "description": "A Simple Javascript Debugger for Atom",
+  "description": "A Simple Debugger for Atom",
   "keywords": [
     "javascript",
     "debugger",
@@ -30,7 +30,7 @@
   "providedServices": {
     "atom-bugs": {
       "versions": {
-        "1.0.0": "provideBugsService"
+        "1.0.0": "provideService"
       }
     }
   },

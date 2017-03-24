@@ -54,7 +54,7 @@ export default {
     this.subscriptions.add(commands);
   },
 
-  provideBugsService () {
+  provideService () {
     return this.bugs.pluginManager;
   },
 

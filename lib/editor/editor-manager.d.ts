@@ -19,6 +19,7 @@ export declare class EditorManager {
     private pluginManager;
     private events;
     constructor(options: EditorOptions);
+    createSavedBreakpoints(): void;
     getBreakpoints(): Breakpoints;
     destroy(): void;
     breakOnFile(filePath: string, lineNumber: number): void;
