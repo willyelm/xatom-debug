@@ -77,9 +77,6 @@ export class ToolbarView {
     },[
       createIcon('stop')
     ]);
-    this.subscriptions.add(atom['tooltips'].add(this.stopButton, {
-      title: 'Stop'
-    }));
 
     insertElement(this.element, createIcon('logo'))
     insertElement(this.element, this.runButton)
