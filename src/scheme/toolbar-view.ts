@@ -7,6 +7,7 @@
 
 import { parse } from 'path';
 import { EventEmitter }  from 'events';
+const { CompositeDisposable } = require('atom');
 import {
   createGroupButtons,
   createButton,
@@ -42,6 +43,7 @@ export class ToolbarView {
   };
   private selectPath: HTMLElement;
   private events: EventEmitter;
+  private subscriptions:any = new CompositeDisposable();
 
   constructor (options: ToolbarOptions) {
 
@@ -75,6 +77,9 @@ export class ToolbarView {
     },[
       createIcon('stop')
     ]);
+    this.subscriptions.add(atom['tooltips'].add(this.stopButton, {
+      title: 'Stop'
+    }));
 
     insertElement(this.element, createIcon('logo'))
     insertElement(this.element, this.runButton)
@@ -146,5 +151,6 @@ export class ToolbarView {
 
   public destroy () {
     this.element.remove();
+    this.subscriptions.dispose();
   }
 }

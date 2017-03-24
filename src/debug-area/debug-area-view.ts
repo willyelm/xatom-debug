@@ -17,6 +17,7 @@ import {
 } from '../element/index'
 import { InspectorView } from '../inspector/index'
 import { EventEmitter }  from 'events'
+const { CompositeDisposable } = require('atom')
 import { parse } from 'path'
 
 export interface CallStackFrame {
@@ -50,6 +51,7 @@ export class DebugAreaView {
   private pauseButton: HTMLElement
   private resumeButton: HTMLElement
   private events: EventEmitter
+  private subscriptions:any = new CompositeDisposable();
 
   constructor (options?: DebugAreaOptions) {
 
@@ -90,16 +92,28 @@ export class DebugAreaView {
           this.pauseButton,
           this.resumeButton,
           createButton({
+            tooltip: {
+              subscriptions: this.subscriptions,
+              title: 'Step Over'
+            },
             click: () => {
               this.events.emit('didStepOver')
             }
           }, [createIcon('step-over')]),
           createButton({
+            tooltip: {
+              subscriptions: this.subscriptions,
+              title: 'Step Into'
+            },
             click: () => {
               this.events.emit('didStepInto')
             }
           }, [createIcon('step-into')]),
           createButton({
+            tooltip: {
+              subscriptions: this.subscriptions,
+              title: 'Step Out'
+            },
             click: () => {
               this.events.emit('didStepOut')
             }
@@ -293,6 +307,7 @@ export class DebugAreaView {
   // Destroy all
   destroy () {
     this.element.remove()
+    this.subscriptions.dispose()
     window.removeEventListener('resize', () => this.adjustDebugArea())
   }
 }

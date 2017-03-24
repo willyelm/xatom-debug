@@ -24,6 +24,7 @@ export declare class DebugAreaView {
     private pauseButton;
     private resumeButton;
     private events;
+    private subscriptions;
     constructor(options?: DebugAreaOptions);
     adjustDebugArea(): void;
     resizeDebugArea(): void;

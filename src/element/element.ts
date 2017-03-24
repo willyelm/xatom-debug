@@ -27,6 +27,11 @@ export function createElement (tagName, options?) {
     if (options.id) {
       element.setAttribute('id', options.id);
     }
+    if (extras.tooltip) {
+      extras.tooltip['subscriptions'].add(atom['tooltips'].add(element, {
+        title: extras.tooltip.title || ''
+      }));
+    }
     if (extras.className) {
       element.classList.add(extras.className)
     }

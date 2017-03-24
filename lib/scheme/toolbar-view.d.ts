@@ -13,6 +13,7 @@ export declare class ToolbarView {
     private schemePath;
     private selectPath;
     private events;
+    private subscriptions;
     constructor(options: ToolbarOptions);
     private setPathName(pathName);
     toggleRun(status: boolean): void;
