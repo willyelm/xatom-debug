@@ -6,11 +6,42 @@
 
 @import "ui-variables";
 
-atom-bugs-scheme-editor {
+atom-bugs-scheme {
   display: block;
-}
-
-atom-bugs-scheme-buttons {
-  display: block;
-  text-align: right;
+  margin: -10px;
+  atom-bugs-scheme-content {
+    display: block;
+    margin: 7px 10px;
+    &:before,
+    &:after {
+      display: table;
+      content: " ";
+    }
+    &:after {
+      clear: both;
+    }
+    atom-bugs-scheme-list,
+    atom-bugs-scheme-editor {
+      float: left;
+      min-height: 320px;
+      border: 1px solid @base-border-color;
+    }
+    atom-bugs-scheme-list {
+      width: 30%;
+    }
+    atom-bugs-scheme-editor {
+      width: 70%;
+      margin-left: -1px;
+    }
+  }
+  atom-bugs-scheme-buttons {
+    display: block;
+    text-align: right;
+    padding: 7px 10px;
+    padding-top: 0;
+    .btn {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
 }

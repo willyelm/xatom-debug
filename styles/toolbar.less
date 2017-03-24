@@ -6,6 +6,23 @@
 
 @import "ui-variables";
 
+// .panel-header {
+//   .title-bar {
+//     display: none;
+//   }
+// }
+
+.platform-darwin {
+  .atom-bugs-toolbar-title{
+    padding-left: 75px;
+  }
+  &.fullscreen {
+    .atom-bugs-toolbar-title{
+      padding-left: 5px;
+    }
+  }
+}
+
 atom-bugs-toolbar,
 atom-bugs-area {
   .btn {
@@ -33,7 +50,7 @@ atom-bugs-area {
 // Toolbar
 atom-bugs-toolbar {
   display: block;
-  padding: 4px 10px;
+  padding: 3px 10px;
   .bugs-icon-logo {
     margin-right: 5px;
   }
@@ -60,6 +77,11 @@ atom-bugs-toolbar {
       border: 0;
       opacity: 0;
       z-index: 1;
+    }
+    .bugs-icon-arrow-down {
+      opacity: .7;
+      height: 8px!important;
+      width: 14px!important;
     }
     & + .btn {
       z-index: 0!important;

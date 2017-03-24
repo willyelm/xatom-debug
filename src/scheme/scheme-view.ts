@@ -29,19 +29,20 @@ export class SchemeView {
   private panel: any
   constructor (options: SchemeOptions) {
     this.events = new EventEmitter();
-    this.element = document.createElement('atom-bugs-scheme-editor')
-    this.element.innerHTML = '<h1> Hello World </h1>'
+    this.element = document.createElement('atom-bugs-scheme')
 
     insertElement(this.element, [
+      createElement('atom-bugs-scheme-content', {
+        elements: [
+          createElement('atom-bugs-scheme-list'),
+          createElement('atom-bugs-scheme-editor')
+        ]
+      }),
       createElement('atom-bugs-scheme-buttons', {
         elements: [
           createButton({
-            click: () => {
-              this.close()
-            }
-          }, [
-            createText('Close')
-          ])
+            click: () => this.close()
+          }, [createText('Close')])
         ]
       })
     ])

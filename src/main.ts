@@ -26,7 +26,7 @@ export default {
     // observe path changes
     atom.project.onDidChangePaths((projects) => this.bugs.toolbarView.setPaths(projects))
     // Toolbar Panel
-    this.toolbarPanel = atom.workspace.addTopPanel({
+    this.toolbarPanel = atom.workspace['addTopPanel']({
       item: this.bugs.getToolbarElement()
     });
     // Console Panel
