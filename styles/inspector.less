@@ -1,0 +1,33 @@
+@import "ui-variables";
+
+atom-bugs-inspector {
+  display: block;
+  atom-bugs-inspector-item {
+    display: block;
+    white-space: nowrap;
+    // padding: 2px 5px;
+    // margin: -2px -5px;
+    // border-bottom: 1px solid @overlay-border-color;
+    & atom-bugs-inspector-item {
+      padding-left: 15px;
+    }
+    .bugs-icon {
+      width: 16px;
+      height: 9px;
+      cursor: default;
+    }
+  }
+  .property-name {
+
+  }
+  .property-muted {
+    opacity: .65;
+  }
+  .property-value {
+    margin-left: 5px;
+  }
+  .properties {
+    display: block;
+    margin: 0;
+  }
+}
