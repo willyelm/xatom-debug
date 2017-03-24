@@ -1,4 +1,4 @@
-import { ToolbarView, SchemeEditorView } from './scheme/index';
+import { ToolbarView, SchemeView } from './scheme/index';
 import { DebugAreaView, ConsoleView } from './debug-area/index';
 import { PluginManager } from './plugin/index';
 import { EditorManager } from './editor/index';
@@ -7,8 +7,7 @@ export declare class Bugs {
     storage: Storage;
     pluginManager: PluginManager;
     editorManager: EditorManager;
-    schemeEditorView: SchemeEditorView;
-    schemeEditorPanel: any;
+    schemeView: SchemeView;
     toolbarView: ToolbarView;
     debugView: DebugAreaView;
     consoleView: ConsoleView;

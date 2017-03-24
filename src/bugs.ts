@@ -5,7 +5,7 @@
  * MIT Licensed
  */
 
-import { ToolbarView, SchemeEditorView } from './scheme/index'
+import { ToolbarView, SchemeView } from './scheme/index'
 import { DebugAreaView, ConsoleView } from './debug-area/index'
 import { PluginManager, PluginClient } from './plugin/index'
 import { EditorManager } from './editor/index'
@@ -16,8 +16,7 @@ export class Bugs {
   public storage: Storage = new Storage()
   public pluginManager: PluginManager = new PluginManager()
   public editorManager: EditorManager
-  public schemeEditorView: SchemeEditorView
-  public schemeEditorPanel: any
+  public schemeView: SchemeView
   public toolbarView: ToolbarView
   public debugView: DebugAreaView
   public consoleView: ConsoleView
@@ -44,11 +43,14 @@ export class Bugs {
       }
     })
     // Scheme Editor
-    this.schemeEditorView = new SchemeEditorView()
-    this.schemeEditorPanel = atom.workspace.addRightPanel({
-      item: this.schemeEditorView.getElement(),
-      visible: false
-    });
+    this.schemeView = new SchemeView({
+      didSelectPlugin: () => {
+
+      },
+      didChange: () => {
+
+      }
+    })
     // Create toolbar
     this.toolbarView = new ToolbarView({
       didRun: () => {
@@ -61,8 +63,8 @@ export class Bugs {
       didStop: () => {
         this.pluginManager.stop()
       },
-      didOpenSchemeEditor: () => {
-        console.log(this.schemeEditorPanel)
+      didOpenScheme: async () => {
+        this.schemeView.open()
       },
       didChangePath: async (pathName) => {
         this.storage.setPath(pathName)
@@ -112,6 +114,7 @@ export class Bugs {
       // Activate Selected Plugin
       if (!this.pluginManager.activePlugin) {
         this.pluginManager.activatePlugin(plugin)
+        this.schemeView.addPlugin(plugin)
         this.toolbarView.setScheme(plugin)
       }
     })
@@ -132,8 +135,7 @@ export class Bugs {
     this.toolbarView.destroy()
     this.debugView.destroy()
     this.consoleView.destroy()
-    this.schemeEditorView.destroy()
-    this.schemeEditorPanel.destroy()
+    this.schemeView.destroy()
   }
 
 }

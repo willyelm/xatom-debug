@@ -6,5 +6,5 @@
  */
 
 export * from './toolbar-view'
-export * from './scheme-editor-view'
+export * from './scheme-view'
 // export * from './storage'

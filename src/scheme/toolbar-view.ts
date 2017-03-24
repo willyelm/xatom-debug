@@ -22,7 +22,7 @@ import {
 } from '../element/index';
 
 export interface ToolbarOptions {
-  didOpenSchemeEditor?: Function,
+  didOpenScheme?: Function,
   didRun?: Function,
   didChangePath?: Function,
   didStop?: Function
@@ -94,7 +94,7 @@ export class ToolbarView {
       ]),
       createButton({
         click: () => {
-          this.events.emit('didOpenSchemeEditor');
+          this.events.emit('didOpenScheme');
         }
       }, [
         this.scheme.icon,
@@ -106,7 +106,7 @@ export class ToolbarView {
       'didRun',
       'didStop',
       'didChangePath',
-      'didOpenSchemeEditor'
+      'didOpenScheme'
     ], options);
   }
 

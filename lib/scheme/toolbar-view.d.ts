@@ -1,5 +1,5 @@
 export interface ToolbarOptions {
-    didOpenSchemeEditor?: Function;
+    didOpenScheme?: Function;
     didRun?: Function;
     didChangePath?: Function;
     didStop?: Function;
