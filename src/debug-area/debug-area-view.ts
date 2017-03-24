@@ -197,7 +197,7 @@ export class DebugAreaView {
     insertElement(this.breakpointContentElement, createElement('atom-bugs-group-item', {
       id: this.getBreakpointId(filePath, lineNumber),
       elements: [
-        createIcon('arrow-right-solid'),
+        createIcon('break'),
         createElement('span', {
           className: 'file-reference',
           elements: [

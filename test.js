@@ -2,11 +2,12 @@ function Person (name) {
   this.name = name;
 }
 
-Person.prototype.getName = function () {
+Person.prototype.greet = function () {
   console.log(this.name);
 }
 
-var test = new Person('Robot');
+var personObject = new Person('Robot');
+personObject.greet();
 
 var person = {
   firstName: 'Williams',
@@ -17,16 +18,7 @@ var person = {
 }
 
 function Greet (m) {
-  console.log(m);
+  console.log(m.firstName);
 }
-// for (i = 0; i < cars.length; i++) {
-//   console.log('hello', i);
-// }
 
-setTimeout(function () {
-  console.log('yep');
-}, 10000);
-
-test.getName();
-
-Greet('Hello World');
+Greet(person);

@@ -54,9 +54,22 @@ export class EditorManager {
       'didRemoveBreakpoint',
       'didBreak'
     ], options);
+    this
+      .breakpointManager
+      .getSavedBreakpoints()
+      .then((breakpoints) => {
+        breakpoints.forEach(({filePath, lineNumber}) => {
+          let marker
+          if (this.currentEditor && filePath === this.currentEditor.getPath()) {
+            marker = this.createBreakpointMarker(lineNumber);
+          }
+          this.breakpointManager.addBreakpoint(undefined, lineNumber, filePath);
+          this.events.emit('didAddBreakpoint', filePath, lineNumber);
+        })
+      })
   }
 
-  public getBreakpoints (): Breakpoints {
+  getBreakpoints (): Breakpoints {
     return this.breakpointManager.getBreakpoints();
   }
 
@@ -103,7 +116,7 @@ export class EditorManager {
     }
   }
 
-  addFeatures (editor) {
+  async addFeatures (editor) {
     // Observe active editor
     if (this.currentEditor && this.currentEditor.editorElement) {
       // remove breakpoint handler
@@ -115,7 +128,7 @@ export class EditorManager {
       this.currentEditor = editor;
       // restore breakpoints
       let sourceFile = editor.getPath();
-      let breakpoints = this.breakpointManager.getBreakpointsFromFile(sourceFile);
+      let breakpoints = await this.breakpointManager.getBreakpointsFromFile(sourceFile);
       breakpoints.forEach((breakpoint: Breakpoint) => {
         if (breakpoint.marker) {
           breakpoint.marker.destroy();

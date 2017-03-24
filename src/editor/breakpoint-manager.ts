@@ -6,6 +6,7 @@
  */
 
 import { EventEmitter }  from 'events';
+import { Storage }  from '../scheme/storage';
 
 export interface Breakpoint {
   lineNumber: number,
@@ -18,11 +19,12 @@ export type Breakpoints = Array<Breakpoint>;
 export class BreakpointManager {
 
   private breakpoints: Breakpoints = [];
+  private storage: Storage = new Storage('breakpoints.json');
 
   constructor () {}
 
   public getBreakpoints (): Breakpoints {
-    return this.breakpoints;
+    return this.breakpoints
   }
 
   getBreakpoint (filePath: String, lineNumber: Number): Breakpoint {
@@ -45,6 +47,7 @@ export class BreakpointManager {
         // this.events.emit('removeBreakpoint', breakpoint.filePath, breakpoint.lineNumber);
         breakpoint.marker.destroy();
       	this.breakpoints.splice(index, 1);
+        this.saveBreakpoints();
         return resolve(true);
       }
       return reject('breakpoint does not exists');
@@ -60,10 +63,25 @@ export class BreakpointManager {
       } as Breakpoint
       let index = this.breakpoints.push(breakpoint);
       if (index > -1) {
+        this.saveBreakpoints();
         resolve(breakpoint);
       } else {
         reject('unable to add breakpoint');
       }
     })
+  }
+
+  getSavedBreakpoints (): Promise<Breakpoints> {
+    return this.storage.read();
+  }
+
+  saveBreakpoints () {
+    let format = this.breakpoints.map((b) => {
+      return {
+        filePath: b.filePath,
+        lineNumber: b.lineNumber
+      }
+    })
+    return this.storage.saveFromObject(format);
   }
 }

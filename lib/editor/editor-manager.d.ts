@@ -26,7 +26,7 @@ export declare class EditorManager {
     removeMarkers(): void;
     removeBreakMarker(): void;
     removeExpressionMarker(): void;
-    addFeatures(editor: any): void;
+    addFeatures(editor: any): Promise<void>;
     private breakpointListener(e);
     private createBreakpointMarker(lineNumber);
     private getPositionFromEvent(e);
