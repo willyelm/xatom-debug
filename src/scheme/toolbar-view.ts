@@ -68,8 +68,7 @@ export class ToolbarView {
         this.events.emit('didRun');
       }
     },[
-      createIcon('run'),
-      createText('Run')
+      createIcon('run')
     ]);
     this.stopButton = createButton({
       disabled: true,

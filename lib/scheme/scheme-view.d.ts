@@ -5,6 +5,8 @@ export interface SchemeOptions {
 }
 export declare class SchemeView {
     private element;
+    private listElement;
+    private editorElement;
     private events;
     private panel;
     constructor(options: SchemeOptions);

@@ -16,7 +16,7 @@ import {
   attachEventFromObject
 } from '../element/index'
 import { Plugin } from '../plugin/index'
-import { EventEmitter }  from 'events';
+import { EventEmitter }  from 'events'
 
 export interface SchemeOptions {
   didSelectPlugin?: Function,
@@ -25,17 +25,18 @@ export interface SchemeOptions {
 
 export class SchemeView {
   private element: HTMLElement
-  private events: EventEmitter;
+  private listElement: HTMLElement
+  private editorElement: HTMLElement
+  private events: EventEmitter
   private panel: any
   constructor (options: SchemeOptions) {
-    this.events = new EventEmitter();
+    this.events = new EventEmitter()
     this.element = document.createElement('atom-bugs-scheme')
+    this.listElement = createElement('atom-bugs-scheme-list')
+    this.editorElement = createElement('atom-bugs-scheme-editor')
     insertElement(this.element, [
       createElement('atom-bugs-scheme-content', {
-        elements: [
-          createElement('atom-bugs-scheme-list'),
-          createElement('atom-bugs-scheme-editor')
-        ]
+        elements: [ this.listElement, this.editorElement ]
       }),
       createElement('atom-bugs-scheme-buttons', {
         elements: [
@@ -52,7 +53,7 @@ export class SchemeView {
     attachEventFromObject(this.events, [
       'didSelectPlugin',
       'didChange'
-    ], options);
+    ], options)
   }
   open () {
     this.panel.show()
@@ -61,7 +62,7 @@ export class SchemeView {
     this.panel.hide()
   }
   addPlugin (plugin: Plugin) {
-
+    console.log('add plugin', plugin)
   }
   getElement () {
     return this.element
