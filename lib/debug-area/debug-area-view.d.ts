@@ -24,6 +24,7 @@ export declare class DebugAreaView {
     private pauseButton;
     private resumeButton;
     private events;
+    private projectPath;
     private subscriptions;
     constructor(options?: DebugAreaOptions);
     adjustDebugArea(): void;
@@ -31,6 +32,7 @@ export declare class DebugAreaView {
     togglePause(status: boolean): void;
     createFrameLine(frame: CallStackFrame, indicate: boolean): any;
     getBreakpointId(filePath: string, lineNumber: number): string;
+    setWorkspace(projectPath: any): void;
     createBreakpointLine(filePath: string, lineNumber: number): void;
     removeBreakpointLine(filePath: string, lineNumber: number): void;
     clearBreakpoints(): void;

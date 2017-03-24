@@ -51,6 +51,7 @@ export class DebugAreaView {
   private pauseButton: HTMLElement
   private resumeButton: HTMLElement
   private events: EventEmitter
+  private projectPath: string;
   private subscriptions:any = new CompositeDisposable();
 
   constructor (options?: DebugAreaOptions) {
@@ -241,8 +242,16 @@ export class DebugAreaView {
     return `breakpoint-${token}`
   }
 
+  setWorkspace (projectPath) {
+    this.projectPath = projectPath;
+  }
+
   createBreakpointLine (filePath: string, lineNumber: number) {
-    let file = parse(filePath)
+    // let file = parse(filePath)
+    let shortName = filePath;
+    if (this.projectPath) {
+      shortName = filePath.replace(this.projectPath, '');
+    }
     insertElement(this.breakpointContentElement, createElement('atom-bugs-group-item', {
       id: this.getBreakpointId(filePath, lineNumber),
       options: {
@@ -253,13 +262,13 @@ export class DebugAreaView {
       elements: [
         createIcon('break'),
         createElement('span', {
-          className: 'file-reference',
+          // className: 'file-reference',
           elements: [
-            createText(file.base),
             createElement('span', {
               className: 'file-position',
               elements: [ createText(String(lineNumber)) ]
-            })
+            }),
+            createText(shortName)
           ]
         })
       ]

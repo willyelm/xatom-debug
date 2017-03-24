@@ -84,8 +84,13 @@ atom-bugs-area {
         content: 'Not Paused';
       }
     }
-    &.breakpoint:empty:after {
-      content: 'No Breakpoints';
+    &.breakpoint {
+      .file-position {
+        margin-right: 5px;
+      }
+      &:empty:after {
+        content: 'No Breakpoints';
+      }
     }
     atom-bugs-inspector {
       margin: 5px 0;

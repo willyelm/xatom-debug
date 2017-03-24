@@ -58,6 +58,7 @@ export class Bugs {
       },
       didChangePath: async (pathName) => {
         this.storage.setPath(pathName)
+        this.debugView.setWorkspace(pathName)
         let data: any = await this.storage.read().catch(() => {
           // no saved file found.
         })
