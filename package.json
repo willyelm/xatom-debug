@@ -34,6 +34,14 @@
       }
     }
   },
+  "configSchema": {
+    "showToolbarIcon": {
+      "title": "Icon",
+      "description": "Show atom-bugs icon on toolbar.",
+      "type": "boolean",
+      "default": true
+    }
+  },
   "dependencies": {
     "atom-package-deps": "^4.4.1"
   },

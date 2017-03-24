@@ -6,6 +6,7 @@ export interface ToolbarOptions {
 }
 export declare class ToolbarView {
     private element;
+    private logoElement;
     private runButton;
     private stopButton;
     private stepButtons;
@@ -17,6 +18,7 @@ export declare class ToolbarView {
     constructor(options: ToolbarOptions);
     didRun(cb: Function): void;
     didStop(cb: Function): void;
+    toggleLogo(state: boolean): void;
     private setPathName(pathName);
     toggleRun(status: boolean): void;
     setScheme(plugin: any): void;

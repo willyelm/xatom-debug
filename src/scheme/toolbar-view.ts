@@ -30,6 +30,7 @@ export interface ToolbarOptions {
 
 export class ToolbarView {
   private element: HTMLElement;
+  private logoElement: HTMLElement;
   private runButton: HTMLElement;
   private stopButton: HTMLElement;
   private stepButtons: HTMLElement;
@@ -78,7 +79,13 @@ export class ToolbarView {
       createIcon('stop')
     ]);
 
-    insertElement(this.element, createIcon('logo'))
+    this.logoElement = createIcon('logo')
+    this.toggleLogo(false)
+
+    atom.config['observe']('atom-bugs.showToolbarIcon', (value) => this.toggleLogo(value))
+
+    insertElement(this.element, this.logoElement)
+
     insertElement(this.element, this.runButton)
     insertElement(this.element, this.stopButton)
     insertElement(this.element, createGroupButtons([
@@ -102,6 +109,14 @@ export class ToolbarView {
         this.scheme.name
       ])
     ]))
+    insertElement(this.element, [
+      createElement('div', {
+        className: 'btn btn-default',
+        elements: [
+          createText('Finish running node.js')
+        ]
+      })
+    ])
 
     attachEventFromObject(this.events, [
       'didRun',
@@ -116,6 +131,10 @@ export class ToolbarView {
   }
   public didStop (cb: Function) {
     this.events.on('didStop', cb)
+  }
+
+  toggleLogo (state: boolean) {
+    this.logoElement.style.display = state ? null : 'none';
   }
 
   private setPathName (pathName: string) {
