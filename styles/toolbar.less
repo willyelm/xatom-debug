@@ -6,6 +6,7 @@
 
 @import "ui-variables";
 
+@bugs-border-radius: 4px;
 // .panel-header {
 //   .title-bar {
 //     display: none;
@@ -28,6 +29,7 @@ atom-bugs-area {
   .btn {
     background-image: none!important;
     background-color: @button-background-color!important;
+    border-radius: @bugs-border-radius;
     outline: none!important;
     &[disabled] {
       opacity: .5;
@@ -40,7 +42,7 @@ atom-bugs-area {
       background-color: darken(@button-background-color, 4%)!important;
     }
     i.bugs-icon {
-      width: 20px;
+      width: 16px;
       height: 16px;
       margin-top: -4px;
     }
@@ -63,7 +65,7 @@ atom-bugs-toolbar {
   .bugs-scheme {
     position: relative;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 5px;
     z-index: 1!important;
     select {
       position: absolute;
@@ -117,5 +119,15 @@ atom-bugs-toolbar {
         border: 1px solid @button-border-color;
       }
     }
+  }
+  bugs-scheme-status {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: darken(@button-background-color, 4%);
+    border: 1px solid @button-border-color;
+    border-radius: @bugs-border-radius;
+    color: darken(@text-color, 10%);
+    padding: 4px 15px;
+    margin: 0 5px;
   }
 }

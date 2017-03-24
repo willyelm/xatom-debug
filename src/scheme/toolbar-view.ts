@@ -31,6 +31,7 @@ export interface ToolbarOptions {
 export class ToolbarView {
   private element: HTMLElement;
   private logoElement: HTMLElement;
+  private statusElement: HTMLElement;
   private runButton: HTMLElement;
   private stopButton: HTMLElement;
   private stepButtons: HTMLElement;
@@ -109,14 +110,13 @@ export class ToolbarView {
         this.scheme.name
       ])
     ]))
-    insertElement(this.element, [
-      createElement('div', {
-        className: 'btn btn-default',
-        elements: [
-          createText('Finish running node.js')
-        ]
-      })
-    ])
+    // status
+    this.statusElement = createElement('bugs-scheme-status', {
+      elements: [
+        createText('Not Running')
+      ]
+    })
+    insertElement(this.element, this.statusElement)
 
     attachEventFromObject(this.events, [
       'didRun',
@@ -132,6 +132,16 @@ export class ToolbarView {
   public didStop (cb: Function) {
     this.events.on('didStop', cb)
   }
+  public setStatus(text: string, options?: any) {
+    this.statusElement.innerHTML = '';
+    if (options) {
+      if (options.icon) {
+        let icon = insertElement(this.statusElement, createIcon(options.icon))
+        icon.classList.add(options.type || '')
+      }
+    }
+    insertElement(this.statusElement, createText(text))
+  }
 
   toggleLogo (state: boolean) {
     this.logoElement.style.display = state ? null : 'none';
@@ -140,6 +150,7 @@ export class ToolbarView {
   private setPathName (pathName: string) {
     let baseName = parse(pathName).base
     this.schemePath.name.nodeValue = ` ${baseName}`
+    // this.setStatusText(`Not Running`)
     this.events.emit('didChangePath', pathName);
   }
 

@@ -22,6 +22,7 @@ export declare class PluginClient {
     private toolbarView;
     private editorManager;
     constructor(options: ClientOptions);
+    status(text: string, options?: any): void;
     stop(): void;
     run(): void;
     pause(): void;

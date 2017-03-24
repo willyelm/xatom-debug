@@ -43,6 +43,9 @@ export class PluginClient {
     this.editorManager = options.editorManager;
     this.console = new PluginClientConsole(this.consoleView);
   }
+  status (text: string, options?: any) {
+    this.toolbarView.setStatus(text, options)
+  }
   stop (): void {
     this.debugView.togglePause(false);
     this.toolbarView.toggleRun(true);
