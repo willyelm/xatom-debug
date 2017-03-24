@@ -5,10 +5,10 @@
  * MIT Licensed
  */
 
-import { ToolbarView } from './scheme/index'
+import { ToolbarView, SchemeEditorView } from './scheme/index'
 import { DebugAreaView, ConsoleView } from './debug-area/index'
-import { EditorManager } from './editor/index'
 import { PluginManager, PluginClient } from './plugin/index'
+import { EditorManager } from './editor/index'
 import { Storage }  from './storage'
 
 export class Bugs {
@@ -16,6 +16,8 @@ export class Bugs {
   public storage: Storage = new Storage()
   public pluginManager: PluginManager = new PluginManager()
   public editorManager: EditorManager
+  public schemeEditorView: SchemeEditorView
+  public schemeEditorPanel: any
   public toolbarView: ToolbarView
   public debugView: DebugAreaView
   public consoleView: ConsoleView
@@ -41,6 +43,12 @@ export class Bugs {
         this.storage.saveObjectFromKey('breakpoints', this.editorManager.getPlainBreakpoints())
       }
     })
+    // Scheme Editor
+    this.schemeEditorView = new SchemeEditorView()
+    this.schemeEditorPanel = atom.workspace.addRightPanel({
+      item: this.schemeEditorView.getElement(),
+      visible: false
+    });
     // Create toolbar
     this.toolbarView = new ToolbarView({
       didRun: () => {
@@ -54,7 +62,7 @@ export class Bugs {
         this.pluginManager.stop()
       },
       didOpenSchemeEditor: () => {
-        console.log('open editor')
+        console.log(this.schemeEditorPanel)
       },
       didChangePath: async (pathName) => {
         this.storage.setPath(pathName)
@@ -123,6 +131,9 @@ export class Bugs {
     // destroy all
     this.toolbarView.destroy()
     this.debugView.destroy()
+    this.consoleView.destroy()
+    this.schemeEditorView.destroy()
+    this.schemeEditorPanel.destroy()
   }
 
 }

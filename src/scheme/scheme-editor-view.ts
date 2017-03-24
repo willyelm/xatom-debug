@@ -1,4 +1,4 @@
-'use babel';
+'use babel'
 /*!
  * Atom Bugs
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
@@ -13,18 +13,18 @@ import {
   createText,
   createElement,
   insertElement
-} from '../element/index';
+} from '../element/index'
 
 export class SchemeEditorView {
-  private element: HTMLElement;
+  private element: HTMLElement
   constructor () {
-    this.element = document.createElement('atom-bugs-scheme-panel');
-
+    this.element = document.createElement('atom-bugs-scheme-editor')
+    this.element.innerHTML = '<h1> Hello World </h1>'
   }
   getElement () {
-    return this.element;
+    return this.element
   }
   destroy () {
-    this.element.remove();
+    this.element.remove()
   }
 }

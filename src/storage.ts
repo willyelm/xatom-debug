@@ -24,7 +24,7 @@ export class Storage {
 
   setPath (configFile: string) {
     let token =  btoa(configFile);
-    this.filePath = join(this.storagePath, `${token}.json`);
+    this.filePath = join(this.storagePath, `${token}.json`) as string;
   }
 
   isPathPresent () {
