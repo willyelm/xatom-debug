@@ -111,6 +111,13 @@ export class ToolbarView {
     ], options);
   }
 
+  public didRun (cb: Function) {
+    this.events.on('didRun', cb)
+  }
+  public didStop (cb: Function) {
+    this.events.on('didStop', cb)
+  }
+
   private setPathName (pathName: string) {
     let baseName = parse(pathName).base
     this.schemePath.name.nodeValue = ` ${baseName}`

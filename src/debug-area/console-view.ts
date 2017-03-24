@@ -29,7 +29,6 @@ export class ConsoleView {
   private events: EventEmitter
 
   constructor (options?: ConsoleOptions) {
-
     this.events = new EventEmitter()
     this.element = createElement('atom-bugs-console')
     this.element.setAttribute('tabindex', '-1');

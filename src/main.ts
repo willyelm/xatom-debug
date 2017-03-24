@@ -20,6 +20,8 @@ export default {
   activate (state: any) {
     // create atom bugs instance
     this.bugs = new Bugs();
+    this.bugs.toolbarView.didRun(() => this.consolePanel.show())
+    this.bugs.toolbarView.didStop(() => this.consolePanel.hide())
     // set Paths
     let projects = atom.project['getPaths']()
     this.bugs.toolbarView.setPaths(projects)
@@ -32,7 +34,7 @@ export default {
     // Console Panel
     this.consolePanel = atom.workspace.addBottomPanel({
       item: this.bugs.getConsoleElement(),
-      visible: true
+      visible: false
     });
     // Debug Area Panel
     this.debugPanel = atom.workspace.addRightPanel({

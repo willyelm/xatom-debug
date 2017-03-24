@@ -15,6 +15,8 @@ export declare class ToolbarView {
     private events;
     private subscriptions;
     constructor(options: ToolbarOptions);
+    didRun(cb: Function): void;
+    didStop(cb: Function): void;
     private setPathName(pathName);
     toggleRun(status: boolean): void;
     setScheme(plugin: any): void;
