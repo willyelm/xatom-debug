@@ -23,6 +23,7 @@ import {
 export interface ToolbarOptions {
   didOpenSchemeEditor?: Function,
   didRun?: Function,
+  didChangePath?: Function,
   didStop?: Function
 }
 
@@ -102,13 +103,15 @@ export class ToolbarView {
     attachEventFromObject(this.events, [
       'didRun',
       'didStop',
+      'didChangePath',
       'didOpenSchemeEditor'
     ], options);
   }
 
-  private setPathName (name: string) {
-    let baseName = parse(name).base
+  private setPathName (pathName: string) {
+    let baseName = parse(pathName).base
     this.schemePath.name.nodeValue = ` ${baseName}`
+    this.events.emit('didChangePath', pathName);
   }
 
   public toggleRun (status: boolean) {

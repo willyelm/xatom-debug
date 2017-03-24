@@ -16,8 +16,7 @@ export interface DebugAreaOptions {
     didRequestProperties?: Function;
 }
 export declare class DebugAreaView {
-    private consoleElement;
-    private debugAreaElement;
+    private element;
     private callStackContentElement;
     private scopeContentElement;
     private breakpointContentElement;
@@ -38,9 +37,6 @@ export declare class DebugAreaView {
     clearCallStack(): void;
     insertScope(scope: any): void;
     clearScope(): void;
-    getDebugElement(): HTMLElement;
-    clearConsole(): void;
-    createConsoleLine(entry: string, elements?: any): HTMLElement;
-    getConsoleElement(): HTMLElement;
+    getElement(): HTMLElement;
     destroy(): void;
 }

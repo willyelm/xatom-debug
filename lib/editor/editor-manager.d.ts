@@ -5,6 +5,7 @@ export interface EditorOptions {
     didAddBreakpoint?: Function;
     didRemoveBreakpoint?: Function;
     didBreak?: Function;
+    didChange?: Function;
 }
 export declare class EditorManager {
     private currentEditor;
@@ -19,8 +20,9 @@ export declare class EditorManager {
     private pluginManager;
     private events;
     constructor(options: EditorOptions);
-    createSavedBreakpoints(): void;
+    restoreBreakpoints(breakpoints: Breakpoints): void;
     getBreakpoints(): Breakpoints;
+    getPlainBreakpoints(): Breakpoints;
     destroy(): void;
     breakOnFile(filePath: string, lineNumber: number): void;
     createBreakMarker(editor: any, lineNumber: number): void;

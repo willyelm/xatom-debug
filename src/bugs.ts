@@ -1,45 +1,51 @@
-'use babel';
+'use babel'
 /*!
  * Atom Bugs
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
 
-import { ToolbarView } from './scheme/index';
-import { DebugAreaView } from './debug-area/debug-area-view';
-import { EditorManager } from './editor/index';
-import { PluginManager, PluginClient } from './plugin/index';
+import { ToolbarView } from './scheme/index'
+import { DebugAreaView, ConsoleView } from './debug-area/index'
+import { EditorManager } from './editor/index'
+import { PluginManager, PluginClient } from './plugin/index'
+import { Storage }  from './scheme/storage'
 
 export class Bugs {
 
-  public pluginManager: PluginManager = new PluginManager();
-  public editorManager: EditorManager;
-  public toolbarView: ToolbarView;
-  public debugView: DebugAreaView;
+  public storage: Storage = new Storage()
+  public pluginManager: PluginManager = new PluginManager()
+  public editorManager: EditorManager
+  public toolbarView: ToolbarView
+  public debugView: DebugAreaView
+  public consoleView: ConsoleView
 
   constructor () {
     // Create Editor Manager
     this.editorManager = new EditorManager({
       pluginManager: this.pluginManager,
       didAddBreakpoint: (filePath, lineNumber) => {
-        this.debugView.createBreakpointLine(filePath, lineNumber);
+        this.debugView.createBreakpointLine(filePath, lineNumber)
       },
       didRemoveBreakpoint: (filePath, lineNumber) => {
-        this.debugView.removeBreakpointLine(filePath, lineNumber);
+        this.debugView.removeBreakpointLine(filePath, lineNumber)
       },
       didBreak: async (filePath, lineNumber) => {
         let textEditor = await atom.workspace.open(filePath, {
           initialLine: lineNumber - 1,
           initialColumn: 0
         })
-        this.editorManager.createBreakMarker(textEditor, lineNumber);
+        this.editorManager.createBreakMarker(textEditor, lineNumber)
       },
-    });
+      didChange: () => {
+        this.storage.saveObjectFromKey('breakpoints', this.editorManager.getPlainBreakpoints())
+      }
+    })
     // Create toolbar
     this.toolbarView = new ToolbarView({
       didRun: () => {
-        let editor = atom.workspace.getActiveTextEditor();
-        let currentFile = editor.getPath();
+        let editor = atom.workspace.getActiveTextEditor()
+        let currentFile = editor.getPath()
         let run = this.pluginManager.run({
           currentFile
         })
@@ -49,8 +55,19 @@ export class Bugs {
       },
       didOpenSchemeEditor: () => {
         console.log('open editor')
+      },
+      didChangePath: async (pathName) => {
+        this.storage.setPath(pathName)
+        let data: any = await this.storage.read().catch(() => {
+          // no saved file found.
+        })
+        if (data) {
+          this.editorManager.restoreBreakpoints(data.breakpoints || [])
+        }
       }
-    });
+    })
+    // Console View
+    this.consoleView = new ConsoleView()
     // Create debug area
     this.debugView = new DebugAreaView({
       didPause: () => this.pluginManager.pause(),
@@ -65,18 +82,19 @@ export class Bugs {
         })
       },
       didRequestProperties: (result, inspectView) => {
-        return this.pluginManager.requestProperties(result, inspectView);
+        return this.pluginManager.requestProperties(result, inspectView)
       }
-    });
+    })
     // Atom bugs plugin client
     let client = new PluginClient({
       debugView: this.debugView,
+      consoleView: this.consoleView,
       toolbarView: this.toolbarView,
       editorManager: this.editorManager
-    });
+    })
     // Add editor features
     atom.workspace['observeActivePaneItem']((editor) => {
-      this.editorManager.addFeatures(editor);
+      this.editorManager.addFeatures(editor)
     })
     // Listen plugin addition
     this.pluginManager.didAddPlugin((plugin) => {
@@ -84,26 +102,26 @@ export class Bugs {
       if (plugin.register) plugin.register(client)
       // Activate Selected Plugin
       if (!this.pluginManager.activePlugin) {
-        this.pluginManager.activatePlugin(plugin);
-        this.toolbarView.setScheme(plugin);
+        this.pluginManager.activatePlugin(plugin)
+        this.toolbarView.setScheme(plugin)
       }
-    });
+    })
   }
 
   getToolbarElement () {
-    return this.toolbarView.getElement();
+    return this.toolbarView.getElement()
   }
   getConsoleElement () {
-    return this.debugView.getConsoleElement();
+    return this.consoleView.getElement()
   }
   getDebugAreaElement () {
-    return this.debugView.getDebugElement();
+    return this.debugView.getElement()
   }
 
   destroy () {
     // destroy all
-    this.toolbarView.destroy();
-    this.debugView.destroy();
+    this.toolbarView.destroy()
+    this.debugView.destroy()
   }
 
 }

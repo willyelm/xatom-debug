@@ -22,7 +22,8 @@ export interface EditorOptions {
   pluginManager: PluginManager,
   didAddBreakpoint?: Function,
   didRemoveBreakpoint?: Function,
-  didBreak?: Function
+  didBreak?: Function,
+  didChange?: Function
 }
 
 export class EditorManager {
@@ -52,29 +53,28 @@ export class EditorManager {
     attachEventFromObject(this.events, [
       'didAddBreakpoint',
       'didRemoveBreakpoint',
-      'didBreak'
+      'didBreak',
+      'didChange'
     ], options);
-    this.createSavedBreakpoints();
   }
 
-  createSavedBreakpoints () {
-    this
-      .breakpointManager
-      .getSavedBreakpoints()
-      .then((breakpoints) => {
-        breakpoints.forEach(({filePath, lineNumber}) => {
-          let marker
-          if (this.currentEditor && filePath === this.currentEditor.getPath()) {
-            marker = this.createBreakpointMarker(lineNumber);
-          }
-          this.breakpointManager.addBreakpoint(marker, lineNumber, filePath);
-          this.events.emit('didAddBreakpoint', filePath, lineNumber);
-        })
-      })
+  restoreBreakpoints (breakpoints: Breakpoints) {
+    breakpoints.forEach(({filePath, lineNumber}) => {
+      let marker
+      if (this.currentEditor && filePath === this.currentEditor.getPath()) {
+        marker = this.createBreakpointMarker(lineNumber);
+      }
+      this.breakpointManager.addBreakpoint(marker, lineNumber, filePath);
+      this.events.emit('didAddBreakpoint', filePath, lineNumber);
+    })
   }
 
   getBreakpoints (): Breakpoints {
     return this.breakpointManager.getBreakpoints();
+  }
+
+  getPlainBreakpoints (): Breakpoints {
+    return this.breakpointManager.getPlainBreakpoints();
   }
 
   destroy () {
@@ -170,6 +170,7 @@ export class EditorManager {
             this.pluginManager.addBreakpoint(sourceFile, lineNumber);
           })
       }
+      this.events.emit('didChange');
     }
   }
 

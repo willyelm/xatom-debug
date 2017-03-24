@@ -5,41 +5,44 @@
  * MIT Licensed
  */
 import { ToolbarView } from '../scheme/toolbar-view';
-import { DebugAreaView, CallStackFrames } from '../debug-area/debug-area-view';
+import { DebugAreaView, ConsoleView, CallStackFrames } from '../debug-area/index';
 import { EditorManager, Breakpoints } from '../editor/index';
 
 export class PluginClientConsole {
-  constructor (private debugView: DebugAreaView) {}
+  constructor (private consoleView: ConsoleView) {}
   log (message: string): void {
-    this.debugView.createConsoleLine(message);
+    this.consoleView.createConsoleLine(message);
   }
   clear (): void {
-    this.debugView.clearConsole();
+    this.consoleView.clearConsole();
   }
 }
 
 export interface ClientOptions {
   debugView: DebugAreaView,
   toolbarView: ToolbarView,
+  consoleView: ConsoleView,
   editorManager: EditorManager
 }
 
 export class PluginClient {
   public console: PluginClientConsole;
   private debugView: DebugAreaView;
+  private consoleView: ConsoleView;
   private toolbarView: ToolbarView;
   private editorManager: EditorManager;
   constructor (private options: ClientOptions) {
     this.debugView = options.debugView;
     this.toolbarView = options.toolbarView;
+    this.consoleView = options.consoleView;
     this.editorManager = options.editorManager;
-    this.console = new PluginClientConsole(this.debugView);
+    this.console = new PluginClientConsole(this.consoleView);
   }
   stop (): void {
     this.debugView.togglePause(false);
     this.toolbarView.toggleRun(true);
     this.editorManager.removeMarkers();
-    this.debugView.clearConsole();
+    this.consoleView.clearConsole();
     this.debugView.clearCallStack();
     this.debugView.clearScope();
   }

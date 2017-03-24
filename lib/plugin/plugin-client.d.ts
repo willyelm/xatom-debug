@@ -1,21 +1,23 @@
 import { ToolbarView } from '../scheme/toolbar-view';
-import { DebugAreaView, CallStackFrames } from '../debug-area/debug-area-view';
+import { DebugAreaView, ConsoleView, CallStackFrames } from '../debug-area/index';
 import { EditorManager, Breakpoints } from '../editor/index';
 export declare class PluginClientConsole {
-    private debugView;
-    constructor(debugView: DebugAreaView);
+    private consoleView;
+    constructor(consoleView: ConsoleView);
     log(message: string): void;
     clear(): void;
 }
 export interface ClientOptions {
     debugView: DebugAreaView;
     toolbarView: ToolbarView;
+    consoleView: ConsoleView;
     editorManager: EditorManager;
 }
 export declare class PluginClient {
     private options;
     console: PluginClientConsole;
     private debugView;
+    private consoleView;
     private toolbarView;
     private editorManager;
     constructor(options: ClientOptions);

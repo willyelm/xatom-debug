@@ -41,8 +41,7 @@ export interface DebugAreaOptions {
 
 export class DebugAreaView {
 
-  private consoleElement: HTMLElement
-  private debugAreaElement: HTMLElement
+  private element: HTMLElement
   private callStackContentElement: HTMLElement
   private scopeContentElement: HTMLElement
   private breakpointContentElement: HTMLElement
@@ -55,8 +54,6 @@ export class DebugAreaView {
   constructor (options?: DebugAreaOptions) {
 
     this.events = new EventEmitter()
-    this.consoleElement = createElement('atom-bugs-console')
-    this.consoleElement.setAttribute('tabindex', '-1')
 
     this.pauseButton = createButton({
       click: () => {
@@ -72,7 +69,7 @@ export class DebugAreaView {
 
     this.togglePause(false)
 
-    this.debugAreaElement = createElement('atom-bugs-area')
+    this.element = createElement('atom-bugs-area')
     this.callStackContentElement = createElement('atom-bugs-group-content', {
       className: 'callstack'
     })
@@ -86,7 +83,7 @@ export class DebugAreaView {
       className: 'resize-left'
     });
 
-    insertElement(this.debugAreaElement, [
+    insertElement(this.element, [
       this.resizeElement,
       createElement('atom-bugs-controls', {
         elements: [
@@ -152,15 +149,15 @@ export class DebugAreaView {
   adjustDebugArea () {
     let ignoreElements = ['atom-bugs-controls', 'atom-bugs-group atom-bugs-group-header']
     let reduce = ignoreElements.reduce((value, query): number => {
-      let el = this.debugAreaElement.querySelectorAll(query)
+      let el = this.element.querySelectorAll(query)
       Array.from(el).forEach((child: HTMLElement) => {
         value += child.clientHeight;
       })
       return value
     }, 6)
-    let contents = this.debugAreaElement.querySelectorAll('atom-bugs-group atom-bugs-group-content');
+    let contents = this.element.querySelectorAll('atom-bugs-group atom-bugs-group-content');
     let items = Array.from(contents);
-    let availableHeight = (this.debugAreaElement.clientHeight - reduce) / items.length;
+    let availableHeight = (this.element.clientHeight - reduce) / items.length;
     items.forEach((el: HTMLElement) => {
       el.style.height = `${availableHeight}px`;
     })
@@ -170,9 +167,9 @@ export class DebugAreaView {
     let initialEvent
     let resize = (targetEvent) => {
       let offset = initialEvent.screenX - targetEvent.screenX
-      let width = this.debugAreaElement.clientWidth + offset;
+      let width = this.element.clientWidth + offset;
       if (width > 240 && width < 600) {
-        this.debugAreaElement.style.width = `${width}px`;
+        this.element.style.width = `${width}px`;
       }
       initialEvent = targetEvent
     }
@@ -190,13 +187,6 @@ export class DebugAreaView {
     this.resumeButton.style.display = status ? null : 'none'
     this.pauseButton.style.display = status ? 'none' : null
   }
-
-  // setPausedScript (filePath: string, lineNumber: number) {
-  //   this.consoleCreateLine('', [
-  //     createText('Pause on'),
-  //     createText(`${filePath}:${lineNumber}`)
-  //   ])
-  // }
 
   // Debug
   createFrameLine (frame: CallStackFrame, indicate: boolean) {
@@ -296,36 +286,13 @@ export class DebugAreaView {
     this.scopeContentElement.innerHTML = ''
   }
 
-  getDebugElement () {
-    return this.debugAreaElement
-  }
-  // Console
-  clearConsole () {
-    this.consoleElement.innerHTML = ''
-  }
-
-  createConsoleLine (entry: string, elements?) {
-    let line = createElement('atom-bugs-console-line')
-    if (entry && entry.length > 0) {
-      line.innerHTML = entry
-    }
-    if (elements) {
-      insertElement(line, elements)
-    }
-    setTimeout (() => {
-      this.consoleElement.scrollTop = this.consoleElement.scrollHeight
-    }, 250)
-    return insertElement(this.consoleElement, line)
-  }
-
-  getConsoleElement () {
-    return this.consoleElement
+  getElement () {
+    return this.element
   }
 
   // Destroy all
   destroy () {
-    this.consoleElement.remove()
-    this.debugAreaElement.remove()
+    this.element.remove()
     window.removeEventListener('resize', () => this.adjustDebugArea())
   }
 }

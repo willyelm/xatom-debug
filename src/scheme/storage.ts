@@ -13,8 +13,18 @@ export class Storage {
   storagePath: string = join(atom['configDirPath'], 'storage', 'atom-bugs')
   filePath: string;
 
-  constructor (public configFile: string) {
-    this.filePath = join(this.storagePath, this.configFile);
+  constructor () {
+    // create path if does not exists
+    this.isPathPresent().then((exists) => {
+      if (exists === false) {
+        this.createPath();
+      }
+    });
+  }
+
+  setPath (configFile: string) {
+    let token =  btoa(configFile);
+    this.filePath = join(this.storagePath, `${token}.json`);
   }
 
   isPathPresent () {
@@ -68,12 +78,19 @@ export class Storage {
     })
   }
 
-  async saveFromObject (content: any) {
-    let exists = await this.isPathPresent();
-    if (exists === false) {
-      await this.createPath();
+  async saveObjectFromKey (key, object) {
+    let content = await this.read().catch(() => {
+      // no contents
+    });
+    if (!content) {
+      content = {}
     }
-    let string = JSON.stringify(content);
-    return await this.save(string);
+    content[key] = object;
+    console.log('save', content)
+    return await this.save(JSON.stringify(content));
+  }
+
+  async saveFromObject (content: any) {
+    return await this.save(JSON.stringify(content));
   }
 }

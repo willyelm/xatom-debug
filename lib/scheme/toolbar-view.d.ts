@@ -1,6 +1,7 @@
 export interface ToolbarOptions {
     didOpenSchemeEditor?: Function;
     didRun?: Function;
+    didChangePath?: Function;
     didStop?: Function;
 }
 export declare class ToolbarView {
@@ -13,7 +14,7 @@ export declare class ToolbarView {
     private selectPath;
     private events;
     constructor(options: ToolbarOptions);
-    private setPathName(name);
+    private setPathName(pathName);
     toggleRun(status: boolean): void;
     setScheme(plugin: any): void;
     setPaths(paths: Array<string>): void;
