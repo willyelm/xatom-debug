@@ -86,7 +86,6 @@ export class Storage {
       content = {}
     }
     content[key] = object;
-    console.log('save', content)
     return await this.save(JSON.stringify(content));
   }
 

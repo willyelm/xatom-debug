@@ -9,7 +9,7 @@ import { ToolbarView } from './scheme/index'
 import { DebugAreaView, ConsoleView } from './debug-area/index'
 import { EditorManager } from './editor/index'
 import { PluginManager, PluginClient } from './plugin/index'
-import { Storage }  from './scheme/storage'
+import { Storage }  from './storage'
 
 export class Bugs {
 
