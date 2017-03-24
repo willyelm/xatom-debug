@@ -35,8 +35,7 @@
     }
   },
   "dependencies": {
-    "atom-package-deps": "^4.4.1",
-    "lodash": "^4.17.4"
+    "atom-package-deps": "^4.4.1"
   },
   "devDependencies": {
     "@types/atom": "0.0.36",
