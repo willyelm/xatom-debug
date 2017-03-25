@@ -9,6 +9,22 @@
 atom-bugs-scheme {
   display: block;
   margin: -10px;
+  atom-bugs-scheme-item {
+    padding: 7px 10px;
+    line-height: 20px;
+    display: block;
+    border-bottom: 1px solid @base-border-color;
+    .bugs-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 5px;
+    }
+    &.active {
+      background-color: @base-background-color;
+      border-right: 1px solid @base-background-color;
+      margin-right: -1px;
+    }
+  }
   atom-bugs-scheme-content {
     display: block;
     margin: 7px 10px;
@@ -25,12 +41,14 @@ atom-bugs-scheme {
       float: left;
       min-height: 320px;
       border: 1px solid @base-border-color;
+      overflow: auto;
     }
     atom-bugs-scheme-list {
-      width: 30%;
+      width: 25%;
+      background-color: darken(@base-background-color, 2%);
     }
     atom-bugs-scheme-editor {
-      width: 70%;
+      width: 75%;
       margin-left: -1px;
     }
   }

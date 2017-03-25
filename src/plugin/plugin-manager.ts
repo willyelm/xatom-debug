@@ -8,8 +8,8 @@
 import { EventEmitter }  from 'events';
 
 export interface Plugin {
-  iconPath: String,
-  name: String
+  iconPath: string,
+  name: string
 }
 
 export class PluginManager {

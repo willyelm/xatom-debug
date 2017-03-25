@@ -64,7 +64,7 @@ export class Bugs {
         this.pluginManager.stop()
       },
       didOpenScheme: async () => {
-        this.schemeView.open()
+        this.schemeView.open(this.pluginManager.activePlugin)
       },
       didChangePath: async (pathName) => {
         this.storage.setPath(pathName)
@@ -109,12 +109,12 @@ export class Bugs {
     })
     // Listen plugin addition
     this.pluginManager.didAddPlugin((plugin) => {
+      this.schemeView.addPlugin(plugin)
       // Register client
       if (plugin.register) plugin.register(client)
       // Activate Selected Plugin
       if (!this.pluginManager.activePlugin) {
         this.pluginManager.activatePlugin(plugin)
-        this.schemeView.addPlugin(plugin)
         this.toolbarView.setScheme(plugin)
       }
     })

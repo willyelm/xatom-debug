@@ -55,14 +55,48 @@ export class SchemeView {
       'didChange'
     ], options)
   }
-  open () {
+  open (activePlugin?: Plugin) {
+    if (activePlugin) {
+      this.openPlugin(activePlugin)
+    }
     this.panel.show()
   }
   close () {
     this.panel.hide()
   }
+  openPlugin (plugin: Plugin) {
+    let id = this.getPluginId(plugin)
+    // remove active
+    let items = this.listElement.querySelectorAll('atom-bugs-scheme-item.active');
+    Array.from(items, (item: HTMLElement) => item.classList.remove('active'))
+    // fund plugin and activate
+    let find = this.listElement.querySelector(`[id="${id}"]`)
+    if (find) {
+      find.classList.add('active');
+      // build options
+      console.log('build', plugin)
+    }
+  }
+  getPluginId (plugin: Plugin) {
+    let token = btoa(plugin.name)
+    return `plugin-${token}`
+  }
   addPlugin (plugin: Plugin) {
-    console.log('add plugin', plugin)
+    let item = createElement('atom-bugs-scheme-item', {
+      id: this.getPluginId(plugin),
+      click: () => {
+        if (!item.classList.contains('active')) {
+          console.log('build options', plugin)
+        }
+      },
+      elements: [
+        createIconFromPath(plugin.iconPath),
+        createText(plugin.name)
+      ]
+    })
+    insertElement(this.listElement, [item])
+    // this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
+    // this.scheme.name.nodeValue = ` ${plugin.name}`;
   }
   getElement () {
     return this.element
