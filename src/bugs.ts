@@ -48,7 +48,7 @@ export class Bugs {
 
       },
       didChange: () => {
-
+        this.storage.saveObjectFromKey('schemes', this.schemeView.getConfiguration())
       }
     })
     // Create toolbar

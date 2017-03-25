@@ -3,6 +3,7 @@ import { EventEmitter } from 'events';
 export interface Plugin {
     iconPath: string;
     name: string;
+    options: any;
 }
 export declare class PluginManager {
     private plugins;

@@ -7,6 +7,7 @@ export declare class SchemeView {
     private element;
     private listElement;
     private editorElement;
+    private data;
     private events;
     private panel;
     constructor(options: SchemeOptions);
@@ -14,6 +15,7 @@ export declare class SchemeView {
     close(): void;
     openPlugin(plugin: Plugin): void;
     getPluginId(plugin: Plugin): string;
+    getConfiguration(): any[];
     addPlugin(plugin: Plugin): void;
     getElement(): HTMLElement;
     destroy(): void;

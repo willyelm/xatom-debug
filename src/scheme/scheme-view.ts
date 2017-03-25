@@ -27,6 +27,7 @@ export class SchemeView {
   private element: HTMLElement
   private listElement: HTMLElement
   private editorElement: HTMLElement
+  private data: Array<any>;
   private events: EventEmitter
   private panel: any
   constructor (options: SchemeOptions) {
@@ -66,28 +67,54 @@ export class SchemeView {
   }
   openPlugin (plugin: Plugin) {
     let id = this.getPluginId(plugin)
-    // remove active
-    let items = this.listElement.querySelectorAll('atom-bugs-scheme-item.active');
-    Array.from(items, (item: HTMLElement) => item.classList.remove('active'))
     // fund plugin and activate
-    let find = this.listElement.querySelector(`[id="${id}"]`)
-    if (find) {
-      find.classList.add('active');
+    let item = this.listElement.querySelector(`[id="${id}"]`)
+    if (!item.classList.contains('active')) {
+      // remove active
+      let items = this.listElement.querySelectorAll('atom-bugs-scheme-item.active');
+      Array.from(items, (item: HTMLElement) => item.classList.remove('active'))
+      // add active class
+      item.classList.add('active');
+      this.editorElement.innerHTML = '';
       // build options
-      console.log('build', plugin)
+      // this.data[plugin.name] = {
+      //
+      // }
+      Object.keys(plugin.options).forEach((name) => {
+        let config = plugin.options[name];
+        let configElement = createElement('atom-bugs-scheme-config', {
+          elements: [
+            createElement('scheme-label', {
+              elements: [createText(config.title)]
+            })
+          ]
+        })
+        console.log('option', name, config)
+        switch (config.type) {
+          case 'text':
+            insertElement(configElement, [
+              createElement('scheme-control', {
+                elements: [createElement('input')]
+              })
+            ])
+            break;
+        }
+        insertElement(this.editorElement, configElement)
+      })
     }
   }
   getPluginId (plugin: Plugin) {
     let token = btoa(plugin.name)
     return `plugin-${token}`
   }
+  getConfiguration () {
+    return this.data;
+  }
   addPlugin (plugin: Plugin) {
     let item = createElement('atom-bugs-scheme-item', {
       id: this.getPluginId(plugin),
       click: () => {
-        if (!item.classList.contains('active')) {
-          console.log('build options', plugin)
-        }
+        this.openPlugin(plugin)
       },
       elements: [
         createIconFromPath(plugin.iconPath),

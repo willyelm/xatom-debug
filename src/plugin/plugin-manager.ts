@@ -9,7 +9,8 @@ import { EventEmitter }  from 'events';
 
 export interface Plugin {
   iconPath: string,
-  name: string
+  name: string,
+  options: any
 }
 
 export class PluginManager {
