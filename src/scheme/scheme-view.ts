@@ -34,7 +34,9 @@ export class SchemeView {
     this.events = new EventEmitter()
     this.element = document.createElement('atom-bugs-scheme')
     this.listElement = createElement('atom-bugs-scheme-list')
-    this.editorElement = createElement('atom-bugs-scheme-editor')
+    this.editorElement = createElement('atom-bugs-scheme-editor', {
+      className: 'native-key-bindings'
+    })
     insertElement(this.element, [
       createElement('atom-bugs-scheme-content', {
         elements: [ this.listElement, this.editorElement ]
@@ -91,10 +93,13 @@ export class SchemeView {
         })
         console.log('option', name, config)
         switch (config.type) {
-          case 'text':
+          case 'string':
+          case 'number':
+            let inputElement: HTMLElement = createElement('input')
+            inputElement.setAttribute('placeholder', config.default)
             insertElement(configElement, [
               createElement('scheme-control', {
-                elements: [createElement('input')]
+                elements: [inputElement]
               })
             ])
             break;
