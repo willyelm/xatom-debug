@@ -11,7 +11,10 @@ import {
   createIcon,
   createIconFromPath,
   createText,
+  createSelect,
+  createOption,
   createElement,
+  createInput,
   insertElement,
   attachEventFromObject
 } from '../element/index'
@@ -27,7 +30,7 @@ export class SchemeView {
   private element: HTMLElement
   private listElement: HTMLElement
   private editorElement: HTMLElement
-  private data: Array<any>;
+  private data: Object = {}
   private events: EventEmitter
   private panel: any
   constructor (options: SchemeOptions) {
@@ -79,10 +82,8 @@ export class SchemeView {
       item.classList.add('active');
       this.editorElement.innerHTML = '';
       // build options
-      // this.data[plugin.name] = {
-      //
-      // }
-      Object.keys(plugin.options).forEach((name) => {
+      let optionVisibles = []
+      let optionElements = Object.keys(plugin.options).map((name) => {
         let config = plugin.options[name];
         let configElement = createElement('atom-bugs-scheme-config', {
           elements: [
@@ -91,22 +92,70 @@ export class SchemeView {
             })
           ]
         })
-        console.log('option', name, config)
+        this.data[name] = config.default
         switch (config.type) {
           case 'string':
           case 'number':
-            let inputElement: HTMLElement = createElement('input')
-            inputElement.setAttribute('placeholder', config.default)
-            insertElement(configElement, [
-              createElement('scheme-control', {
-                elements: [inputElement]
-              })
-            ])
+            let controlType = 'createControlText'
+            if (Array.isArray(config.enum)) {
+              controlType = 'createControlSelect'
+            }
+            insertElement(configElement, this[controlType](name, config))
+            break;
+          case 'object':
+            console.log('object')
+            break;
+          case 'array':
+            console.log('array')
             break;
         }
-        insertElement(this.editorElement, configElement)
+        if (config.visible) {
+          let visible = config.visible
+          optionVisibles.push(() => this.analizeVisibleControl(configElement, config.visible))
+          this.events.on('didChange', () => this.analizeVisibleControl(configElement, config.visible))
+        }
+        return configElement
       })
+      // verify visibles after element creation
+      optionVisibles.forEach((analize) => analize())
+      // insert option elements to editor
+      insertElement(this.editorElement, optionElements)
     }
+  }
+  createControlText (key: string, config: any) {
+    let inputElement = createInput({
+      placeholder: config.default,
+      change: (value) => {
+        this.data[key] = value
+        this.events.emit('didChange')
+      }
+    })
+    return createElement('scheme-control', {
+      elements: [inputElement]
+    })
+  }
+  analizeVisibleControl (element: HTMLElement, visible: any) {
+    Object.keys(visible).forEach((name) => {
+      let rules = visible[name];
+      let show = false
+      if (rules.contains && Array.isArray(rules.contains)) {
+        show = rules.contains.includes(this.data[name])
+      }
+      element.style.display = show ? '' : 'none'
+    })
+  }
+  createControlSelect (key: string, config: any) {
+    let selectOptions = config.enum.map((value) => createOption(value, value))
+    return createElement('scheme-control', {
+      elements: [
+        createSelect({
+          change: (value) => {
+            this.data[key] = value
+            this.events.emit('didChange')
+          }
+        }, selectOptions)
+      ]
+    })
   }
   getPluginId (plugin: Plugin) {
     let token = btoa(plugin.name)

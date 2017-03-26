@@ -60,7 +60,7 @@ export class ToolbarView {
     this.schemePath = {
       name: createText('Current File'),
       select: createSelect({
-        change: (e) => this.setPathName(e.target.value)
+        change: (value) => this.setPathName(value)
       }, [])
     }
     this.runButton = createButton({

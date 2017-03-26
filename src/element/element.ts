@@ -41,7 +41,7 @@ export function createElement (tagName, options?) {
       });
     }
     if (extras.change) {
-      element.addEventListener('change', (e) => extras.change(e));
+      element.addEventListener('change', (e) => extras.change(e.target.value, e));
     }
     if (extras.disabled) {
       element['disabled'] = extras.disabled;

@@ -10,29 +10,31 @@ atom-bugs-scheme {
   display: block;
   margin: -10px;
   atom-bugs-scheme-config {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
     padding: 5px 10px;
-    &:before,
-    &:after {
-      display: table;
-      content: " ";
-    }
-    &:after {
-      clear: both;
+    scheme-label,
+    scheme-control {
+      position: relative;
+      box-flex: 0;
+      width: 100%;
     }
     scheme-label {
-      width: 30%;
-      float: left;
-      padding: 3px 7px;
+      flex: 0 0 30%;
+      max-width: 30%;
       text-align: right;
+      padding: 5px 7px;
+      padding-right: 14px;
     }
     scheme-control {
-      float: left;
-      width: 70%;
-      input {
+      flex: 0 0 70%;
+      max-width: 70%;
+      input,
+      select {
+        -webkit-appearance: none;
         background-color: darken(@button-background-color, 8%);
         border: 1px solid @button-border-color;
-        padding: 3px 7px;
+        padding: 5px 7px;
         border-radius: 4px;
         width: 100%;
         &::-webkit-input-placeholder {
@@ -56,33 +58,30 @@ atom-bugs-scheme {
     }
   }
   atom-bugs-scheme-content {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
     margin: 7px 10px;
-    &:before,
-    &:after {
-      display: table;
-      content: " ";
-    }
-    &:after {
-      clear: both;
-    }
     atom-bugs-scheme-list,
     atom-bugs-scheme-editor {
-      float: left;
-      min-height: 200px;
-      max-height: 400px;
+      position: relative;
+      box-flex: 0;
+      width: 100%;
+      min-height: 300px;
+      max-height: 300px;
       border: 1px solid @base-border-color;
       overflow: auto;
     }
     atom-bugs-scheme-list {
-      width: 25%;
+      flex: 0 0 25%;
+      max-width: 25%;
       background-color: darken(@base-background-color, 2%);
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
       z-index: 2;
     }
     atom-bugs-scheme-editor {
-      width: 75%;
+      flex: 0 0 75%;
+      max-width: 75%;
       margin-left: -1px;
       padding: 15px;
       border-top-right-radius: 4px;
