@@ -38,9 +38,9 @@ export class InspectorView {
 
   createFromDescription (element, descriptions: Array<any>) {
     let propertiesElement = createElement('section', {
-      className: 'property-properties'
+      className: 'properties'
     })
-    insertElement(element, [propertiesElement]);
+    insertElement(element.parentElement || element, [propertiesElement]);
     descriptions.forEach((desc) => {
       if (desc.value) {
         let valueElement = this.createValueForResult(desc.value);
@@ -66,7 +66,7 @@ export class InspectorView {
           let request = true;
           iconElement.classList.add('bugs-icon-arrow-right');
           iconElement.addEventListener('click', (e) => {
-            let properties = itemElement.querySelector('.property-properties') as HTMLElement;
+            let properties = itemElement.querySelector('.properties') as HTMLElement;
             if (iconElement.classList.contains('bugs-icon-arrow-right')) {
               iconElement.classList.add('active');
               iconElement.classList.remove('bugs-icon-arrow-right');

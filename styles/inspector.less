@@ -11,9 +11,6 @@ atom-bugs-inspector {
   atom-bugs-inspector-item {
     display: block;
     white-space: nowrap;
-    // padding: 2px 5px;
-    // margin: -2px -5px;
-    // border-bottom: 1px solid @overlay-border-color;
     & atom-bugs-inspector-item {
       padding-left: 15px;
     }
@@ -23,8 +20,10 @@ atom-bugs-inspector {
       cursor: default;
     }
   }
-  .property-name {
-
+  .property-name,
+  .property-value {
+    display: inline-block;
+    vertical-align: top;
   }
   .property-muted {
     opacity: .65;
@@ -34,6 +33,5 @@ atom-bugs-inspector {
   }
   .properties {
     display: block;
-    margin: 0;
   }
 }
