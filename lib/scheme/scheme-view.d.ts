@@ -14,11 +14,13 @@ export declare class SchemeView {
     open(activePlugin?: Plugin): void;
     close(): void;
     openPlugin(plugin: Plugin): void;
-    createControlText(key: string, config: any): any;
-    analizeVisibleControl(element: HTMLElement, visible: any): void;
-    createControlSelect(key: string, config: any): any;
+    createControlText(pluginName: string, key: string, config: any): any;
+    createControlSelect(pluginName: string, key: string, config: any): any;
+    analizeVisibleControl(pluginName: string, element: HTMLElement, visible: any): void;
     getPluginId(plugin: Plugin): string;
-    getConfiguration(): Object;
+    restoreData(data: any): void;
+    getData(): Object;
+    getConfigurationForPlugin(plugin: Plugin): any;
     addPlugin(plugin: Plugin): void;
     getElement(): HTMLElement;
     destroy(): void;

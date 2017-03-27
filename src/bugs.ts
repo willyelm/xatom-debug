@@ -48,17 +48,16 @@ export class Bugs {
 
       },
       didChange: () => {
-        this.storage.saveObjectFromKey('schemes', this.schemeView.getConfiguration())
+        this.storage.saveObjectFromKey('schemes', this.schemeView.getData())
       }
     })
     // Create toolbar
     this.toolbarView = new ToolbarView({
       didRun: () => {
-        let editor = atom.workspace.getActiveTextEditor()
-        let currentFile = editor.getPath()
-        let run = this.pluginManager.run({
-          currentFile
-        })
+        // let editor = atom.workspace.getActiveTextEditor()
+        // let currentFile = editor.getPath()
+        let options = this.schemeView.getConfigurationForPlugin(this.pluginManager.activePlugin)
+        let run = this.pluginManager.run(options)
       },
       didStop: () => {
         this.pluginManager.stop()
@@ -74,6 +73,7 @@ export class Bugs {
         })
         if (data) {
           this.editorManager.restoreBreakpoints(data.breakpoints || [])
+          this.schemeView.restoreData(data.schemes)
         }
       }
     })

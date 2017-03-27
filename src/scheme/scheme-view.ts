@@ -92,7 +92,9 @@ export class SchemeView {
             })
           ]
         })
-        this.data[name] = config.default
+        if (this.data[plugin.name][name] === undefined) {
+          this.data[plugin.name][name] = config.default
+        }
         switch (config.type) {
           case 'string':
           case 'number':
@@ -100,7 +102,7 @@ export class SchemeView {
             if (Array.isArray(config.enum)) {
               controlType = 'createControlSelect'
             }
-            insertElement(configElement, this[controlType](name, config))
+            insertElement(configElement, this[controlType](plugin.name, name, config))
             break;
           case 'object':
             console.log('object')
@@ -111,8 +113,9 @@ export class SchemeView {
         }
         if (config.visible) {
           let visible = config.visible
-          optionVisibles.push(() => this.analizeVisibleControl(configElement, config.visible))
-          this.events.on('didChange', () => this.analizeVisibleControl(configElement, config.visible))
+          let visibleHandler = () => this.analizeVisibleControl(plugin.name, configElement, config.visible)
+          optionVisibles.push(visibleHandler)
+          this.events.on('didChange', visibleHandler)
         }
         return configElement
       })
@@ -122,47 +125,57 @@ export class SchemeView {
       insertElement(this.editorElement, optionElements)
     }
   }
-  createControlText (key: string, config: any) {
+  createControlText (pluginName: string, key: string, config: any) {
     let inputElement = createInput({
       placeholder: config.default,
+      value: this.data[pluginName][key],
       change: (value) => {
-        this.data[key] = value
+        this.data[pluginName][key] = value
         this.events.emit('didChange')
       }
     })
+    if (this.data[pluginName][key] !== config.default) {
+      inputElement.value = this.data[pluginName][key]
+    }
     return createElement('scheme-control', {
       elements: [inputElement]
     })
   }
-  analizeVisibleControl (element: HTMLElement, visible: any) {
+  createControlSelect (pluginName: string, key: string, config: any) {
+    let selectOptions = config.enum.map((value) => createOption(value, value))
+    let selectElement = createSelect({
+      change: (value) => {
+        this.data[pluginName][key] = value
+        this.events.emit('didChange')
+      }
+    }, selectOptions)
+    selectElement.value = this.data[pluginName][key]
+    return createElement('scheme-control', {
+      elements: [ selectElement ]
+    })
+  }
+  analizeVisibleControl (pluginName: string, element: HTMLElement, visible: any) {
     Object.keys(visible).forEach((name) => {
       let rules = visible[name];
       let show = false
       if (rules.contains && Array.isArray(rules.contains)) {
-        show = rules.contains.includes(this.data[name])
+        show = rules.contains.includes(this.data[pluginName][name])
       }
       element.style.display = show ? '' : 'none'
-    })
-  }
-  createControlSelect (key: string, config: any) {
-    let selectOptions = config.enum.map((value) => createOption(value, value))
-    return createElement('scheme-control', {
-      elements: [
-        createSelect({
-          change: (value) => {
-            this.data[key] = value
-            this.events.emit('didChange')
-          }
-        }, selectOptions)
-      ]
     })
   }
   getPluginId (plugin: Plugin) {
     let token = btoa(plugin.name)
     return `plugin-${token}`
   }
-  getConfiguration () {
+  restoreData (data) {
+    this.data = data
+  }
+  getData () {
     return this.data;
+  }
+  getConfigurationForPlugin (plugin: Plugin) {
+    return this.data[plugin.name]
   }
   addPlugin (plugin: Plugin) {
     let item = createElement('atom-bugs-scheme-item', {
@@ -175,6 +188,7 @@ export class SchemeView {
         createText(plugin.name)
       ]
     })
+    this.data[plugin.name] = {};
     insertElement(this.listElement, [item])
     // this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
     // this.scheme.name.nodeValue = ` ${plugin.name}`;
