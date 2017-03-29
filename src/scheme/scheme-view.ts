@@ -111,10 +111,10 @@ export class SchemeView {
             insertElement(configElement, this[controlType](plugin.name, name, config))
             break;
           case 'object':
-            console.log('object')
+            insertElement(configElement, this.createControlObject(plugin.name, name, config))
             break;
           case 'array':
-            console.log('array')
+            insertElement(configElement, this.createControlArray(plugin.name, name, config))
             break;
         }
         if (config.visible) {
@@ -158,6 +158,31 @@ export class SchemeView {
     selectElement.value = this.data[pluginName][key]
     return createElement('scheme-control', {
       elements: [ selectElement ]
+    })
+  }
+  createControlArray (pluginName: string, key: string, config: any) {
+    let arrayElement = createElement('section', {
+      className: 'input-array',
+      elements: [
+        createElement('div', {
+          className: 'input-items'
+        }),
+        createElement('div', {
+          className: 'input-form',
+          elements: [
+            createElement('input'),
+            createButton(createIcon('add'))
+          ]
+        })
+      ]
+    })
+    return createElement('scheme-control', {
+      elements: [ arrayElement ]
+    })
+  }
+  createControlObject (pluginName: string, key: string, config: any) {
+    return createElement('scheme-control', {
+      elements: [  ]
     })
   }
   analizeVisibleControl (pluginName: string, element: HTMLElement, visible: any) {

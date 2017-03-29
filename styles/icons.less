@@ -82,6 +82,14 @@
     -webkit-mask-image: url('atom://atom-bugs/icons/atom.svg');
     background-color: @text-color;
   }
+  &.bugs-icon-add {
+    -webkit-mask-image: url('atom://atom-bugs/icons/add.svg');
+    background-color: fadeout(@text-color, 20%);
+  }
+  &.bugs-icon-remove {
+    -webkit-mask-image: url('atom://atom-bugs/icons/remove.svg');
+    background-color: @text-color;
+  }
   &.active {
     background-color: hsl(hue(@syntax-background-color), 100%, 60%);
   }

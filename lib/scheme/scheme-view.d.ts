@@ -17,6 +17,8 @@ export declare class SchemeView {
     openPlugin(plugin: Plugin): void;
     createControlText(pluginName: string, key: string, config: any): any;
     createControlSelect(pluginName: string, key: string, config: any): any;
+    createControlArray(pluginName: string, key: string, config: any): any;
+    createControlObject(pluginName: string, key: string, config: any): any;
     analizeVisibleControl(pluginName: string, element: HTMLElement, visible: any): void;
     getPluginId(plugin: Plugin): string;
     restoreData(data: any): void;
