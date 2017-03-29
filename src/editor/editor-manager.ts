@@ -128,7 +128,7 @@ export class EditorManager {
       // remove expression evaluator
       this.currentEditor.editorElement.removeEventListener('mousemove', this.expressionHandler);
     }
-    if (editor && editor.getPath && editor.editorElement) {
+    if (editor && editor.getPath && editor.editorElement !== null) {
       this.currentEditor = editor;
       // restore breakpoints
       let sourceFile = editor.getPath();
