@@ -33,6 +33,7 @@ export class SchemeView {
   private data: Object = {}
   private events: EventEmitter
   private panel: any
+  private activePlugin: Plugin
   constructor (options: SchemeOptions) {
     this.events = new EventEmitter()
     this.element = document.createElement('atom-bugs-scheme')
@@ -78,6 +79,8 @@ export class SchemeView {
       // remove active
       let items = this.listElement.querySelectorAll('atom-bugs-scheme-item.active');
       Array.from(items, (item: HTMLElement) => item.classList.remove('active'))
+      this.activePlugin = plugin
+      this.events.emit('didSelectPlugin', plugin)
       // add active class
       item.classList.add('active');
       this.editorElement.innerHTML = '';
@@ -92,6 +95,9 @@ export class SchemeView {
             })
           ]
         })
+        if (!this.data[plugin.name]) {
+          this.data[plugin.name] = {}
+        }
         if (this.data[plugin.name][name] === undefined) {
           this.data[plugin.name][name] = config.default
         }
@@ -164,18 +170,18 @@ export class SchemeView {
       element.style.display = show ? '' : 'none'
     })
   }
-  getPluginId (plugin: Plugin) {
+  getPluginId (plugin: Plugin): string {
     let token = btoa(plugin.name)
     return `plugin-${token}`
   }
   restoreData (data) {
-    this.data = data
+    this.data = data || {}
   }
-  getData () {
+  getData (): Object {
     return this.data;
   }
-  getConfigurationForPlugin (plugin: Plugin) {
-    return this.data[plugin.name]
+  getActivePluginOptions (): any {
+    return this.data[this.activePlugin.name]
   }
   addPlugin (plugin: Plugin) {
     let item = createElement('atom-bugs-scheme-item', {
@@ -190,10 +196,11 @@ export class SchemeView {
     })
     this.data[plugin.name] = {};
     insertElement(this.listElement, [item])
-    // this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
-    // this.scheme.name.nodeValue = ` ${plugin.name}`;
+    if (!this.activePlugin) {
+      this.openPlugin(plugin)
+    }
   }
-  getElement () {
+  getElement (): HTMLElement {
     return this.element
   }
   destroy () {

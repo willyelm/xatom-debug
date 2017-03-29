@@ -18,7 +18,7 @@ export declare class PluginManager {
     evaluateExpression(expression: string, range: any): void;
     addBreakpoint(filePath: string, fileNumber: number): void;
     removeBreakpoint(filePath: string, fileNumber: number): void;
-    run(settings: any): void;
+    run(): void;
     stop(): void;
     pause(): void;
     resume(): void;

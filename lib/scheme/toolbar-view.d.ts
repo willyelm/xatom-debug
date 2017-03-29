@@ -13,7 +13,7 @@ export declare class ToolbarView {
     private stepButtons;
     private scheme;
     private schemePath;
-    private selectPath;
+    private activePath;
     private events;
     private subscriptions;
     constructor(options: ToolbarOptions);
@@ -22,6 +22,7 @@ export declare class ToolbarView {
     setStatus(text: string, options?: any): void;
     toggleLogo(state: boolean): void;
     private setPathName(pathName);
+    getPathName(): string;
     toggleRun(status: boolean): void;
     setScheme(plugin: any): void;
     setPaths(paths: Array<string>): void;

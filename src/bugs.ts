@@ -44,8 +44,9 @@ export class Bugs {
     })
     // Scheme Editor
     this.schemeView = new SchemeView({
-      didSelectPlugin: () => {
-
+      didSelectPlugin: (plugin) => {
+        this.pluginManager.activatePlugin(plugin)
+        this.toolbarView.setScheme(plugin)
       },
       didChange: () => {
         this.storage.saveObjectFromKey('schemes', this.schemeView.getData())
@@ -53,18 +54,9 @@ export class Bugs {
     })
     // Create toolbar
     this.toolbarView = new ToolbarView({
-      didRun: () => {
-        // let editor = atom.workspace.getActiveTextEditor()
-        // let currentFile = editor.getPath()
-        let options = this.schemeView.getConfigurationForPlugin(this.pluginManager.activePlugin)
-        let run = this.pluginManager.run(options)
-      },
-      didStop: () => {
-        this.pluginManager.stop()
-      },
-      didOpenScheme: async () => {
-        this.schemeView.open(this.pluginManager.activePlugin)
-      },
+      didRun: () => this.pluginManager.run(),
+      didStop: () => this.pluginManager.stop(),
+      didOpenScheme: () => this.schemeView.open(this.pluginManager.activePlugin),
       didChangePath: async (pathName) => {
         this.storage.setPath(pathName)
         this.debugView.setWorkspace(pathName)
@@ -100,6 +92,7 @@ export class Bugs {
     let client = new PluginClient({
       debugView: this.debugView,
       consoleView: this.consoleView,
+      schemeView: this.schemeView,
       toolbarView: this.toolbarView,
       editorManager: this.editorManager
     })

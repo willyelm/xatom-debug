@@ -10,6 +10,7 @@ export declare class SchemeView {
     private data;
     private events;
     private panel;
+    private activePlugin;
     constructor(options: SchemeOptions);
     open(activePlugin?: Plugin): void;
     close(): void;
@@ -20,7 +21,7 @@ export declare class SchemeView {
     getPluginId(plugin: Plugin): string;
     restoreData(data: any): void;
     getData(): Object;
-    getConfigurationForPlugin(plugin: Plugin): any;
+    getActivePluginOptions(): any;
     addPlugin(plugin: Plugin): void;
     getElement(): HTMLElement;
     destroy(): void;

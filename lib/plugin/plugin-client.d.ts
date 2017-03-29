@@ -1,4 +1,4 @@
-import { ToolbarView } from '../scheme/toolbar-view';
+import { ToolbarView, SchemeView } from '../scheme/index';
 import { DebugAreaView, ConsoleView, CallStackFrames } from '../debug-area/index';
 import { EditorManager, Breakpoints } from '../editor/index';
 export declare class PluginClientConsole {
@@ -12,6 +12,7 @@ export interface ClientOptions {
     debugView: DebugAreaView;
     toolbarView: ToolbarView;
     consoleView: ConsoleView;
+    schemeView: SchemeView;
     editorManager: EditorManager;
 }
 export declare class PluginClient {
@@ -19,6 +20,7 @@ export declare class PluginClient {
     console: PluginClientConsole;
     private debugView;
     private consoleView;
+    private schemeView;
     private toolbarView;
     private editorManager;
     constructor(options: ClientOptions);
@@ -27,6 +29,8 @@ export declare class PluginClient {
     run(): void;
     pause(): void;
     resume(): void;
+    getPathFromFile(file: string): string;
+    getOptions(): any;
     getBreakpoints(): Breakpoints;
     activateBreakpoint(filePath: string, lineNumber: number): void;
     setCallStack(items: CallStackFrames): void;

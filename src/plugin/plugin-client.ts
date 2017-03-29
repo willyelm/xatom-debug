@@ -4,9 +4,10 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
-import { ToolbarView } from '../scheme/toolbar-view';
+import { ToolbarView, SchemeView } from '../scheme/index';
 import { DebugAreaView, ConsoleView, CallStackFrames } from '../debug-area/index';
 import { EditorManager, Breakpoints } from '../editor/index';
+import { join } from 'path'
 
 export class PluginClientConsole {
   constructor (private consoleView: ConsoleView) {}
@@ -27,6 +28,7 @@ export interface ClientOptions {
   debugView: DebugAreaView,
   toolbarView: ToolbarView,
   consoleView: ConsoleView,
+  schemeView: SchemeView,
   editorManager: EditorManager
 }
 
@@ -34,11 +36,13 @@ export class PluginClient {
   public console: PluginClientConsole;
   private debugView: DebugAreaView;
   private consoleView: ConsoleView;
+  private schemeView: SchemeView;
   private toolbarView: ToolbarView;
   private editorManager: EditorManager;
   constructor (private options: ClientOptions) {
     this.debugView = options.debugView;
     this.toolbarView = options.toolbarView;
+    this.schemeView = options.schemeView;
     this.consoleView = options.consoleView;
     this.editorManager = options.editorManager;
     this.console = new PluginClientConsole(this.consoleView);
@@ -65,6 +69,12 @@ export class PluginClient {
     this.debugView.togglePause(false);
     this.debugView.clearCallStack();
     this.debugView.clearScope();
+  }
+  getPathFromFile (file: string) {
+    return join(this.toolbarView.getPathName(), file)
+  }
+  getOptions () {
+    return this.schemeView.getActivePluginOptions();
   }
   getBreakpoints (): Breakpoints {
     return this.editorManager.getBreakpoints();

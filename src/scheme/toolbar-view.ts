@@ -43,7 +43,7 @@ export class ToolbarView {
     select: HTMLElement,
     name: Text
   };
-  private selectPath: HTMLElement;
+  private activePath: string
   private events: EventEmitter;
   private subscriptions:any = new CompositeDisposable();
 
@@ -147,10 +147,15 @@ export class ToolbarView {
   }
 
   private setPathName (pathName: string) {
+    this.activePath = pathName
     let baseName = parse(pathName).base
     this.schemePath.name.nodeValue = ` ${baseName}`
     // this.setStatusText(`Not Running`)
     this.events.emit('didChangePath', pathName);
+  }
+
+  public getPathName (): string {
+    return this.activePath
   }
 
   public toggleRun (status: boolean) {

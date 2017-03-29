@@ -68,8 +68,8 @@ export class PluginManager {
       fileNumber]);
   }
 
-  public run (settings: any) {
-    return this.callOnActivePlugin('didRun', [settings]);
+  public run () {
+    return this.callOnActivePlugin('didRun');
   }
 
   public stop () {
