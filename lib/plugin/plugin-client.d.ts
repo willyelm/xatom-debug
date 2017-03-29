@@ -30,6 +30,7 @@ export declare class PluginClient {
     pause(): void;
     resume(): void;
     getPathFromFile(file: string): string;
+    getPath(file: string): string;
     getOptions(): any;
     getBreakpoints(): Breakpoints;
     activateBreakpoint(filePath: string, lineNumber: number): void;

@@ -73,6 +73,9 @@ export class PluginClient {
   getPathFromFile (file: string) {
     return join(this.toolbarView.getPathName(), file)
   }
+  getPath (file: string) {
+    return this.toolbarView.getPathName()
+  }
   getOptions () {
     return this.schemeView.getActivePluginOptions();
   }

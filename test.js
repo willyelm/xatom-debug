@@ -21,4 +21,6 @@ function Greet (m) {
   console.log(m.firstName);
 }
 
+console.log(process.env)
+
 Greet(person);
