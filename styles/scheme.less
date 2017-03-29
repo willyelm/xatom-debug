@@ -34,11 +34,90 @@ atom-bugs-scheme {
         -webkit-appearance: none;
         background-color: darken(@button-background-color, 8%);
         border: 1px solid @button-border-color;
-        padding: 5px 7px;
+        padding: 4px 7px;
         border-radius: 4px;
         width: 100%;
         &::-webkit-input-placeholder {
           color: fadeOut(@text-color, 70%);
+        }
+      }
+      .input-items {
+        display: block;
+        border: 1px solid @base-border-color;
+        border-radius: 3px;
+        margin-bottom: 5px;
+        &:empty {
+          display: none;
+          margin-bottom: 0;
+        }
+        .input-item {
+          position: relative;
+          box-shadow: 0 -1px 0 0 @base-border-color;
+          input, button {
+            border-radius: 0;
+            border: none!important;
+          }
+          input {
+            background-color: transparent;
+          }
+          button {
+            background: transparent!important;
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 4px;
+            line-height: 1;
+            padding: 2px 8px;
+            .bugs-icon {
+              height: 10px;
+              width: 8px;
+            }
+          }
+        }
+      }
+      .input-form {
+        display: block;
+        position: relative;
+        input {
+          padding-right: 40px;
+        }
+        button {
+          position: absolute;
+          top: 0;
+          right: 0;
+          height: 28px;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+          border-left: 1px solid @base-border-color!important;
+        }
+      }
+      .bugs-icon {
+        height: 16px;
+        width: 12px;
+      }
+      .input-array,
+      .input-object {
+        display: block;
+      }
+      .input-object {
+        input {
+          width: 50%;
+        }
+        .input-item {
+          input + input {
+            border-left: 1px solid @base-border-color!important;
+          }
+        }
+        .input-form {
+          input {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right: none;
+          }
+          input + input {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
         }
       }
     }

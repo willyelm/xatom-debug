@@ -160,31 +160,129 @@ export class SchemeView {
       elements: [ selectElement ]
     })
   }
+  createArrayItem (data: any, index: number) {
+    let itemInput = createElement('input')
+    let itemElement = createElement('div', {
+      className: 'input-item',
+      elements: [
+        itemInput,
+        createButton ({
+          click: () => {
+            itemElement.remove()
+            data.splice(index, 1)
+            this.events.emit('didChange')
+          }
+        }, createIcon('remove'))
+      ]
+    })
+    itemInput.setAttribute('readonly', true)
+    itemInput.value = data[index]
+    return itemElement
+  }
+
   createControlArray (pluginName: string, key: string, config: any) {
+    let source = this.data[pluginName][key]
+    let addInput = createElement('input')
+    let itemsElement = createElement('div', {
+      className: 'input-items'
+    })
     let arrayElement = createElement('section', {
       className: 'input-array',
       elements: [
-        createElement('div', {
-          className: 'input-items'
-        }),
+        itemsElement,
         createElement('div', {
           className: 'input-form',
           elements: [
-            createElement('input'),
-            createButton(createIcon('add'))
+            addInput,
+            createButton({
+              click: () => {
+                if (addInput.value.trim().length > 0) {
+                  let index = source.push(addInput.value)
+                  let itemElement = this.createArrayItem(source, index - 1)
+                  addInput.value = ''
+                  insertElement(itemsElement, itemElement)
+                  this.events.emit('didChange')
+                }
+              }
+            }, createIcon('add'))
           ]
         })
       ]
+    })
+    // restore data
+    source.forEach((item, index) => {
+      insertElement(itemsElement, this.createArrayItem(source, index))
     })
     return createElement('scheme-control', {
       elements: [ arrayElement ]
     })
   }
+
   createControlObject (pluginName: string, key: string, config: any) {
+    let source = this.data[pluginName][key]
+    let nameInput = createElement('input')
+    let valueInput = createElement('input')
+    let itemsElement = createElement('div', {
+      className: 'input-items'
+    })
+    let arrayElement = createElement('section', {
+      className: 'input-object',
+      elements: [
+        itemsElement,
+        createElement('div', {
+          className: 'input-form',
+          elements: [
+            nameInput,
+            valueInput,
+            createButton({
+              click: () => {
+                if (nameInput.value.trim().length > 0 && valueInput.value.trim().length > 0) {
+                  source[nameInput.value] = valueInput.value
+                  let itemElement = this.createObjectItem(source, nameInput.value)
+                  nameInput.value = ''
+                  valueInput.value = ''
+                  insertElement(itemsElement, itemElement)
+                  this.events.emit('didChange')
+                }
+              }
+            }, createIcon('add'))
+          ]
+        })
+      ]
+    })
+    // restore data
+    Object.keys(source).forEach((name) => {
+      insertElement(itemsElement, this.createObjectItem(source, name))
+    })
     return createElement('scheme-control', {
-      elements: [  ]
+      elements: [ arrayElement ]
     })
   }
+
+  createObjectItem (data: any, index: string) {
+    let nameInput = createElement('input')
+    let valueInput = createElement('input')
+    let itemElement = createElement('div', {
+      className: 'input-item',
+      elements: [
+        nameInput,
+        valueInput,
+        createButton ({
+          click: () => {
+            itemElement.remove()
+            delete data[index]
+            this.events.emit('didChange')
+          }
+        }, createIcon('remove'))
+      ]
+    })
+    nameInput.setAttribute('readonly', true)
+    valueInput.setAttribute('readonly', true)
+    nameInput.value = index
+    valueInput.value = data[index]
+    return itemElement
+  }
+
   analizeVisibleControl (pluginName: string, element: HTMLElement, visible: any) {
     Object.keys(visible).forEach((name) => {
       let rules = visible[name];
@@ -222,7 +320,7 @@ export class SchemeView {
     this.data[plugin.name] = {};
     insertElement(this.listElement, [item])
     if (!this.activePlugin) {
-      this.openPlugin(plugin)
+      this.activePlugin = plugin
     }
   }
   getElement (): HTMLElement {
