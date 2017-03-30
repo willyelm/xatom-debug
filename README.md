@@ -1,8 +1,8 @@
 # Atom Bugs package
 
-A Simple Debugging tool for Atom
+A Simple Debugging tool for Atom. `atom-bugs` is a base debugger UI provider, you will need  additionally install a specific debugger for your language.
 
-![overview](assets/preview.png)
+![preview](assets/preview.png)
 
 ### Installation
 
@@ -13,10 +13,18 @@ apm install atom-bugs
 ### Features
 
 - Toolbar
+
+![toolbar](assets/toolbar.png)
+
+
 - Breakpoints
 - Debug Area
 - Scheme Configuration
 - Console Output
+
+### API Documentation
+
+on progress...
 
 ### Available Plugins
 
