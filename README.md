@@ -14,7 +14,7 @@ apm install atom-bugs
 
 - Toolbar
 
-![toolbar](assets/toolbar.png)
+![toolbar](assets/toolbar-preview.png)
 
 
 - Breakpoints
