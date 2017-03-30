@@ -19,6 +19,11 @@ export class PluginClientConsole {
       className: 'line-info'
     });
   }
+  error (message: string): void {
+    this.consoleView.createConsoleLine(message, {
+      className: 'line-error'
+    });
+  }
   clear (): void {
     this.consoleView.clearConsole();
   }

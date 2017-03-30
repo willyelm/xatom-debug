@@ -6,6 +6,7 @@ export declare class PluginClientConsole {
     constructor(consoleView: ConsoleView);
     log(message: string): void;
     info(message: string): void;
+    error(message: string): void;
     clear(): void;
 }
 export interface ClientOptions {
