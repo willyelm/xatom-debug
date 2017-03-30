@@ -12,14 +12,19 @@ apm install atom-bugs
 
 ### Features
 
-- Toolbar
+- `Toolbar`: Toolbar API allows to control the execution process, select and configure the selected plugin.
 
 ![feature](assets/toolbar-preview.png)
 
-- Breakpoints
-- Debug Area
-- Scheme Configuration
-- Console Output
+- `Breakpoints`: Add, remove breakpoints by clicking on the file line. breakpoints are accessible from the `Debug Area` as well.
+
+![feature](assets/breakpoint-preview.png)
+
+- `Debug Area`: Navigate the current scope status local and global variables, open the current call-stack functions and control the execution step.
+
+![feature](assets/debug-area-preview.png)
+
+- `Configuration`:
 
 ### API Documentation
 
