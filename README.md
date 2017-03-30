@@ -2,6 +2,8 @@
 
 A Simple Debugging tool for Atom
 
+![overview](assets/preview.png)
+
 ### Installation
 
 ```
@@ -10,9 +12,9 @@ apm install atom-bugs
 
 ### Features
 
+- Toolbar
 - Breakpoints
-- CallStack
-- Scope
+- Debug Area
 - Scheme Configuration
 - Console Output
 
