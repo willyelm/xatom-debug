@@ -14,8 +14,7 @@ apm install atom-bugs
 
 - Toolbar
 
-![toolbar](assets/toolbar-preview.png)
-
+![feature](assets/toolbar-preview.png)
 
 - Breakpoints
 - Debug Area
