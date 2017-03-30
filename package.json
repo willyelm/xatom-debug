@@ -1,6 +1,6 @@
 {
   "name": "atom-bugs",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Williams Medina <williams.medinaa@gmail.com>",
   "description": "A Simple Debugger for Atom",
   "keywords": [
