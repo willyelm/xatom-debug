@@ -32,7 +32,7 @@ export declare class PluginClient {
     resume(): void;
     getPathFromFile(file: string): string;
     getPath(file: string): string;
-    getOptions(): any;
+    getOptions(): Promise<Object>;
     getBreakpoints(): Breakpoints;
     activateBreakpoint(filePath: string, lineNumber: number): void;
     setCallStack(items: CallStackFrames): void;

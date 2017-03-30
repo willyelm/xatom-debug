@@ -12,7 +12,6 @@ import { EditorManager } from './editor/index'
 import { Storage }  from './storage'
 
 export class Bugs {
-
   public storage: Storage = new Storage()
   public pluginManager: PluginManager = new PluginManager()
   public editorManager: EditorManager
@@ -20,7 +19,6 @@ export class Bugs {
   public toolbarView: ToolbarView
   public debugView: DebugAreaView
   public consoleView: ConsoleView
-
   constructor () {
     // Create Editor Manager
     this.editorManager = new EditorManager({
@@ -54,7 +52,10 @@ export class Bugs {
     })
     // Create toolbar
     this.toolbarView = new ToolbarView({
-      didRun: () => this.pluginManager.run(),
+      didRun: () => {
+        this.schemeView.activatePlugin(this.pluginManager.activePlugin)
+        this.pluginManager.run()
+      },
       didStop: () => this.pluginManager.stop(),
       didOpenScheme: () => this.schemeView.open(this.pluginManager.activePlugin),
       didChangePath: async (pathName) => {
@@ -130,5 +131,4 @@ export class Bugs {
     this.consoleView.destroy()
     this.schemeView.destroy()
   }
-
 }

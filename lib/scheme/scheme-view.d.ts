@@ -11,9 +11,11 @@ export declare class SchemeView {
     private events;
     private panel;
     private activePlugin;
+    private plugins;
     constructor(options: SchemeOptions);
     open(activePlugin?: Plugin): void;
     close(): void;
+    activatePlugin(plugin: Plugin): void;
     openPlugin(plugin: Plugin): void;
     createControlText(pluginName: string, key: string, config: any): any;
     createControlSelect(pluginName: string, key: string, config: any): any;
@@ -25,7 +27,8 @@ export declare class SchemeView {
     getPluginId(plugin: Plugin): string;
     restoreData(data: any): void;
     getData(): Object;
-    getActivePluginOptions(): any;
+    getPluginDefaultOptions(plugin: Plugin): any;
+    getActivePluginOptions(): Promise<Object>;
     addPlugin(plugin: Plugin): void;
     getElement(): HTMLElement;
     destroy(): void;

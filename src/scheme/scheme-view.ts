@@ -34,6 +34,7 @@ export class SchemeView {
   private events: EventEmitter
   private panel: any
   private activePlugin: Plugin
+  private plugins: Array<Plugin> = []
   constructor (options: SchemeOptions) {
     this.events = new EventEmitter()
     this.element = document.createElement('atom-bugs-scheme')
@@ -71,6 +72,9 @@ export class SchemeView {
   close () {
     this.panel.hide()
   }
+  activatePlugin (plugin: Plugin) {
+    this.activePlugin = plugin
+  }
   openPlugin (plugin: Plugin) {
     let id = this.getPluginId(plugin)
     // fund plugin and activate
@@ -79,7 +83,7 @@ export class SchemeView {
       // remove active
       let items = this.listElement.querySelectorAll('atom-bugs-scheme-item.active');
       Array.from(items, (item: HTMLElement) => item.classList.remove('active'))
-      this.activePlugin = plugin
+      this.activatePlugin(plugin)
       this.events.emit('didSelectPlugin', plugin)
       // add active class
       item.classList.add('active');
@@ -320,8 +324,24 @@ export class SchemeView {
   getData (): Object {
     return this.data;
   }
-  getActivePluginOptions (): any {
-    return this.data[this.activePlugin.name]
+  getPluginDefaultOptions (plugin: Plugin) {
+    let defaults: any = {}
+    Object
+      .keys(plugin.options)
+      .map((optionName) => {
+        defaults[optionName] = plugin.options[optionName].default
+      })
+    return defaults
+  }
+  async getActivePluginOptions (): Promise<Object> {
+    return new Promise((resolve, reject) => {
+      let data = this.data[this.activePlugin.name]
+      if (Object.keys(data).length > 0) {
+        resolve(data)
+      } else {
+        resolve(this.getPluginDefaultOptions(this.activePlugin))
+      }
+    })
   }
   addPlugin (plugin: Plugin) {
     let item = createElement('atom-bugs-scheme-item', {
@@ -335,6 +355,7 @@ export class SchemeView {
       ]
     })
     this.data[plugin.name] = {};
+    this.plugins.push(plugin)
     insertElement(this.listElement, [item])
     if (!this.activePlugin) {
       this.activePlugin = plugin
