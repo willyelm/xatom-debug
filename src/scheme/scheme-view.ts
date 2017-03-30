@@ -336,7 +336,7 @@ export class SchemeView {
   async getActivePluginOptions (): Promise<Object> {
     return new Promise((resolve, reject) => {
       let data = this.data[this.activePlugin.name]
-      if (Object.keys(data).length > 0) {
+      if (data && Object.keys(data).length > 0) {
         resolve(data)
       } else {
         resolve(this.getPluginDefaultOptions(this.activePlugin))
