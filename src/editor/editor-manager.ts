@@ -94,7 +94,7 @@ export class EditorManager {
 
   createBreakMarker (editor, lineNumber: number) {
     this.removeBreakMarker();
-    let range = [[lineNumber - 1, 0], [lineNumber - 1, 0]];
+    let range = [[lineNumber, 0], [lineNumber, 0]];
     this.currentBreakMarker = editor.markBufferRange(range);
     editor.decorateMarker(this.currentBreakMarker, {
       type: 'line',
@@ -150,7 +150,7 @@ export class EditorManager {
     if (element.classList.contains('line-number')) {
       // toggle breakpoints
       let sourceFile = this.currentEditor.getPath();
-      let lineNumber = Number(element.textContent)
+      let lineNumber = Number(element.textContent) - 1
       let exists = this.breakpointManager.getBreakpoint(sourceFile, lineNumber)
       if (exists) {
         this
@@ -175,7 +175,7 @@ export class EditorManager {
   }
 
   private createBreakpointMarker (lineNumber: any) {
-    let range = [[lineNumber - 1, 0], [lineNumber - 1, 0]]
+    let range = [[lineNumber, 0], [lineNumber, 0]]
     let marker = this.currentEditor.markBufferRange(range)
     let decorator = this.currentEditor.decorateMarker(marker, {
       type: 'line-number',
@@ -204,12 +204,13 @@ export class EditorManager {
     }
     let startWord = position;
     let endWord = position;
+    // /\()"':,.;<>~!@#$%^&*|+=[]{}`?-…
     this.currentEditor.scanInBufferRange(/[ \,\{\}\(\;\)\[\]^\n]+/gm, [[prevRow, 0], position], (s) => {
       if (s.matchText) {
         startWord = s.range.end;
       }
     })
-    this.currentEditor.scanInBufferRange(/[ \,\{\}\(\.\;\)\[\]\n]+/g, [position, [endRow, 50]], (s) => {
+    this.currentEditor.scanInBufferRange(/[ \,\{\}\(\.\;\)\[\]\:\/\n]+/g, [position, [endRow, 50]], (s) => {
       if (s.matchText) {
         endWord = s.range.start;
         s.stop();
@@ -224,6 +225,7 @@ export class EditorManager {
       let bufferPosition = this.getPositionFromEvent(e);
       let scanRange = this.getWordRangeFromPosition(bufferPosition);
       let expression = this.currentEditor.getTextInBufferRange(scanRange);
+      console.log(expression)
       clearTimeout(this.evaluateHandler)
       this.evaluateHandler = setTimeout(() => {
         if (expression && String(expression).trim().length > 0) {

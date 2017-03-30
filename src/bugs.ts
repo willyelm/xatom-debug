@@ -33,7 +33,7 @@ export class Bugs {
       },
       didBreak: async (filePath, lineNumber) => {
         let textEditor = await atom.workspace.open(filePath, {
-          initialLine: lineNumber - 1,
+          initialLine: lineNumber,
           initialColumn: 0
         })
         this.editorManager.createBreakMarker(textEditor, lineNumber)
@@ -80,8 +80,8 @@ export class Bugs {
       didStepOut: () => this.pluginManager.stepOut(),
       didOpenFile: (filePath: string, lineNumber: number, columnNumber: number) => {
         atom.workspace.open(filePath, {
-          initialLine: lineNumber - 1,
-          initialColumn: columnNumber - 1
+          initialLine: lineNumber,
+          initialColumn: columnNumber
         })
       },
       didRequestProperties: (result, inspectView) => {
