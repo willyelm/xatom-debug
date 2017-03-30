@@ -189,7 +189,7 @@ export class EditorManager {
     var clientX = e.clientX;
     var clientY = e.clientY;
     let clientRect = lines.getBoundingClientRect();
-    let screenPosition = this.currentEditor.screenPositionForPixelPosition({
+    let screenPosition = this.currentEditor.editorElement.screenPositionForPixelPosition({
       top: (clientY - clientRect.top) + this.currentEditor.editorElement.getScrollTop(),
       left: (clientX - clientRect.left) + this.currentEditor.editorElement.getScrollLeft()
     });
@@ -225,7 +225,6 @@ export class EditorManager {
       let bufferPosition = this.getPositionFromEvent(e);
       let scanRange = this.getWordRangeFromPosition(bufferPosition);
       let expression = this.currentEditor.getTextInBufferRange(scanRange);
-      console.log(expression)
       clearTimeout(this.evaluateHandler)
       this.evaluateHandler = setTimeout(() => {
         if (expression && String(expression).trim().length > 0) {

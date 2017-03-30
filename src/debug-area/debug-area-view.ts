@@ -229,7 +229,7 @@ export class DebugAreaView {
             createText(file.base),
             createElement('span', {
               className: 'file-position',
-              elements: [ createText(`${frame.lineNumber}${ frame.columnNumber > 0 ? ':' + frame.columnNumber : '' }`) ]
+              elements: [ createText(`${frame.lineNumber + 1}${ frame.columnNumber > 0 ? ':' + frame.columnNumber : '' }`) ]
             })
           ]
         })
@@ -266,7 +266,7 @@ export class DebugAreaView {
           elements: [
             createElement('span', {
               className: 'file-position',
-              elements: [ createText(String(lineNumber)) ]
+              elements: [ createText(String(lineNumber + 1)) ]
             }),
             createText(shortName)
           ]
