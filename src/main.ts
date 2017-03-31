@@ -18,6 +18,7 @@ export default {
   bugs: null,
 
   activate (state: any) {
+    require('atom-package-deps').install('atom-bugs', true)
     // create atom bugs instance
     this.bugs = new Bugs();
     this.bugs.toolbarView.didRun(() => this.consolePanel.show())
