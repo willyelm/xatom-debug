@@ -39,6 +39,7 @@ export class SchemeView {
     this.events = new EventEmitter()
     this.element = document.createElement('atom-bugs-scheme')
     this.listElement = createElement('atom-bugs-scheme-list')
+    this.listElement.setAttribute('tabindex', '-1')
     this.editorElement = createElement('atom-bugs-scheme-editor', {
       className: 'native-key-bindings'
     })
@@ -346,8 +347,11 @@ export class SchemeView {
   addPlugin (plugin: Plugin) {
     let item = createElement('atom-bugs-scheme-item', {
       id: this.getPluginId(plugin),
-      click: () => {
-        this.openPlugin(plugin)
+      options: {
+        click: () => {
+          console.log('open', plugin)
+          this.openPlugin(plugin)
+        },
       },
       elements: [
         createIconFromPath(plugin.iconPath),
