@@ -5,6 +5,7 @@ export interface ToolbarOptions {
     didStop?: Function;
 }
 export declare class ToolbarView {
+    isRunning: boolean;
     private element;
     private logoElement;
     private statusElement;

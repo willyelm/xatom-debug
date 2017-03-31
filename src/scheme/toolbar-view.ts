@@ -29,6 +29,7 @@ export interface ToolbarOptions {
 }
 
 export class ToolbarView {
+  public isRunning: boolean;
   private element: HTMLElement;
   private logoElement: HTMLElement;
   private statusElement: HTMLElement;
@@ -161,6 +162,7 @@ export class ToolbarView {
   public toggleRun (status: boolean) {
     this.stopButton['disabled'] = status;
     this.runButton['disabled'] = !status;
+    this.isRunning = !status
   }
 
   public setScheme (plugin) {

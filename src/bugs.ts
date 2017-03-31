@@ -4,7 +4,6 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
-
 import { ToolbarView, SchemeView } from './scheme/index'
 import { DebugAreaView, ConsoleView } from './debug-area/index'
 import { PluginManager, PluginClient } from './plugin/index'

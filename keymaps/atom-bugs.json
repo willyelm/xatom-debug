@@ -1,10 +1,11 @@
 {
   "atom-workspace": {
     "ctrl-r": "atom-bugs:run",
-    "ctrl-s": "atom-bugs:stop",
-    "ctrl-e": "atom-bugs:resume",
+    "ctrl-alt-s": "atom-bugs:stop",
+    "ctrl-alt-e": "atom-bugs:resume",
     "ctrl-o": "atom-bugs:step-over",
     "ctrl-i": "atom-bugs:step-into",
-    "ctrl-t": "atom-bugs:step-out"
+    "ctrl-t": "atom-bugs:step-out",
+    "ctrl-alt-d": "atom-bugs:toggle"
   }
 }

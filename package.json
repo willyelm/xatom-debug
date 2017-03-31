@@ -42,6 +42,9 @@
       "default": true
     }
   },
+  "package-deps": [
+    "atom-bugs-nodejs"
+  ],
   "dependencies": {
     "atom-package-deps": "^4.4.1"
   },
