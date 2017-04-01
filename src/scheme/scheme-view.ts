@@ -4,7 +4,6 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
-
 import {
   createGroupButtons,
   createButton,
@@ -349,9 +348,8 @@ export class SchemeView {
       id: this.getPluginId(plugin),
       options: {
         click: () => {
-          console.log('open', plugin)
           this.openPlugin(plugin)
-        },
+        }
       },
       elements: [
         createIconFromPath(plugin.iconPath),

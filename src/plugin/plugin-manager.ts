@@ -15,7 +15,7 @@ export interface Plugin {
 
 export class PluginManager {
 
-  private plugins: Array<Plugin>;
+  public plugins: Array<Plugin>;
   public activePlugin: Plugin;
   public events: EventEmitter;
 
@@ -103,6 +103,12 @@ export class PluginManager {
   addPlugin (plugin: Plugin) {
     this.plugins.push(plugin);
     this.events.emit('addPlugin', plugin);
+  }
+
+  getPluginFromName (pluginName: string) {
+    return this.plugins.find((p) => {
+      return (p.name === pluginName)
+    })
   }
 
   removePlugin (plugin: Plugin) {

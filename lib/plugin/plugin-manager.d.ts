@@ -6,7 +6,7 @@ export interface Plugin {
     options: any;
 }
 export declare class PluginManager {
-    private plugins;
+    plugins: Array<Plugin>;
     activePlugin: Plugin;
     events: EventEmitter;
     constructor();
@@ -27,5 +27,6 @@ export declare class PluginManager {
     stepOut(): void;
     getPlugins(): Plugin[];
     addPlugin(plugin: Plugin): void;
+    getPluginFromName(pluginName: string): Plugin;
     removePlugin(plugin: Plugin): void;
 }

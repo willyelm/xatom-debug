@@ -44,6 +44,7 @@ export class Bugs {
       didSelectPlugin: (plugin) => {
         this.pluginManager.activatePlugin(plugin)
         this.toolbarView.setScheme(plugin)
+        this.storage.saveObjectFromKey('currentPluginName', plugin.name)
       },
       didChange: () => {
         this.storage.saveObjectFromKey('schemes', this.schemeView.getData())
@@ -66,6 +67,17 @@ export class Bugs {
         if (data) {
           this.editorManager.restoreBreakpoints(data.breakpoints || [])
           this.schemeView.restoreData(data.schemes)
+          let plugin = this.pluginManager.getPluginFromName(data.currentPluginName)
+          if (plugin) {
+            this.pluginManager.activatePlugin(plugin)
+            this.toolbarView.setScheme(plugin)
+          }
+        }
+        // Activate Selected Plugin
+        if (!this.pluginManager.activePlugin) {
+          let firstPlugin = this.pluginManager.plugins[0]
+          this.pluginManager.activatePlugin(firstPlugin)
+          this.toolbarView.setScheme(firstPlugin)
         }
       }
     })
@@ -107,11 +119,6 @@ export class Bugs {
       this.schemeView.addPlugin(plugin)
       // Register client
       if (plugin.register) plugin.register(client)
-      // Activate Selected Plugin
-      if (!this.pluginManager.activePlugin) {
-        this.pluginManager.activatePlugin(plugin)
-        this.toolbarView.setScheme(plugin)
-      }
     })
   }
 
