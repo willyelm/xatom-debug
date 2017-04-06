@@ -55,16 +55,16 @@ export class InspectorView {
           propertyClass += ' syntax--variable';
         }
         let iconElement = createElement('i', { className: 'bugs-icon' })
-        let itemElement = createElement('atom-bugs-inspector-item', {
-          elements: [
-            iconElement,
-            createElement('span', {
-              className: propertyClass,
-              elements: [ createText(`${desc.name}:`) ]
-            }),
-            valueElement
-          ]
-        })
+        let itemElement = createElement('atom-bugs-inspector-item')
+        insertElement(itemElement, iconElement)
+        if (desc.name) {
+          let nameElement = createElement('span', {
+            className: propertyClass,
+            elements: [ createText(`${desc.name}:`) ]
+          })
+          insertElement(itemElement, nameElement)
+        }
+        insertElement(itemElement, valueElement)
         insertElement(propertiesElement, itemElement);
         if (desc.value && desc.value.objectId) {
           let request = true;
@@ -166,7 +166,7 @@ export class InspectorView {
       // value
       insertElement(element, [
         this.createValueForResult(result)
-      ]);
+      ])
     }
   }
   getElement () {

@@ -4,7 +4,18 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
+import {
+  createGroupButtons,
+  createButton,
+  createIcon,
+  createIconFromPath,
+  createText,
+  createElement,
+  insertElement,
+  attachEventFromObject
+} from '../element/index'
 import { ToolbarView, SchemeView } from '../scheme/index';
+import { InspectorView } from '../inspector/index'
 import { DebugAreaView, ConsoleView, CallStackFrames } from '../debug-area/index';
 import { EditorManager, Breakpoints } from '../editor/index';
 import { join } from 'path'
@@ -20,10 +31,28 @@ export class PluginClientConsole {
     });
   }
   error (message: string): void {
-    console.log('error', message)
     this.consoleView.createConsoleLine(message, {
       className: 'line-error'
     });
+  }
+  output (type: string, items: Array<any>) {
+    let lineElement = this.consoleView.createEmptyLine({
+      className: `line-${type}`
+    });
+    items.forEach((result) => {
+      if (result.type === 'object') {
+        result = [{
+          value: result
+        }]
+      }
+      let inspector = new InspectorView({
+        result,
+        didRequestProperties: (props, inspectorView) => {
+          this.consoleView.requestProperties(props, inspectorView)
+        }
+      })
+      insertElement(lineElement, inspector.getElement())
+    })
   }
   clear (): void {
     this.consoleView.clearConsole();

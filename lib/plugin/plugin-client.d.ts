@@ -7,6 +7,7 @@ export declare class PluginClientConsole {
     log(message: string): void;
     info(message: string): void;
     error(message: string): void;
+    output(type: string, items: Array<any>): void;
     clear(): void;
 }
 export interface ClientOptions {

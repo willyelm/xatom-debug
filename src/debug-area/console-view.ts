@@ -20,22 +20,45 @@ import { EventEmitter }  from 'events'
 import { parse } from 'path'
 
 export interface ConsoleOptions {
-
+  didRequestProperties?: Function
 }
-
 export class ConsoleView {
 
   private element: HTMLElement
+  private outputElement: HTMLElement
   private events: EventEmitter
 
   constructor (options?: ConsoleOptions) {
     this.events = new EventEmitter()
-    this.element = createElement('atom-bugs-console')
-    this.element.setAttribute('tabindex', '-1');
+    this.outputElement = createElement('atom-bugs-console-output')
+    this.element = createElement('atom-bugs-console', {
+      elements: [
+        createElement('atom-bugs-controls', {
+          elements: [
+            createButton({}, createText('Console'))
+          ]
+        }),
+        this.outputElement
+      ]
+    })
+    this.element.setAttribute('tabindex', '-1')
+    attachEventFromObject(this.events, [
+      'didRequestProperties'
+    ], options)
   }
 
   clearConsole () {
-    this.element.innerHTML = ''
+    this.outputElement.innerHTML = ''
+  }
+
+  requestProperties (result: any, inspectorView: any) {
+    this.events.emit('didRequestProperties', result, inspectorView)
+  }
+
+  createEmptyLine (options?) {
+    let line = createElement('atom-bugs-console-line', options)
+    insertElement(this.outputElement, line)
+    return line
   }
 
   createConsoleLine (entry: string, options?) {
@@ -44,9 +67,9 @@ export class ConsoleView {
       line.innerHTML = entry
     }
     setTimeout (() => {
-      this.element.scrollTop = this.element.scrollHeight
+      this.outputElement.scrollTop = this.outputElement.scrollHeight
     }, 250)
-    return insertElement(this.element, line)
+    return insertElement(this.outputElement, line)
   }
 
   getElement () {

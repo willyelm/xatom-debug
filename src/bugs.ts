@@ -82,7 +82,11 @@ export class Bugs {
       }
     })
     // Console View
-    this.consoleView = new ConsoleView()
+    this.consoleView = new ConsoleView({
+      didRequestProperties: (result, inspectView) => {
+        return this.pluginManager.requestProperties(result, inspectView)
+      }
+    })
     // Create debug area
     this.debugView = new DebugAreaView({
       didPause: () => this.pluginManager.pause(),
