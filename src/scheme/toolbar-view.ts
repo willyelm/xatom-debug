@@ -122,9 +122,17 @@ export class ToolbarView {
     // toggle panes
     let toggleButtons = createGroupButtons([
       createButton({
+        tooltip: {
+          subscriptions: this.subscriptions,
+          title: 'Toggle Console'
+        },
         click: () => this.events.emit('didToggleConsole')
       }, [createIcon('panel-bottom')]),
       createButton({
+        tooltip: {
+          subscriptions: this.subscriptions,
+          title: 'Toggle Debug Area'
+        },
         click: () => this.events.emit('didToggleDebugArea')
       }, [createIcon('panel-right')])
     ])
