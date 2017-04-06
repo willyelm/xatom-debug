@@ -1,0 +1,46 @@
+{
+  "menu": [{
+    "label": "Packages",
+    "submenu": [{
+      "label": "Atom Bugs",
+      "submenu": [{
+        "label": "Toggle",
+        "command": "atom-bugs:toggle"
+      }, {
+        "label": "Run",
+        "command": "atom-bugs:run"
+      }, {
+        "label": "Stop",
+        "command": "atom-bugs:stop"
+      }]
+    }]
+  }],
+  "context-menu": {
+    "atom-text-editor": [{
+      "label": "Atom Bugs",
+      "submenu": [{
+        "label": "Toggle",
+        "command": "atom-bugs:toggle"
+      }, {
+        "label": "Run",
+        "command": "atom-bugs:run"
+      }, {
+        "label": "Stop",
+        "command": "atom-bugs:stop"
+      }]
+    }],
+    "atom-bugs-toolbar": [{
+      "label": "Atom Bugs",
+      "submenu": [{
+        "label": "Toggle",
+        "command": "atom-bugs:toggle"
+      }, {
+        "label": "Run",
+        "command": "atom-bugs:run"
+      }, {
+        "label": "Stop",
+        "command": "atom-bugs:stop"
+      }]
+    }]
+  }
+}
