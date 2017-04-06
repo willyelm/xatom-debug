@@ -25,7 +25,9 @@ export interface ToolbarOptions {
   didOpenScheme?: Function,
   didRun?: Function,
   didChangePath?: Function,
-  didStop?: Function
+  didStop?: Function,
+  didToggleConsole?: Function,
+  didToggleDebugArea?: Function
 }
 
 export class ToolbarView {
@@ -117,12 +119,24 @@ export class ToolbarView {
     //   ]
     // })
     // insertElement(this.element, this.statusElement)
-
+    // toggle panes
+    let toggleButtons = createGroupButtons([
+      createButton({
+        click: () => this.events.emit('didToggleConsole')
+      }, [createIcon('panel-bottom')]),
+      createButton({
+        click: () => this.events.emit('didToggleDebugArea')
+      }, [createIcon('panel-right')])
+    ])
+    toggleButtons.classList.add('bugs-toggle-buttons')
+    insertElement(this.element, toggleButtons)
     attachEventFromObject(this.events, [
       'didRun',
       'didStop',
       'didChangePath',
-      'didOpenScheme'
+      'didOpenScheme',
+      'didToggleDebugArea',
+      'didToggleConsole'
     ], options);
   }
 
@@ -132,6 +146,15 @@ export class ToolbarView {
   public didStop (cb: Function) {
     this.events.on('didStop', cb)
   }
+
+  public didToggleConsole (cb) {
+    this.events.on('didToggleConsole', cb)
+  }
+
+  public didToggleDebugArea (cb) {
+    this.events.on('didToggleDebugArea', cb)
+  }
+
   public setStatus(text: string, options?: any) {
     this.statusElement.innerHTML = '';
     if (options) {

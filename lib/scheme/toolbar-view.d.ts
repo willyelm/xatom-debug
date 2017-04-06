@@ -3,6 +3,8 @@ export interface ToolbarOptions {
     didRun?: Function;
     didChangePath?: Function;
     didStop?: Function;
+    didToggleConsole?: Function;
+    didToggleDebugArea?: Function;
 }
 export declare class ToolbarView {
     isRunning: boolean;
@@ -20,6 +22,8 @@ export declare class ToolbarView {
     constructor(options: ToolbarOptions);
     didRun(cb: Function): void;
     didStop(cb: Function): void;
+    didToggleConsole(cb: any): void;
+    didToggleDebugArea(cb: any): void;
     setStatus(text: string, options?: any): void;
     toggleLogo(state: boolean): void;
     private setPathName(pathName);

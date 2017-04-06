@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Slice</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="22" height="22" rx="2"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="panel-bottom" transform="translate(1.000000, 1.000000)">
+            <g id="Page-1">
+                <g id="Rectangle-3" opacity="0.900000036">
+                    <g id="path-1-Clipped">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="path-1"></g>
+                        <rect id="path-1" stroke="#000000" stroke-width="3" mask="url(#mask-2)" x="0" y="0" width="22" height="22" rx="2"></rect>
+                    </g>
+                </g>
+                <rect id="Rectangle" fill="#000000" fill-rule="nonzero" transform="translate(11.000000, 15.500000) rotate(90.000000) translate(-11.000000, -15.500000) " x="9" y="8.5" width="4" height="14" rx="1"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

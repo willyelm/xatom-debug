@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"
-	 height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
-<g id="Filled_Icons_1_">
-	<g id="Filled_Icons">
-		<path d="M23.143,5.15l-2.951,3.014c-2.839-0.863-5.531-1.301-8.005-1.301c-7.681,0-12.093,4.225-12.107,11.591
-			c-0.002,0.665,0.998,0.669,1,0.002c0.009-4.799,3.609-5.516,5.755-5.516c2.082,0,4.482,0.621,6.819,1.759l-3.504,3.444
-			C9.833,18.452,10.049,19,10.5,19h13c0.275,0,0.5-0.224,0.5-0.5v-13C24,5.051,23.451,4.832,23.143,5.15z"/>
-	</g>
-	<g id="New_icons">
-	</g>
-</g>
-<g id="Invisible_Shape">
-	<rect fill="none" width="24" height="24"/>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Slice</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="step-over" transform="translate(3.000000, 1.000000)" fill-rule="nonzero" fill="#000000">
+            <g id="Slice">
+                <g id="Page-1">
+                    <circle id="Oval" cx="9" cy="18" r="4"></circle>
+                    <path d="M12.0880611,1.06991284 C12.7711635,2.71526073 13.4378005,5.10200724 13.4378005,8.15093277 C13.4378005,12.522031 11.4444322,14.6418026 10.2449067,15.5216847 C9.28102827,15.1738089 8.11465237,14.9702963 6.85805261,14.9702963 C5.92385956,14.9702963 5.0395321,15.0827751 4.25120165,15.2834291 C5.88225297,14.1560136 8.49711087,11.782294 8.49711087,8.15093277 C8.49711087,5.87273379 8.06630197,4.33183843 7.57664747,3.31623674 L4.88024224,4.65883137 L6.59651706,-3.24910255 L14.7274504,-0.24429238 L12.0880611,1.06991284 Z" id="Combined-Shape" transform="translate(9.489326, 6.136291) scale(-1, 1) rotate(-90.000000) translate(-9.489326, -6.136291) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>

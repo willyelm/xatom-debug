@@ -20,6 +20,7 @@ export class PluginClientConsole {
     });
   }
   error (message: string): void {
+    console.log('error', message)
     this.consoleView.createConsoleLine(message, {
       className: 'line-error'
     });
@@ -59,12 +60,12 @@ export class PluginClient {
     this.debugView.togglePause(false);
     this.toolbarView.toggleRun(true);
     this.editorManager.removeMarkers();
-    this.consoleView.clearConsole();
     this.debugView.clearCallStack();
     this.debugView.clearScope();
   }
   run (): void {
     this.toolbarView.toggleRun(false);
+    this.consoleView.clearConsole();
   }
   pause (): void {
     this.debugView.togglePause(true);

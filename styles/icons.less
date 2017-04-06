@@ -90,7 +90,15 @@
     -webkit-mask-image: url('atom://atom-bugs/icons/remove.svg');
     background-color: @text-color;
   }
+  &.bugs-icon-panel-right {
+    -webkit-mask-image: url('atom://atom-bugs/icons/panel-right.svg');
+    background-color: @text-color;
+  }
+  &.bugs-icon-panel-bottom {
+    -webkit-mask-image: url('atom://atom-bugs/icons/panel-bottom.svg');
+    background-color: @text-color;
+  }
   &.active {
-    background-color: hsl(hue(@syntax-background-color), 100%, 60%);
+    background-color: hsl(hue(@syntax-background-color), 100%, 60%)!important;
   }
 }
