@@ -1,6 +1,6 @@
 {
   "name": "atom-bugs",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "author": "Williams Medina <williams.medinaa@gmail.com>",
   "description": "A Simple Debugger for Atom",
   "keywords": [
@@ -40,16 +40,20 @@
       "description": "Change toolbar panel position.",
       "type": "string",
       "default": "TopPanel",
-      "enum": [{
-        "value": "TopPanel",
-        "description": "Top"
-      }, {
-        "value": "BottomPanel",
-        "description": "Bottom"
-      }, {
-        "value": "HeaderPanel",
-        "description": "Title"
-      }]
+      "enum": [
+        {
+          "value": "TopPanel",
+          "description": "Top"
+        },
+        {
+          "value": "BottomPanel",
+          "description": "Bottom"
+        },
+        {
+          "value": "HeaderPanel",
+          "description": "Title"
+        }
+      ]
     },
     "showToolbarIcon": {
       "title": "Atom Bugs Icon",
