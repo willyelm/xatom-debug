@@ -126,11 +126,13 @@ export class EditorManager {
         breakpoint.marker = this.createBreakpointMarkerForEditor(editor, breakpoint.lineNumber)
       })
     }
-    if (get(editor, 'editorElement.addEventListener', false)) {
+    this.currentEditor = editor
+    if (get(editor, 'editorElement.addEventListener', false) &&
+      !get(editor, 'editorElement.__atomBugsEnabledFeatures', false)) {
       let breakpointHandler = (e) => this.listenBreakpoints(e, editor)
       let expressionHandler = (e) => this.listenExpressionEvaluations(e, editor)
-      this.currentEditor = editor
       // add breakpoint handler
+      editor.editorElement.__atomBugsEnabledFeatures = true
       editor.editorElement.addEventListener('click', breakpointHandler)
       editor.editorElement.addEventListener('mousemove', expressionHandler)
       editor.onDidDestroy(() => {
