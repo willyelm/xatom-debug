@@ -1,11 +1,11 @@
-'use babel';
+'use babel'
 /*!
  * Atom Bugs
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
 
-import { EventEmitter }  from 'events';
+import { EventEmitter }  from 'events'
 
 export interface Breakpoint {
   lineNumber: number,
@@ -13,11 +13,11 @@ export interface Breakpoint {
   marker: any
 }
 
-export type Breakpoints = Array<Breakpoint>;
+export type Breakpoints = Array<Breakpoint>
 
 export class BreakpointManager {
 
-  private breakpoints: Breakpoints = [];
+  private breakpoints: Breakpoints = []
 
   constructor () {}
 
@@ -29,25 +29,24 @@ export class BreakpointManager {
     let index = this.breakpoints.findIndex((item) => {
       return (item.filePath === filePath && item.lineNumber === lineNumber)
     })
-    return this.breakpoints[index];
+    return this.breakpoints[index]
   }
 
   getBreakpointsFromFile(filePath: String): Breakpoints {
     return this.breakpoints.filter((item) => {
       return (item.filePath === filePath)
-    });
+    })
   }
 
   removeBreakpoint (breakpoint: Breakpoint): Promise<boolean> {
     return new Promise ((resolve, reject) => {
-      let index = this.breakpoints.indexOf(breakpoint);
+      let index = this.breakpoints.indexOf(breakpoint)
       if(index != -1) {
-        // this.events.emit('removeBreakpoint', breakpoint.filePath, breakpoint.lineNumber);
-        breakpoint.marker.destroy();
-      	this.breakpoints.splice(index, 1);
-        return resolve(true);
+        if (breakpoint.marker) breakpoint.marker.destroy()
+      	this.breakpoints.splice(index, 1)
+        return resolve(true)
       }
-      return reject('breakpoint does not exists');
+      return reject('breakpoint does not exists')
     })
   }
 
@@ -58,11 +57,11 @@ export class BreakpointManager {
         filePath,
         marker
       } as Breakpoint
-      let index = this.breakpoints.push(breakpoint);
+      let index = this.breakpoints.push(breakpoint)
       if (index > -1) {
-        resolve(breakpoint);
+        resolve(breakpoint)
       } else {
-        reject('unable to add breakpoint');
+        reject('unable to add breakpoint')
       }
     })
   }

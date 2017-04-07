@@ -100,6 +100,9 @@ export class Bugs {
           initialColumn: columnNumber
         })
       },
+      didOpenFrame: (frame: any) => {
+        this.debugView.insertScope(frame.scope)
+      },
       didRequestProperties: (result, inspectView) => {
         return this.pluginManager.requestProperties(result, inspectView)
       }

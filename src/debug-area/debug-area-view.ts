@@ -37,7 +37,8 @@ export interface DebugAreaOptions {
   didStepOut?: Function,
   didBreak?: Function,
   didOpenFile?: Function,
-  didRequestProperties?: Function
+  didRequestProperties?: Function,
+  didOpenFrame?: Function
 }
 
 export class DebugAreaView {
@@ -154,7 +155,8 @@ export class DebugAreaView {
       'didStepOut',
       'didBreak',
       'didOpenFile',
-      'didRequestProperties'
+      'didRequestProperties',
+      'didOpenFrame'
     ], options)
     window.addEventListener('resize', () => this.adjustDebugArea())
     setTimeout(() => this.adjustDebugArea(), 0)
@@ -213,6 +215,7 @@ export class DebugAreaView {
     return createElement('atom-bugs-group-item', {
       options: {
         click: () => {
+          this.events.emit('didOpenFrame', frame)
           this.events.emit('didOpenFile',
             frame.filePath,
             frame.lineNumber,
@@ -300,14 +303,16 @@ export class DebugAreaView {
   }
 
   insertScope (scope) {
-    this.clearScope()
-    let inspector = new InspectorView({
-      result: scope,
-      didRequestProperties: (result, inspectorView) => {
-        this.events.emit('didRequestProperties', result, inspectorView)
-      }
-    })
-    insertElement(this.scopeContentElement, inspector.getElement())
+    if (scope) {
+      this.clearScope()
+      let inspector = new InspectorView({
+        result: scope,
+        didRequestProperties: (result, inspectorView) => {
+          this.events.emit('didRequestProperties', result, inspectorView)
+        }
+      })
+      insertElement(this.scopeContentElement, inspector.getElement())
+    }
   }
 
   clearScope () {

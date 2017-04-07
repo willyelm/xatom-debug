@@ -14,6 +14,7 @@ export interface DebugAreaOptions {
     didBreak?: Function;
     didOpenFile?: Function;
     didRequestProperties?: Function;
+    didOpenFrame?: Function;
 }
 export declare class DebugAreaView {
     private element;

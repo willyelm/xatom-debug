@@ -13,8 +13,6 @@ export declare class EditorManager {
     private currentExpressionMarker;
     private currentEvaluationMarker;
     private activateExpressionListerner;
-    private breakpointHandler;
-    private expressionHandler;
     private evaluateHandler;
     private breakpointManager;
     private pluginManager;
@@ -30,15 +28,15 @@ export declare class EditorManager {
     removeBreakMarker(): void;
     removeExpressionMarker(): void;
     addFeatures(editor: any): Promise<void>;
-    private breakpointListener(e);
-    private createBreakpointMarker(lineNumber);
-    private getPositionFromEvent(e);
-    private getWordRangeFromPosition(position);
-    private expressionListener(e);
-    createEvaluationView(range: any): {
+    private listenBreakpoints(e, editor);
+    private createBreakpointMarkerForEditor(editor, lineNumber);
+    private getEditorPositionFromEvent(editor, e);
+    private getEditorWordRangeFromPosition(editor, position);
+    private listenExpressionEvaluations(e, editor);
+    createEditorEvaluationView(editor: any, range: any): {
         insertFromResult: (result: any) => void;
     };
     createInspectorOverlay(result: any): HTMLElement;
-    addEvaluationMarker(result: any, range: any): void;
+    addEditorEvaluationMarker(editor: any, result: any, range: any): void;
     removeEvaluationMarker(): void;
 }
