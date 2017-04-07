@@ -122,7 +122,6 @@ export class PluginClient {
     this.editorManager.breakOnFile(filePath, lineNumber)
   }
   setCallStack (items: CallStackFrames) {
-    console.log('items', items)
     this.debugView.insertCallStackFromFrames(items)
   }
   setScope (scope: any) {
