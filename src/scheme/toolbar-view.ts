@@ -148,6 +148,23 @@ export class ToolbarView {
     ], options);
   }
 
+  private toggleAtomTitleBar (value: boolean) {
+    let titleBar = document.querySelector('atom-panel .title-bar') as HTMLElement
+    if (titleBar.nodeType) {
+      titleBar.style.display = value ? null : 'none'
+    }
+  }
+
+  public displayAsTitleBar () {
+    this.toggleAtomTitleBar(false)
+    this.element.classList.add('bugs-title-bar')
+  }
+
+  public displayDefault () {
+    this.toggleAtomTitleBar(true)
+    this.element.classList.remove('bugs-title-bar')
+  }
+
   public didRun (cb: Function) {
     this.events.on('didRun', cb)
   }
@@ -222,6 +239,7 @@ export class ToolbarView {
   }
 
   public destroy () {
+    this.toggleAtomTitleBar(true)
     this.element.remove();
     this.subscriptions.dispose();
   }

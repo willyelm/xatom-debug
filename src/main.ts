@@ -40,9 +40,19 @@ export default {
     // observe path changes
     atom.project.onDidChangePaths((projects) => this.bugs.toolbarView.setPaths(projects))
     // Toolbar Panel
-    this.toolbarPanel = atom.workspace['addTopPanel']({
-      item: this.bugs.getToolbarElement()
-    });
+    atom.config['observe']('atom-bugs.toolbarStyle', (value) => {
+      if (this.toolbarPanel) {
+        this.toolbarPanel.destroy()
+      }
+      if (value === 'HeaderPanel') {
+        this.bugs.toolbarView.displayAsTitleBar()
+      } else {
+        this.bugs.toolbarView.displayDefault()
+      }
+      this.toolbarPanel = atom.workspace[`add${value}`]({
+        item: this.bugs.getToolbarElement()
+      });
+    })
     // Console Panel
     this.consolePanel = atom.workspace.addBottomPanel({
       item: this.bugs.getConsoleElement(),

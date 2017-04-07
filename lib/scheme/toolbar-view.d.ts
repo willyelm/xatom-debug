@@ -20,6 +20,9 @@ export declare class ToolbarView {
     private events;
     private subscriptions;
     constructor(options: ToolbarOptions);
+    private toggleAtomTitleBar(value);
+    displayAsTitleBar(): void;
+    displayDefault(): void;
     didRun(cb: Function): void;
     didStop(cb: Function): void;
     didToggleConsole(cb: any): void;

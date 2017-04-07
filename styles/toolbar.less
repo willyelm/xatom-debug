@@ -14,17 +14,26 @@
 // }
 
 .platform-darwin {
-  .atom-bugs-toolbar-title{
-    padding-left: 75px;
+  .bugs-title-bar {
+    padding-left: 65px;
   }
   &.fullscreen {
-    .atom-bugs-toolbar-title{
-      padding-left: 5px;
+    .bugs-title-bar {
+      padding-left: 0px;
     }
   }
 }
 
 atom-bugs-toolbar {
+  display: block;
+  padding: 4px 5px 4px 0;
+  &.bugs-title-bar {
+    height: 28px;
+    padding: 1px;
+    .btn {
+      line-height: 24px;
+    }
+  }
   .btn {
     background-image: none!important;
     background-color: @button-background-color!important;
@@ -50,8 +59,6 @@ atom-bugs-toolbar {
 
 // Toolbar
 atom-bugs-toolbar {
-  display: block;
-  padding: 4px 5px 4px 0;
   .bugs-icon-logo {
     margin: 0 10px;
   }

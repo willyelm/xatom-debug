@@ -35,8 +35,24 @@
     }
   },
   "configSchema": {
+    "toolbarStyle": {
+      "title": "Toolbar Style",
+      "description": "Change toolbar panel position.",
+      "type": "string",
+      "default": "TopPanel",
+      "enum": [{
+        "value": "TopPanel",
+        "description": "Top"
+      }, {
+        "value": "BottomPanel",
+        "description": "Bottom"
+      }, {
+        "value": "HeaderPanel",
+        "description": "Title"
+      }]
+    },
     "showToolbarIcon": {
-      "title": "Icon",
+      "title": "Atom Bugs Icon",
       "description": "Show atom-bugs icon on toolbar.",
       "type": "boolean",
       "default": true
