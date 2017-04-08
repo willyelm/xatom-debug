@@ -7,6 +7,8 @@
 
 import { parse } from 'path';
 import { EventEmitter }  from 'events';
+import { get } from 'lodash';
+
 const { CompositeDisposable } = require('atom');
 import {
   createGroupButtons,
@@ -150,7 +152,7 @@ export class ToolbarView {
 
   private toggleAtomTitleBar (value: boolean) {
     let titleBar = document.querySelector('atom-panel .title-bar') as HTMLElement
-    if (titleBar.nodeType) {
+    if (get(titleBar, 'nodeType', false)) {
       titleBar.style.display = value ? null : 'none'
     }
   }
