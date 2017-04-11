@@ -152,8 +152,8 @@ export class ToolbarView {
 
   private toggleAtomTitleBar (value: boolean) {
     let titleBar = document.querySelector('atom-panel .title-bar') as HTMLElement
-    if (get(titleBar, 'nodeType', false)) {
-      titleBar.style.display = value ? null : 'none'
+    if (get(titleBar, 'nodeType', false) && titleBar.parentNode) {
+      (<HTMLElement> titleBar.parentNode).style.display = value ? null : 'none'
     }
   }
 
