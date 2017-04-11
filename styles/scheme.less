@@ -37,8 +37,9 @@ atom-bugs-scheme {
       select {
         -webkit-appearance: none;
         background-color: darken(@button-background-color, 8%);
-        border: 1px solid @button-border-color;
+        box-shadow: 0 0 0 1px @button-border-color;
         padding: 4px 7px;
+        border: none;
         border-radius: 4px;
         width: 100%;
         &::-webkit-input-placeholder {
@@ -89,7 +90,7 @@ atom-bugs-scheme {
           position: absolute;
           top: 0;
           right: 0;
-          height: 28px;
+          height: 26px;
           border-top-left-radius: 0;
           border-bottom-left-radius: 0;
           border-left: 1px solid @base-border-color!important;
@@ -137,7 +138,8 @@ atom-bugs-scheme {
       margin-right: 5px;
     }
     &.active {
-      background-color: @base-background-color;
+      background-color: @accent-color;
+      color: lighten(@text-color, 60%)!important;
     }
   }
   atom-bugs-scheme-content {

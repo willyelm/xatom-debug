@@ -8,13 +8,10 @@ import { Bugs } from './bugs'
 const { CompositeDisposable } = require('atom');
 
 export default {
-
   subscriptions: null,
-
   toolbarPanel: null,
   debugPanel: null,
   consolePanel: null,
-
   bugs: null,
 
   activate (state: any) {
@@ -26,7 +23,10 @@ export default {
       this.debugPanel.show()
       this.bugs.debugView.adjustDebugArea()
     })
-    this.bugs.toolbarView.didStop(() => this.consolePanel.hide())
+    this.bugs.toolbarView.didStop(() => {
+      this.consolePanel.hide()
+      this.debugPanel.hide()
+    })
     this.bugs.toolbarView.didToggleConsole(() => {
       this.consolePanel[this.consolePanel.visible ? 'hide' : 'show']()
     })

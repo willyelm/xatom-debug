@@ -6,12 +6,7 @@
 
 @import "ui-variables";
 
-@bugs-border-radius: 4px;
-// .panel-header {
-//   .title-bar {
-//     display: none;
-//   }
-// }
+@bugs-border-radius: @component-border-radius;
 
 .platform-darwin {
   .bugs-title-bar {
@@ -29,7 +24,7 @@ atom-bugs-toolbar {
   padding: 4px;
   &.bugs-title-bar {
     height: 28px;
-    padding: 2px;
+    padding: 3px;
     .btn {
       line-height: 22px;
     }
@@ -47,7 +42,7 @@ atom-bugs-toolbar {
       background-color: @button-background-color-hover!important;
     }
     &:active {
-      background-color: darken(@button-background-color, 4%)!important;
+      background-color: @accent-color!important;
     }
     i.bugs-icon {
       width: 16px;

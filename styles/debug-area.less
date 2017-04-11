@@ -38,7 +38,7 @@ atom-bugs-console {
   }
 }
 atom-bugs-console {
-  background-color: lighten(@input-background-color, 5%);
+  background-color: lighten(@base-background-color, 3%);
   atom-bugs-console-line {
     padding: 2px 10px ;
     display: block;
@@ -81,7 +81,7 @@ atom-bugs-area {
     margin-top: 1px;
   }
   atom-bugs-group-content {
-    background-color: lighten(@input-background-color, 5%);
+    background-color: lighten(@base-background-color, 3%);
     min-height: 50px;
     margin-top: 1px;
     margin-bottom: 1px;
@@ -146,7 +146,7 @@ atom-bugs-console-output {
 }
 
 atom-bugs-controls {
-  background-color: darken(@base-background-color, 3%);
+  background-color: @base-background-color;
   margin-bottom: 1px;
   padding: 4px;
   display: block;
