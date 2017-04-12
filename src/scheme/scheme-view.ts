@@ -60,8 +60,6 @@ export class SchemeView {
     }
     modalConfig['className'] = 'atom-bugs-modal'
     this.panel = atom.workspace.addModalPanel(modalConfig)
-
-    console.dir(this.panel)
     attachEventFromObject(this.events, [
       'didSelectPlugin',
       'didChange'
@@ -157,7 +155,7 @@ export class SchemeView {
   createControlText (pluginName: string, key: string, config: any) {
     let inputElement = createInput({
       placeholder: config.default,
-      value: this.data[pluginName][key],
+      // value: this.data[pluginName][key],
       change: (value) => {
         if (String(value).trim().length > 0) {
           this.data[pluginName][key] = value
