@@ -8,6 +8,8 @@
 
 .atom-bugs-modal {
   top: 0!important;
+  border-top-left-radius: 0!important;
+  border-top-right-radius: 0!important;
 }
 
 atom-bugs-scheme {
@@ -154,7 +156,8 @@ atom-bugs-scheme {
   atom-bugs-scheme-content {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 1px;
+    margin: 0;
+    background-color: @base-background-color;
     atom-bugs-scheme-list,
     atom-bugs-scheme-editor {
       position: relative;
