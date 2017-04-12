@@ -300,8 +300,8 @@ export class SchemeView {
   }
 
   createObjectItem (data: any, index: string) {
-    let nameInput = createElement('input')
-    let valueInput = createElement('input')
+    let nameInput = createInput({})
+    let valueInput = createInput({})
     let itemElement = createElement('div', {
       className: 'input-item',
       elements: [
