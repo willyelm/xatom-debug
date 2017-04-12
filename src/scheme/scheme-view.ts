@@ -54,10 +54,14 @@ export class SchemeView {
         ]
       })
     ])
-    this.panel = atom.workspace.addModalPanel({
+    let modalConfig = {
       item: this.element,
       visible: false
-    })
+    }
+    modalConfig['className'] = 'atom-bugs-modal'
+    this.panel = atom.workspace.addModalPanel(modalConfig)
+
+    console.dir(this.panel)
     attachEventFromObject(this.events, [
       'didSelectPlugin',
       'didChange'
@@ -115,6 +119,9 @@ export class SchemeView {
             }
             controlElement = this[controlType](plugin.name, name, config)
             break;
+          case 'boolean':
+            controlElement = this.createControlCheckbox(plugin.name, name, config)
+            break;
           case 'object':
             controlElement = this.createControlObject(plugin.name, name, config)
             break;
@@ -168,6 +175,19 @@ export class SchemeView {
       elements: [inputElement]
     })
   }
+  createControlCheckbox (pluginName: string, key: string, config: any) {
+    return createElement('scheme-control', {
+      elements: [createInput({
+        type: 'checkbox',
+        className: 'input-checkbox',
+        value: this.data[pluginName][key],
+        change: (value) => {
+          this.data[pluginName][key] = value
+          this.events.emit('didChange')
+        }
+      })]
+    })
+  }
   createControlSelect (pluginName: string, key: string, config: any) {
     let selectOptions = config.enum.map((value) => createOption(value, value))
     let selectElement = createSelect({
@@ -182,7 +202,10 @@ export class SchemeView {
     })
   }
   createArrayItem (data: any, index: number) {
-    let itemInput = createElement('input')
+    let itemInput = createInput({
+      readOnly: true,
+      value: data[index]
+    })
     let itemElement = createElement('div', {
       className: 'input-item',
       elements: [
@@ -196,14 +219,12 @@ export class SchemeView {
         }, createIcon('remove'))
       ]
     })
-    itemInput.setAttribute('readonly', true)
-    itemInput.value = data[index]
     return itemElement
   }
 
   createControlArray (pluginName: string, key: string, config: any) {
     let source = this.data[pluginName][key]
-    let addInput = createElement('input')
+    let addInput = createInput({})
     let itemsElement = createElement('div', {
       className: 'input-items'
     })
@@ -241,8 +262,8 @@ export class SchemeView {
 
   createControlObject (pluginName: string, key: string, config: any) {
     let source = this.data[pluginName][key]
-    let nameInput = createElement('input')
-    let valueInput = createElement('input')
+    let nameInput = createInput({})
+    let valueInput = createInput({})
     let itemsElement = createElement('div', {
       className: 'input-items'
     })
@@ -310,6 +331,9 @@ export class SchemeView {
       let show = false
       if (rules.contains && Array.isArray(rules.contains)) {
         show = rules.contains.includes(this.data[pluginName][name])
+      }
+      if (rules.is) {
+        show = (this.data[pluginName][name] === rules.is)
       }
       element.style.display = show ? '' : 'none'
     })

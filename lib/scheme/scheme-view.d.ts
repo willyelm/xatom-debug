@@ -18,6 +18,7 @@ export declare class SchemeView {
     activatePlugin(plugin: Plugin): void;
     openPlugin(plugin: Plugin): void;
     createControlText(pluginName: string, key: string, config: any): any;
+    createControlCheckbox(pluginName: string, key: string, config: any): any;
     createControlSelect(pluginName: string, key: string, config: any): any;
     createArrayItem(data: any, index: number): any;
     createControlArray(pluginName: string, key: string, config: any): any;

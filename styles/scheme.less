@@ -6,6 +6,10 @@
 
 @import "ui-variables";
 
+.atom-bugs-modal {
+  top: 0!important;
+}
+
 atom-bugs-scheme {
   display: block;
   margin: -10px;
@@ -20,28 +24,33 @@ atom-bugs-scheme {
       width: 100%;
     }
     scheme-label {
-      flex: 0 0 30%;
-      max-width: 30%;
+      flex: 0 0 35%;
+      max-width: 35%;
       text-align: right;
       padding: 5px 7px;
       padding-right: 14px;
     }
     scheme-control {
-      flex: 0 0 70%;
-      max-width: 70%;
+      flex: 0 0 65%;
+      max-width: 65%;
       p {
         margin: 5px 0;
         font-size: 90%;
       }
-      input,
+      .form-control,
       select {
+        outline: none!important;
         -webkit-appearance: none;
         background-color: darken(@button-background-color, 8%);
-        box-shadow: 0 0 0 1px @button-border-color;
+        box-shadow: 0 0 0 .05rem @button-border-color inset;
         padding: 4px 7px;
+        height: auto!important;
         border: none;
         border-radius: 4px;
         width: 100%;
+        &:focus {
+          box-shadow: 0 0 0 .05rem @accent-color inset;
+        }
         &::-webkit-input-placeholder {
           color: fadeOut(@text-color, 70%);
         }
@@ -83,17 +92,15 @@ atom-bugs-scheme {
       .input-form {
         display: block;
         position: relative;
-        input {
-          padding-right: 40px;
-        }
         button {
           position: absolute;
           top: 0;
           right: 0;
-          height: 26px;
+          height: 100%;
+          // background: transparent!important;
           border-top-left-radius: 0;
           border-bottom-left-radius: 0;
-          border-left: 1px solid @base-border-color!important;
+          box-shadow: 0 0 0 .05rem @button-border-color inset;
         }
       }
       .bugs-icon {
@@ -107,11 +114,10 @@ atom-bugs-scheme {
       .input-object {
         input {
           width: 50%;
+          display: inline-block;
         }
         .input-item {
-          input + input {
-            border-left: 1px solid @base-border-color!important;
-          }
+
         }
         .input-form {
           input {
@@ -122,6 +128,8 @@ atom-bugs-scheme {
           input + input {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
+            border-top-right-radius: @component-border-radius;
+            border-bottom-right-radius: @component-border-radius;
           }
         }
       }
@@ -145,7 +153,7 @@ atom-bugs-scheme {
   atom-bugs-scheme-content {
     display: flex;
     flex-wrap: wrap;
-    margin: 7px 10px;
+    margin: 0 1px;
     atom-bugs-scheme-list,
     atom-bugs-scheme-editor {
       position: relative;
@@ -153,15 +161,15 @@ atom-bugs-scheme {
       width: 100%;
       min-height: 360px;
       max-height: 360px;
-      border: 1px solid @base-border-color;
+      // border: 1px solid @base-border-color;
       overflow: auto;
     }
     atom-bugs-scheme-list {
       flex: 0 0 25%;
       max-width: 25%;
       background-color: darken(@base-background-color, 2%);
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
+      // border-top-left-radius: @component-border-radius;
+      border-bottom-left-radius: @component-border-radius;
       z-index: 2;
     }
     atom-bugs-scheme-editor {
@@ -178,7 +186,7 @@ atom-bugs-scheme {
     display: block;
     text-align: right;
     padding: 7px 10px;
-    padding-top: 0;
+    border-top: 1px solid @base-border-color;
     .btn {
       padding-left: 30px;
       padding-right: 30px;
