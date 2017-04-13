@@ -36,7 +36,8 @@ export class ToolbarView {
   public isRunning: boolean;
   private element: HTMLElement;
   private logoElement: HTMLElement;
-  private statusElement: HTMLElement;
+  private statusTextElement: HTMLElement;
+  private statusLoadingElement: HTMLElement;
   private runButton: HTMLElement;
   private stopButton: HTMLElement;
   private stepButtons: HTMLElement;
@@ -115,12 +116,20 @@ export class ToolbarView {
       ])
     ]))
     // status
-    // this.statusElement = createElement('bugs-scheme-status', {
-    //   elements: [
-    //     createText('Not Running')
-    //   ]
-    // })
-    // insertElement(this.element, this.statusElement)
+    this.statusLoadingElement = createElement('div', {
+      className: 'bugs-status-loading'
+    })
+    this.statusTextElement = createElement('span', {
+      elements: [ createText('Not Started') ]
+    })
+
+    insertElement(this.element, createElement('bugs-scheme-status', {
+      // className: 'form-control',
+      elements: [
+        this.statusLoadingElement,
+        this.statusTextElement
+      ]
+    }))
     // toggle panes
     let toggleButtons = createGroupButtons([
       createButton({
@@ -182,15 +191,22 @@ export class ToolbarView {
     this.events.on('didToggleDebugArea', cb)
   }
 
-  public setStatus(text: string, options?: any) {
-    this.statusElement.innerHTML = '';
-    if (options) {
-      if (options.icon) {
-        let icon = insertElement(this.statusElement, createIcon(options.icon))
-        icon.classList.add(options.type || '')
-      }
+  public setStatusLoading(value: boolean) {
+    this.statusLoadingElement.classList[value ? 'add' : 'remove']('active')
+  }
+
+  public resetStatus () {
+    this.statusTextElement.innerHTML = '';
+    return insertElement(this.statusTextElement, createText('Not Started'))
+  }
+
+  public setStatus (text: string) {
+    this.statusTextElement.innerHTML = '';
+    let schemeName = get(this.scheme, 'name.nodeValue', '')
+    if (schemeName.length > 0) {
+      schemeName = `${schemeName}:`
     }
-    insertElement(this.statusElement, createText(text))
+    return insertElement(this.statusTextElement, createText(`${schemeName} ${text}`))
   }
 
   toggleLogo (state: boolean) {

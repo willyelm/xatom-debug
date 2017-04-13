@@ -10,7 +10,8 @@ export declare class ToolbarView {
     isRunning: boolean;
     private element;
     private logoElement;
-    private statusElement;
+    private statusTextElement;
+    private statusLoadingElement;
     private runButton;
     private stopButton;
     private stepButtons;
@@ -27,7 +28,9 @@ export declare class ToolbarView {
     didStop(cb: Function): void;
     didToggleConsole(cb: any): void;
     didToggleDebugArea(cb: any): void;
-    setStatus(text: string, options?: any): void;
+    setStatusLoading(value: boolean): void;
+    resetStatus(): HTMLElement;
+    setStatus(text: string): HTMLElement;
     toggleLogo(state: boolean): void;
     private setPathName(pathName);
     getPathName(): string;

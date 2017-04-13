@@ -6,15 +6,14 @@
 
 @import "ui-variables";
 
-@bugs-border-radius: @component-border-radius;
-
 .custom-inset-title-bar {
   atom-bugs-toolbar {
     &.bugs-title-bar {
-      padding-top: 8px;
+      padding-top: 7px;
       padding-right: 10px;
       height: 37px;
-      .btn {
+      .btn,
+      .form-control {
         line-height: 22px;
       }
     }
@@ -38,14 +37,15 @@ atom-bugs-toolbar {
   &.bugs-title-bar {
     height: 28px;
     padding: 3px;
-    .btn {
+    .btn,
+    .form-control {
       line-height: 20px;
     }
   }
   .btn {
     background-image: none!important;
     background-color: @button-background-color!important;
-    border-radius: @bugs-border-radius;
+    border-radius: @component-border-radius;
     outline: none!important;
     &[disabled] {
       opacity: .5;
@@ -82,14 +82,14 @@ atom-bugs-toolbar {
     }
   }
   .btn-group > .btn:first-child {
-    border-top-left-radius: @bugs-border-radius;
-    border-bottom-left-radius: @bugs-border-radius;
+    border-top-left-radius: @component-border-radius;
+    border-bottom-left-radius: @component-border-radius;
   }
   .btn-group > .btn:last-child,
   .btn-group > .btn.selected:last-child,
   .btn-group > .dropdown-toggle{
-    border-top-right-radius: @bugs-border-radius;
-    border-bottom-right-radius: @bugs-border-radius;
+    border-top-right-radius: @component-border-radius;
+    border-bottom-right-radius: @component-border-radius;
   }
   .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
     border-bottom-right-radius: 0;
@@ -160,13 +160,60 @@ atom-bugs-toolbar {
     }
   }
   bugs-scheme-status {
+    position: relative;
     display: inline-block;
     vertical-align: middle;
-    background-color: darken(@button-background-color, 3%);
-    border: 1px solid @button-border-color;
-    border-radius: @bugs-border-radius;
-    color: darken(@text-color, 15%);
-    padding: 4px 15px;
+    background-color: darken(@button-background-color, 5%);
+    border-radius: @component-border-radius;
+    border: none;
+    color: darken(@text-color, 20%);
     margin: 0 5px;
+    padding: 2px 10px;
+    .bugs-status-loading {
+      display: none;
+      &.active {
+        display: block;
+      }
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 100%;
+      border-bottom-left-radius: @component-border-radius;
+      border-bottom-right-radius: @component-border-radius;
+      background-color: fade(@accent-color, 10%);
+      &:before {
+        content: '';
+        position: absolute;
+        width: 0%;
+        height: 100%;
+        background-color: @accent-color;
+        animation: slideIn 1.2s linear alternate infinite;
+        border-bottom-left-radius: @component-border-radius;
+        border-bottom-right-radius: @component-border-radius;
+      }
+    }
+  }
+}
+@keyframes slideIn {
+  0% {
+    left: 0;
+    width: 0%
+  }
+  25% {
+    left: 0;
+    width: 33%;
+  }
+  50% {
+    left: 33%;
+    width: 67%;
+  }
+  75% {
+    left: 67%;
+    width: 33%;
+  }
+  100% {
+    left: 100%;
+    width: 0%;
   }
 }

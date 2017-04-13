@@ -10,6 +10,14 @@ export declare class PluginClientConsole {
     output(type: string, items: Array<any>): void;
     clear(): void;
 }
+export declare class PluginClientStatus {
+    private toolbarView;
+    constructor(toolbarView: ToolbarView);
+    startLoading(): void;
+    stopLoading(): void;
+    update(message: string): void;
+    reset(): void;
+}
 export interface ClientOptions {
     debugView: DebugAreaView;
     toolbarView: ToolbarView;
@@ -20,13 +28,13 @@ export interface ClientOptions {
 export declare class PluginClient {
     private options;
     console: PluginClientConsole;
+    status: PluginClientStatus;
     private debugView;
     private consoleView;
     private schemeView;
     private toolbarView;
     private editorManager;
     constructor(options: ClientOptions);
-    status(text: string, options?: any): void;
     stop(): void;
     run(): void;
     pause(): void;

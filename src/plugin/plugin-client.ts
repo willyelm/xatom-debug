@@ -60,6 +60,22 @@ export class PluginClientConsole {
   }
 }
 
+export class PluginClientStatus {
+  constructor (private toolbarView: ToolbarView) {}
+  startLoading () {
+    this.toolbarView.setStatusLoading(true)
+  }
+  stopLoading () {
+    this.toolbarView.setStatusLoading(false)
+  }
+  update (message: string): void {
+    this.toolbarView.setStatus(message)
+  }
+  reset () {
+    this.toolbarView.resetStatus()
+  }
+}
+
 export interface ClientOptions {
   debugView: DebugAreaView,
   toolbarView: ToolbarView,
@@ -70,6 +86,7 @@ export interface ClientOptions {
 
 export class PluginClient {
   public console: PluginClientConsole
+  public status: PluginClientStatus
   private debugView: DebugAreaView
   private consoleView: ConsoleView
   private schemeView: SchemeView
@@ -82,9 +99,7 @@ export class PluginClient {
     this.consoleView = options.consoleView
     this.editorManager = options.editorManager
     this.console = new PluginClientConsole(this.consoleView)
-  }
-  status (text: string, options?: any) {
-    this.toolbarView.setStatus(text, options)
+    this.status = new PluginClientStatus(this.toolbarView)
   }
   stop (): void {
     this.debugView.togglePause(false)
