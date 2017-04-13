@@ -57,7 +57,7 @@ export class EditorManager {
   restoreBreakpoints (breakpoints: Breakpoints) {
     breakpoints.forEach(({filePath, lineNumber}) => {
       let marker
-      if (this.currentEditor.getPath && filePath === this.currentEditor.getPath()) {
+      if (get(this, 'currentEditor.getPath') && filePath === this.currentEditor.getPath()) {
         marker = this.createBreakpointMarkerForEditor(this.currentEditor, lineNumber)
       }
       this.breakpointManager.addBreakpoint(marker, lineNumber, filePath)
