@@ -8,9 +8,22 @@
 
 @bugs-border-radius: @component-border-radius;
 
+.custom-inset-title-bar {
+  atom-bugs-toolbar {
+    &.bugs-title-bar {
+      padding-top: 8px;
+      padding-right: 10px;
+      height: 37px;
+      .btn {
+        line-height: 22px;
+      }
+    }
+  }
+}
+
 .platform-darwin {
   .bugs-title-bar {
-    padding-left: 65px;
+    padding-left: 85px;
   }
   &.fullscreen {
     .bugs-title-bar {
@@ -26,7 +39,7 @@ atom-bugs-toolbar {
     height: 28px;
     padding: 3px;
     .btn {
-      line-height: 22px;
+      line-height: 20px;
     }
   }
   .btn {
