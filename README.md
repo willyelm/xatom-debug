@@ -1,4 +1,4 @@
-# Atom Bugs package
+# Atom Bugs
 
 [![gitter](https://img.shields.io/gitter/room/atom-bugs/atom-bugs.svg?style=flat-square)](https://gitter.im/atom-bugs/atom-bugs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![apm](https://img.shields.io/apm/v/atom-bugs.svg?style=flat-square)](https://atom.io/packages/atom-bugs)
