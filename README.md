@@ -41,6 +41,7 @@ Below is the list of available plugins so far:
 Package|Description
 ---|---
 [NodeJS](https://atom.io/packages/atom-bugs-nodejs)|Run and debug javascript files using NodeJS 6.3+.
+[Google Chrome](https://atom.io/packages/atom-bugs-chrome)|Connect the debugger to a server enabling debugging javascript files.
 
 ### Requirements
 - atom 1.0.0+
