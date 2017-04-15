@@ -160,10 +160,14 @@ atom-bugs-toolbar {
     }
   }
   bugs-scheme-status {
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    background-color: darken(@button-background-color, 5%);
+    background-color: lighten(@button-background-color, 3%);
     border-radius: @component-border-radius;
     border: none;
     color: darken(@text-color, 20%);
