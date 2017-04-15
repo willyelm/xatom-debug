@@ -1,5 +1,5 @@
 {
-  "name": "atom-bugs",
+  "name": "xatom-debug",
   "version": "1.5.7",
   "author": "Williams Medina <williams.medinaa@gmail.com>",
   "description": "A Simple Debugger for Atom",
