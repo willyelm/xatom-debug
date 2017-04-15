@@ -10,6 +10,7 @@ import { EventEmitter }  from 'events'
 export interface Breakpoint {
   lineNumber: number,
   filePath: string,
+  condition: string,
   marker: any
 }
 
@@ -46,22 +47,23 @@ export class BreakpointManager {
       	this.breakpoints.splice(index, 1)
         return resolve(true)
       }
-      return reject('breakpoint does not exists')
+      return reject('Breakpoint does not exists')
     })
   }
 
-  addBreakpoint (marker: any, lineNumber: number, filePath: string): Promise<Breakpoint> {
+  addBreakpoint (marker: any, lineNumber: number, filePath: string, condition?: string): Promise<Breakpoint> {
     return new Promise((resolve, reject) => {
       let breakpoint = {
         lineNumber,
         filePath,
-        marker
+        marker,
+        condition: condition || ''
       } as Breakpoint
       let index = this.breakpoints.push(breakpoint)
       if (index > -1) {
         resolve(breakpoint)
       } else {
-        reject('unable to add breakpoint')
+        reject('Unable to add breakpoint')
       }
     })
   }
@@ -69,7 +71,8 @@ export class BreakpointManager {
     return this.breakpoints.map((b) => {
       return {
         filePath: b.filePath,
-        lineNumber: b.lineNumber
+        lineNumber: b.lineNumber,
+        condition: b.condition
       } as Breakpoint
     })
   }

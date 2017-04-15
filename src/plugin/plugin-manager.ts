@@ -56,16 +56,25 @@ export class PluginManager {
       range]);
   }
 
-  public addBreakpoint (filePath: string, fileNumber: number) {
+  public addBreakpoint (filePath: string, fileNumber: number, condition?: string) {
     return this.callOnActivePlugin('didAddBreakpoint', [
       filePath,
-      fileNumber]);
+      fileNumber,
+      condition]);
   }
 
-  public removeBreakpoint (filePath: string, fileNumber: number) {
+  public changeBreakpoint (filePath: string, fileNumber: number, condition?: string) {
+    return this.callOnActivePlugin('didChangeBreakpoint', [
+      filePath,
+      fileNumber,
+      condition]);
+  }
+
+  public removeBreakpoint (filePath: string, fileNumber: number, condition?: string) {
     return this.callOnActivePlugin('didRemoveBreakpoint', [
       filePath,
-      fileNumber]);
+      fileNumber,
+      condition]);
   }
 
   public run () {

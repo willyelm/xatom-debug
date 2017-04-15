@@ -41,6 +41,15 @@
         "label": "Stop",
         "command": "atom-bugs:stop"
       }]
+    }],
+    ".bugs-breakpoint": [{
+      "label": "Edit Breakpoint",
+      "command": "atom-bugs:edit-breakpoint"
+    }, {
+      "label": "Remove Breakpoint",
+      "command": "atom-bugs:remove-breakpoint"
+    }, {
+      "type": "separator"
     }]
   }
 }

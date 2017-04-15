@@ -5,7 +5,8 @@
  * MIT Licensed
  */
 import { Bugs } from './bugs'
-const { CompositeDisposable } = require('atom');
+const { CompositeDisposable } = require('atom')
+const { install } = require('atom-package-deps')
 
 export default {
   subscriptions: null,
@@ -15,7 +16,7 @@ export default {
   bugs: null,
 
   activate (state: any) {
-    require('atom-package-deps').install('atom-bugs', true)
+    install('atom-bugs', true)
     // create atom bugs instance
     this.bugs = new Bugs();
     this.bugs.toolbarView.didRun(() => {
@@ -84,7 +85,13 @@ export default {
       'atom-bugs:pause': () => this.bugs.pluginManager.pause(),
       'atom-bugs:step-over': () => this.bugs.pluginManager.stepOver(),
       'atom-bugs:step-into': () => this.bugs.pluginManager.stepInto(),
-      'atom-bugs:step-out': () => this.bugs.pluginManager.stepOut()
+      'atom-bugs:step-out': () => this.bugs.pluginManager.stepOut(),
+      'atom-bugs:edit-breakpoint': (event) => {
+        this.bugs.editorManager.editBreakpointFromEvent(event)
+      },
+      'atom-bugs:remove-breakpoint': (event) => {
+        this.bugs.editorManager.removeBreakpointFromEvent(event)
+      }
     });
     this.subscriptions = new CompositeDisposable();
     // add commands subs

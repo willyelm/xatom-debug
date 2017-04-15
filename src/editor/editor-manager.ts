@@ -7,6 +7,7 @@
 import {
  createIcon,
  createText,
+ createInput,
  createButton,
  createElement,
  insertElement,
@@ -38,7 +39,7 @@ export class EditorManager {
   private activateExpressionListerner: boolean = true
   private evaluateHandler: any
 
-  private breakpointManager: BreakpointManager
+  public breakpointManager: BreakpointManager
   private pluginManager: PluginManager
   private events: EventEmitter
 
@@ -49,28 +50,87 @@ export class EditorManager {
     attachEventFromObject(this.events, [
       'didAddBreakpoint',
       'didRemoveBreakpoint',
+      'didChangeBreakpoint',
       'didBreak',
       'didChange'
     ], options)
   }
 
   restoreBreakpoints (breakpoints: Breakpoints) {
-    breakpoints.forEach(({filePath, lineNumber}) => {
+    breakpoints.forEach(({filePath, lineNumber, condition}) => {
       let marker
       if (get(this, 'currentEditor.getPath') && filePath === this.currentEditor.getPath()) {
         marker = this.createBreakpointMarkerForEditor(this.currentEditor, lineNumber)
       }
-      this.breakpointManager.addBreakpoint(marker, lineNumber, filePath)
+      this.breakpointManager.addBreakpoint(marker, lineNumber, filePath, condition)
       this.events.emit('didAddBreakpoint', filePath, lineNumber)
     })
   }
 
-  getBreakpoints (): Breakpoints {
-    return this.breakpointManager.getBreakpoints()
+  getBreakpointFromEvent (event: any) {
+    let line: HTMLElement = event.target
+    let lineNumber = parseInt(line.getAttribute('data-buffer-row'), 0)
+    let editor = atom.workspace.getActiveTextEditor()
+    let filePath = editor.getPath()
+    return this.breakpointManager.getBreakpoint(filePath, lineNumber)
   }
 
-  getPlainBreakpoints (): Breakpoints {
-    return this.breakpointManager.getPlainBreakpoints()
+  removeBreakpointFromEvent (event: any) {
+    let breakpoint = this.getBreakpointFromEvent(event)
+    if (breakpoint) {
+      this.removeBreakpoint(breakpoint)
+    }
+  }
+
+  editBreakpointFromEvent (event: any) {
+    let editor = atom.workspace.getActiveTextEditor()
+    let breakpoint = this.getBreakpointFromEvent(event)
+    if (breakpoint) {
+      let range = [[breakpoint.lineNumber, 0], [breakpoint.lineNumber, 0]]
+      let marker: any = editor.markBufferRange(range)
+      let conditionInput = document.createElement('atom-text-editor')
+      conditionInput.setAttribute('mini', 'true')
+      let miniEditor = conditionInput['getModel']()
+      miniEditor.setText(breakpoint.condition)
+      miniEditor.setGrammar(editor.getGrammar())
+      let conditionButton = createButton({
+        click: () => {
+          let miniEditor = conditionInput['getModel']()
+          let conditionText = miniEditor.getText()
+          breakpoint.condition = conditionText
+          setTimeout(() => {
+            this.events.emit('didChangeBreakpoint', breakpoint.filePath, breakpoint.lineNumber, breakpoint.condition)
+            this.pluginManager.changeBreakpoint(breakpoint.filePath, breakpoint.lineNumber, breakpoint.condition)
+            this.events.emit('didChange')
+          }, 500)
+          breakpointEditor.remove()
+          marker.destroy()
+        }
+      }, createIcon('check'))
+      // conditionButton.classList.add('btn-success')
+
+      let breakpointEditor: HTMLElement = createElement('div', {
+        elements: [
+          conditionInput,
+          conditionButton,
+          createElement('bugs-breakpoint-edit-arrow')
+        ]
+      })
+      let decorator = editor.decorateMarker(marker, {
+        type: 'overlay',
+        class: 'bugs-breakpoint-edit',
+        item: breakpointEditor
+      })
+      setTimeout(() => {
+        conditionInput.focus()
+        conditionInput.addEventListener('blur', (e: FocusEvent) => {
+          if(e.relatedTarget !== conditionButton) {
+            breakpointEditor.remove()
+            marker.destroy()
+          }
+        })
+      }, 0)
+    }
   }
 
   destroy () {
@@ -142,6 +202,18 @@ export class EditorManager {
     }
   }
 
+  private removeBreakpoint (breakpoint: Breakpoint) {
+    let sourceFile = breakpoint.filePath
+    let lineNumber = breakpoint.lineNumber
+    return this
+      .breakpointManager
+      .removeBreakpoint(breakpoint)
+      .then(() => {
+        this.events.emit('didRemoveBreakpoint', sourceFile, lineNumber)
+        this.pluginManager.removeBreakpoint(sourceFile, lineNumber)
+      })
+  }
+
   private listenBreakpoints (e: MouseEvent, editor: any) {
     let element = e.target as HTMLElement
     if (element.classList.contains('line-number')) {
@@ -150,13 +222,7 @@ export class EditorManager {
       let lineNumber = Number(element.textContent) - 1
       let exists = this.breakpointManager.getBreakpoint(sourceFile, lineNumber)
       if (exists) {
-        this
-          .breakpointManager
-          .removeBreakpoint(exists)
-          .then(() => {
-            this.events.emit('didRemoveBreakpoint', sourceFile, lineNumber)
-            this.pluginManager.removeBreakpoint(sourceFile, lineNumber)
-          })
+        this.removeBreakpoint(exists)
       } else {
         let marker = this.createBreakpointMarkerForEditor(editor, lineNumber)
         this

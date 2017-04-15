@@ -1,4 +1,4 @@
-import { Breakpoints } from './breakpoint-manager';
+import { BreakpointManager, Breakpoint, Breakpoints } from './breakpoint-manager';
 import { PluginManager } from '../plugin/index';
 export interface EditorOptions {
     pluginManager: PluginManager;
@@ -14,13 +14,14 @@ export declare class EditorManager {
     private currentEvaluationMarker;
     private activateExpressionListerner;
     private evaluateHandler;
-    private breakpointManager;
+    breakpointManager: BreakpointManager;
     private pluginManager;
     private events;
     constructor(options: EditorOptions);
     restoreBreakpoints(breakpoints: Breakpoints): void;
-    getBreakpoints(): Breakpoints;
-    getPlainBreakpoints(): Breakpoints;
+    getBreakpointFromEvent(event: any): Breakpoint;
+    removeBreakpointFromEvent(event: any): void;
+    editBreakpointFromEvent(event: any): void;
     destroy(): void;
     breakOnFile(filePath: string, lineNumber: number): void;
     createBreakMarker(editor: any, lineNumber: number): void;
@@ -28,6 +29,7 @@ export declare class EditorManager {
     removeBreakMarker(): void;
     removeExpressionMarker(): void;
     addFeatures(editor: any): Promise<void>;
+    private removeBreakpoint(breakpoint);
     private listenBreakpoints(e, editor);
     private createBreakpointMarkerForEditor(editor, lineNumber);
     private getEditorPositionFromEvent(editor, e);

@@ -16,8 +16,9 @@ export declare class PluginManager {
     requestProperties(result: any, inspectView: any): void;
     requestScopeProperties(result: any, inspectView: any): void;
     evaluateExpression(expression: string, range: any): void;
-    addBreakpoint(filePath: string, fileNumber: number): void;
-    removeBreakpoint(filePath: string, fileNumber: number): void;
+    addBreakpoint(filePath: string, fileNumber: number, condition?: string): void;
+    changeBreakpoint(filePath: string, fileNumber: number, condition?: string): void;
+    removeBreakpoint(filePath: string, fileNumber: number, condition?: string): void;
     run(): void;
     stop(): void;
     pause(): void;

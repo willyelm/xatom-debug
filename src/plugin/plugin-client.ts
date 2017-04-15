@@ -131,7 +131,7 @@ export class PluginClient {
     return this.schemeView.getActivePluginOptions()
   }
   getBreakpoints (): Breakpoints {
-    return this.editorManager.getBreakpoints()
+    return this.editorManager.breakpointManager.getBreakpoints()
   }
   activateBreakpoint (filePath: string, lineNumber: number): void {
     this.editorManager.breakOnFile(filePath, lineNumber)
