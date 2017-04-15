@@ -6,7 +6,6 @@
  */
 import { Bugs } from './bugs'
 const { CompositeDisposable } = require('atom')
-const { install } = require('atom-package-deps')
 
 export default {
   subscriptions: null,
@@ -16,7 +15,7 @@ export default {
   bugs: null,
 
   activate (state: any) {
-    install('xatom-debug', true)
+    require('atom-package-deps').install('xatom-debug', true)
     // create atom bugs instance
     this.bugs = new Bugs();
     this.bugs.toolbarView.didRun(() => {
