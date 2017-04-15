@@ -63,7 +63,7 @@
     }
   },
   "package-deps": [
-    "atom-bugs-nodejs"
+    "xatom-debug-nodejs"
   ],
   "dependencies": {
     "atom-package-deps": "^4.6.0",
