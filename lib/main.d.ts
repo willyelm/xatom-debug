@@ -5,7 +5,7 @@ declare var _default: {
     consolePanel: any;
     bugs: any;
     activate(state: any): void;
-    provideService(): any;
+    provideXAtomDebugPlugin(): any;
     deactivate(): void;
 };
 export default _default;

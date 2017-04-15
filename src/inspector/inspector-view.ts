@@ -23,7 +23,7 @@ export class InspectorView {
   private events: EventEmitter
   constructor (options: InspectorViewOptions) {
     this.events = new EventEmitter();
-    this.element = createElement('atom-bugs-inspector');
+    this.element = createElement('xatom-debug-inspector');
     this.element.addEventListener('mousewheel', (e) => {
       e.stopPropagation();
       e.stopImmediatePropagation();
@@ -41,7 +41,7 @@ export class InspectorView {
       className: 'properties'
     })
     let target = element;
-    if (element.parentElement && element.parentElement.tagName === 'ATOM-BUGS-INSPECTOR-ITEM'){
+    if (element.parentElement && element.parentElement.tagName === 'xatom-debug-INSPECTOR-ITEM'){
       target = element.parentElement;
     }
     insertElement(target, [propertiesElement]);
@@ -55,7 +55,7 @@ export class InspectorView {
           propertyClass += ' syntax--variable';
         }
         let iconElement = createElement('i', { className: 'bugs-icon' })
-        let itemElement = createElement('atom-bugs-inspector-item')
+        let itemElement = createElement('xatom-debug-inspector-item')
         insertElement(itemElement, iconElement)
         if (desc.name) {
           let nameElement = createElement('span', {

@@ -30,10 +30,10 @@ export class ConsoleView {
 
   constructor (options?: ConsoleOptions) {
     this.events = new EventEmitter()
-    this.outputElement = createElement('atom-bugs-console-output')
-    this.element = createElement('atom-bugs-console', {
+    this.outputElement = createElement('xatom-debug-console-output')
+    this.element = createElement('xatom-debug-console', {
       elements: [
-        createElement('atom-bugs-controls', {
+        createElement('xatom-debug-controls', {
           elements: [
             createButton({}, createText('Console'))
           ]
@@ -56,13 +56,13 @@ export class ConsoleView {
   }
 
   createEmptyLine (options?) {
-    let line = createElement('atom-bugs-console-line', options)
+    let line = createElement('xatom-debug-console-line', options)
     insertElement(this.outputElement, line)
     return line
   }
 
   createConsoleLine (entry: string, options?) {
-    let line = createElement('atom-bugs-console-line', options)
+    let line = createElement('xatom-debug-console-line', options)
     if (entry && entry.length > 0) {
       line.innerHTML = entry
     }

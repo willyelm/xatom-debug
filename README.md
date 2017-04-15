@@ -1,6 +1,6 @@
 # XAtom Debug
 
-[![gitter](https://img.shields.io/gitter/room/atom-bugs/xatom-debug.svg?style=flat-square)](https://gitter.im/willyelm/xatom-debug?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![gitter](https://img.shields.io/gitter/room/xatom-debug/xatom-debug.svg?style=flat-square)](https://gitter.im/willyelm/xatom-debug?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![apm](https://img.shields.io/apm/v/xatom-debug.svg?style=flat-square)](https://atom.io/packages/xatom-debug)
 [![apm](https://img.shields.io/apm/l/xatom-debug.svg?style=flat-square)](https://github.com/willyelm/atom-bug/blob/master/LICENSE.md)
 
@@ -11,7 +11,7 @@ A Simple Debugging tool for Atom. `xatom-debug` is a base debugger UI provider, 
 ### Installation
 
 ```
-apm install atom-bugs
+apm install xatom-debug
 ```
 
 ### Features

@@ -56,7 +56,7 @@ export class ToolbarView {
   constructor (options: ToolbarOptions) {
 
     this.events = new EventEmitter();
-    this.element = createElement('atom-bugs-toolbar');
+    this.element = createElement('xatom-debug-toolbar');
     // create schemes
     this.scheme = {
       icon: createIconFromPath(''),
@@ -88,7 +88,7 @@ export class ToolbarView {
     this.logoElement = createIcon('logo')
     this.toggleLogo(false)
 
-    atom.config['observe']('atom-bugs.showToolbarIcon', (value) => this.toggleLogo(value))
+    atom.config['observe']('xatom-debug.showToolbarIcon', (value) => this.toggleLogo(value))
 
     insertElement(this.element, this.logoElement)
 

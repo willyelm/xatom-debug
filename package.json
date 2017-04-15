@@ -18,7 +18,7 @@
     "console"
   ],
   "license": "MIT",
-  "repository": "https://github.com/atom-bugs/atom-bugs",
+  "repository": "https://github.com/willyelm/xatom-debug",
   "main": "./lib/main",
   "showWelcome": true,
   "scripts": {
@@ -28,9 +28,9 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "providedServices": {
-    "atom-bugs": {
+    "xatom-debug": {
       "versions": {
-        "1.0.0": "provideService"
+        "1.0.0": "provideXAtomDebugPlugin"
       }
     }
   },
@@ -57,7 +57,7 @@
     },
     "showToolbarIcon": {
       "title": "Atom Bugs Icon",
-      "description": "Show atom-bugs icon on toolbar.",
+      "description": "Show xatom-debug icon on toolbar.",
       "type": "boolean",
       "default": true
     }
@@ -75,7 +75,7 @@
     "@types/node": "^7.0.8",
     "typescript": "^2.3.0"
   },
-  "atom-bugs": [
+  "xatom-debug": [
     {
       "scheme": "Develop",
       "plugin": "Node.js",

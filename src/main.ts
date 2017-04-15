@@ -16,7 +16,7 @@ export default {
   bugs: null,
 
   activate (state: any) {
-    install('atom-bugs', true)
+    install('xatom-debug', true)
     // create atom bugs instance
     this.bugs = new Bugs();
     this.bugs.toolbarView.didRun(() => {
@@ -41,7 +41,7 @@ export default {
     // observe path changes
     atom.project.onDidChangePaths((projects) => this.bugs.toolbarView.setPaths(projects))
     // Toolbar Panel
-    atom.config['observe']('atom-bugs.toolbarStyle', (value) => {
+    atom.config['observe']('xatom-debug.toolbarStyle', (value) => {
       if (this.toolbarPanel) {
         this.toolbarPanel.destroy()
       }
@@ -66,7 +66,7 @@ export default {
     });
     // add commands
     let commands = atom.commands.add('atom-workspace', {
-      'atom-bugs:toggle': () => {
+      'xatom-debug:toggle': () => {
         let visible = this.toolbarPanel.visible
         if (visible) {
           this.toolbarPanel.hide()
@@ -80,16 +80,16 @@ export default {
           }
         }
       },
-      'atom-bugs:run': () => this.bugs.pluginManager.run({}),
-      'atom-bugs:stop': () => this.bugs.pluginManager.stop(),
-      'atom-bugs:pause': () => this.bugs.pluginManager.pause(),
-      'atom-bugs:step-over': () => this.bugs.pluginManager.stepOver(),
-      'atom-bugs:step-into': () => this.bugs.pluginManager.stepInto(),
-      'atom-bugs:step-out': () => this.bugs.pluginManager.stepOut(),
-      'atom-bugs:edit-breakpoint': (event) => {
+      'xatom-debug:run': () => this.bugs.pluginManager.run({}),
+      'xatom-debug:stop': () => this.bugs.pluginManager.stop(),
+      'xatom-debug:pause': () => this.bugs.pluginManager.pause(),
+      'xatom-debug:step-over': () => this.bugs.pluginManager.stepOver(),
+      'xatom-debug:step-into': () => this.bugs.pluginManager.stepInto(),
+      'xatom-debug:step-out': () => this.bugs.pluginManager.stepOut(),
+      'xatom-debug:edit-breakpoint': (event) => {
         this.bugs.editorManager.editBreakpointFromEvent(event)
       },
-      'atom-bugs:remove-breakpoint': (event) => {
+      'xatom-debug:remove-breakpoint': (event) => {
         this.bugs.editorManager.removeBreakpointFromEvent(event)
       }
     });
@@ -98,7 +98,7 @@ export default {
     this.subscriptions.add(commands);
   },
 
-  provideService () {
+  provideXAtomDebugPlugin () {
     return this.bugs.pluginManager;
   },
 

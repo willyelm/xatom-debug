@@ -36,17 +36,17 @@ export class SchemeView {
   private plugins: Array<Plugin> = []
   constructor (options: SchemeOptions) {
     this.events = new EventEmitter()
-    this.element = document.createElement('atom-bugs-scheme')
-    this.listElement = createElement('atom-bugs-scheme-list')
+    this.element = document.createElement('xatom-debug-scheme')
+    this.listElement = createElement('xatom-debug-scheme-list')
     this.listElement.setAttribute('tabindex', '-1')
-    this.editorElement = createElement('atom-bugs-scheme-editor', {
+    this.editorElement = createElement('xatom-debug-scheme-editor', {
       className: 'native-key-bindings'
     })
     insertElement(this.element, [
-      createElement('atom-bugs-scheme-content', {
+      createElement('xatom-debug-scheme-content', {
         elements: [ this.listElement, this.editorElement ]
       }),
-      createElement('atom-bugs-scheme-buttons', {
+      createElement('xatom-debug-scheme-buttons', {
         elements: [
           createButton({
             click: () => this.close()
@@ -58,7 +58,7 @@ export class SchemeView {
       item: this.element,
       visible: false
     }
-    modalConfig['className'] = 'atom-bugs-modal'
+    modalConfig['className'] = 'xatom-debug-modal'
     this.panel = atom.workspace.addModalPanel(modalConfig)
     attachEventFromObject(this.events, [
       'didSelectPlugin',
@@ -83,7 +83,7 @@ export class SchemeView {
     let item = this.listElement.querySelector(`[id="${id}"]`)
     if (!item.classList.contains('active')) {
       // remove active
-      let items = this.listElement.querySelectorAll('atom-bugs-scheme-item.active');
+      let items = this.listElement.querySelectorAll('xatom-debug-scheme-item.active');
       Array.from(items, (item: HTMLElement) => item.classList.remove('active'))
       this.activatePlugin(plugin)
       this.events.emit('didSelectPlugin', plugin)
@@ -94,7 +94,7 @@ export class SchemeView {
       let optionVisibles = []
       let optionElements = Object.keys(plugin.options).map((name) => {
         let config = plugin.options[name];
-        let configElement = createElement('atom-bugs-scheme-config', {
+        let configElement = createElement('xatom-debug-scheme-config', {
           elements: [
             createElement('scheme-label', {
               elements: [createText(config.title)]
@@ -366,7 +366,7 @@ export class SchemeView {
     })
   }
   addPlugin (plugin: Plugin) {
-    let item = createElement('atom-bugs-scheme-item', {
+    let item = createElement('xatom-debug-scheme-item', {
       id: this.getPluginId(plugin),
       options: {
         click: () => {

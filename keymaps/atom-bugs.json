@@ -1,11 +1,11 @@
 {
   "atom-workspace": {
-    "ctrl-r": "atom-bugs:run",
-    "ctrl-shift-s": "atom-bugs:stop",
-    "ctrl-shift-e": "atom-bugs:resume",
-    "ctrl-o": "atom-bugs:step-over",
-    "ctrl-i": "atom-bugs:step-into",
-    "ctrl-t": "atom-bugs:step-out",
-    "ctrl-shift-d": "atom-bugs:toggle"
+    "ctrl-r": "xatom-debug:run",
+    "ctrl-shift-s": "xatom-debug:stop",
+    "ctrl-shift-e": "xatom-debug:resume",
+    "ctrl-o": "xatom-debug:step-over",
+    "ctrl-i": "xatom-debug:step-into",
+    "ctrl-t": "xatom-debug:step-out",
+    "ctrl-shift-d": "xatom-debug:toggle"
   }
 }

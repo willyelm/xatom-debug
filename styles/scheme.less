@@ -6,16 +6,16 @@
 
 @import "ui-variables";
 
-.atom-bugs-modal {
+.xatom-debug-modal {
   top: 0!important;
   border-top-left-radius: 0!important;
   border-top-right-radius: 0!important;
 }
 
-atom-bugs-scheme {
+xatom-debug-scheme {
   display: block;
   margin: -10px;
-  atom-bugs-scheme-config {
+  xatom-debug-scheme-config {
     display: flex;
     flex-wrap: wrap;
     padding: 5px 10px;
@@ -138,7 +138,7 @@ atom-bugs-scheme {
       }
     }
   }
-  atom-bugs-scheme-item {
+  xatom-debug-scheme-item {
     padding: 7px 10px;
     line-height: 20px;
     display: block;
@@ -153,13 +153,13 @@ atom-bugs-scheme {
       color: lighten(@text-color, 60%)!important;
     }
   }
-  atom-bugs-scheme-content {
+  xatom-debug-scheme-content {
     display: flex;
     flex-wrap: wrap;
     margin: 0;
     background-color: @base-background-color;
-    atom-bugs-scheme-list,
-    atom-bugs-scheme-editor {
+    xatom-debug-scheme-list,
+    xatom-debug-scheme-editor {
       position: relative;
       box-flex: 0;
       width: 100%;
@@ -168,7 +168,7 @@ atom-bugs-scheme {
       // border: 1px solid @base-border-color;
       overflow: auto;
     }
-    atom-bugs-scheme-list {
+    xatom-debug-scheme-list {
       flex: 0 0 25%;
       max-width: 25%;
       background-color: darken(@base-background-color, 2%);
@@ -176,7 +176,7 @@ atom-bugs-scheme {
       border-bottom-left-radius: @component-border-radius;
       z-index: 2;
     }
-    atom-bugs-scheme-editor {
+    xatom-debug-scheme-editor {
       flex: 0 0 75%;
       max-width: 75%;
       margin-left: -1px;
@@ -186,7 +186,7 @@ atom-bugs-scheme {
       z-index: 1;
     }
   }
-  atom-bugs-scheme-buttons {
+  xatom-debug-scheme-buttons {
     display: block;
     text-align: right;
     padding: 7px 10px;

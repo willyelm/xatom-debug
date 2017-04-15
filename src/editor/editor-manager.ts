@@ -309,7 +309,7 @@ export class EditorManager {
   }
 
   createInspectorOverlay (result: any) {
-    let element = createElement('atom-bugs-overlay', {
+    let element = createElement('xatom-debug-overlay', {
       className: 'native-key-bindings'
     })
     element.setAttribute('tabindex', '0')
@@ -320,7 +320,7 @@ export class EditorManager {
       }
     })
     return insertElement(element, [
-      createElement('atom-bugs-overlay-header', {
+      createElement('xatom-debug-overlay-header', {
         elements: [ createText(result.className || result.type) ]
       }),
       inspector.getElement()

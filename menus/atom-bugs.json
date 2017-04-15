@@ -2,52 +2,61 @@
   "menu": [{
     "label": "Packages",
     "submenu": [{
-      "label": "Atom Bugs",
+      "label": "XAtom",
       "submenu": [{
-        "label": "Toggle",
-        "command": "atom-bugs:toggle"
-      }, {
-        "label": "Run",
-        "command": "atom-bugs:run"
-      }, {
-        "label": "Stop",
-        "command": "atom-bugs:stop"
+        "label": "Debugger",
+        "submenu": [{
+          "label": "Toggle",
+          "command": "xatom-debug:toggle"
+        }, {
+          "label": "Run",
+          "command": "xatom-debug:run"
+        }, {
+          "label": "Stop",
+          "command": "xatom-debug:stop"
+        }]
       }]
     }]
   }],
   "context-menu": {
     "atom-text-editor": [{
-      "label": "Atom Bugs",
+      "label": "XAtom",
       "submenu": [{
-        "label": "Toggle",
-        "command": "atom-bugs:toggle"
-      }, {
-        "label": "Run",
-        "command": "atom-bugs:run"
-      }, {
-        "label": "Stop",
-        "command": "atom-bugs:stop"
+        "label": "Debugger",
+        "submenu": [{
+          "label": "Toggle",
+          "command": "xatom-debug:toggle"
+        }, {
+          "label": "Run",
+          "command": "xatom-debug:run"
+        }, {
+          "label": "Stop",
+          "command": "xatom-debug:stop"
+        }]
       }]
     }],
-    "atom-bugs-toolbar": [{
-      "label": "Atom Bugs",
+    "xatom-debug-toolbar": [{
+      "label": "XAtom",
       "submenu": [{
-        "label": "Toggle",
-        "command": "atom-bugs:toggle"
-      }, {
-        "label": "Run",
-        "command": "atom-bugs:run"
-      }, {
-        "label": "Stop",
-        "command": "atom-bugs:stop"
+        "label": "Debugger",
+        "submenu": [{
+          "label": "Toggle",
+          "command": "xatom-debug:toggle"
+        }, {
+          "label": "Run",
+          "command": "xatom-debug:run"
+        }, {
+          "label": "Stop",
+          "command": "xatom-debug:stop"
+        }]
       }]
     }],
     ".bugs-breakpoint": [{
       "label": "Edit Breakpoint",
-      "command": "atom-bugs:edit-breakpoint"
+      "command": "xatom-debug:edit-breakpoint"
     }, {
       "label": "Remove Breakpoint",
-      "command": "atom-bugs:remove-breakpoint"
+      "command": "xatom-debug:remove-breakpoint"
     }, {
       "type": "separator"
     }]

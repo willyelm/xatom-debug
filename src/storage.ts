@@ -10,7 +10,7 @@ import { join } from 'path';
 
 export class Storage {
 
-  storagePath: string = join(atom['configDirPath'], 'storage', 'atom-bugs')
+  storagePath: string = join(atom['configDirPath'], 'storage', 'xatom-debug')
   filePath: string;
 
   constructor () {
