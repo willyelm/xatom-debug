@@ -15,7 +15,7 @@ export declare class PluginClientStatus {
     constructor(toolbarView: ToolbarView);
     startLoading(): void;
     stopLoading(): void;
-    update(message: string): void;
+    update(message: string, icon?: string): void;
     reset(): void;
 }
 export interface ClientOptions {

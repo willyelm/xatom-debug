@@ -62,16 +62,16 @@ export class PluginClientConsole {
 
 export class PluginClientStatus {
   constructor (private toolbarView: ToolbarView) {}
-  startLoading () {
+  startLoading (): void {
     this.toolbarView.setStatusLoading(true)
   }
-  stopLoading () {
+  stopLoading (): void {
     this.toolbarView.setStatusLoading(false)
   }
-  update (message: string): void {
-    this.toolbarView.setStatus(message)
+  update (message: string, icon?: string): void {
+    this.toolbarView.setStatus(message, icon)
   }
-  reset () {
+  reset (): void {
     this.toolbarView.resetStatus()
   }
 }

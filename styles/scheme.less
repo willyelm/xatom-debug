@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 
-@import "ui-variables";
+@import "variables";
 
 .xatom-debug-modal {
   top: 0!important;
@@ -52,7 +52,7 @@ xatom-debug-scheme {
         color: @text-color;
         width: 100%;
         &:focus {
-          box-shadow: 0 0 0 .05rem @accent-color inset;
+          box-shadow: 0 0 0 .05rem @background-color-info inset;
         }
         &::-webkit-input-placeholder {
           color: fadeOut(@text-color, 70%);
@@ -149,7 +149,7 @@ xatom-debug-scheme {
       margin-right: 5px;
     }
     &.active {
-      background-color: @accent-color;
+      background-color: @background-color-info;
       color: lighten(@text-color, 60%)!important;
     }
   }

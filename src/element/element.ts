@@ -5,7 +5,7 @@
  * MIT Licensed
  */
 
-export function createText (text: string) {
+export function createText (text: string): Text {
   return document.createTextNode(`${text}`);
 }
 

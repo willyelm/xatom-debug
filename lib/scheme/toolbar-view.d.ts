@@ -30,7 +30,7 @@ export declare class ToolbarView {
     didToggleDebugArea(cb: any): void;
     setStatusLoading(value: boolean): void;
     resetStatus(): HTMLElement;
-    setStatus(text: string): HTMLElement;
+    setStatus(text: string, iconName?: string): HTMLElement;
     toggleLogo(state: boolean): void;
     private setPathName(pathName);
     getPathName(): string;

@@ -200,13 +200,17 @@ export class ToolbarView {
     return insertElement(this.statusTextElement, createText('Not Started'))
   }
 
-  public setStatus (text: string) {
+  public setStatus (text: string, iconName?: string) {
     this.statusTextElement.innerHTML = '';
     let schemeName = get(this.scheme, 'name.nodeValue', '')
     if (schemeName.length > 0) {
       schemeName = `${schemeName}:`
     }
-    return insertElement(this.statusTextElement, createText(`${schemeName} ${text}`))
+    let contents: Array<HTMLElement|Text> = [ createText(`${schemeName} ${text}`) ]
+    if (iconName) {
+      contents.unshift(createIcon(iconName))
+    }
+    return insertElement(this.statusTextElement, contents)
   }
 
   toggleLogo (state: boolean) {

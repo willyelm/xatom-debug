@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 
-@import "ui-variables";
+@import "variables";
 
 .custom-inset-title-bar {
   xatom-debug-toolbar {
@@ -32,8 +32,20 @@
 }
 
 xatom-debug-toolbar {
+  .btn .bugs-icon,
+  bugs-scheme-status .bugs-icon {
+    width: 16px;
+    height: 16px;
+    margin-top: -4px;
+  }
+}
+
+xatom-debug-toolbar {
+  -webkit-app-region: drag;
   display: block;
   padding: 4px;
+  white-space: nowrap;
+  overflow: hidden;
   &.bugs-title-bar {
     height: 28px;
     padding: 3px;
@@ -55,12 +67,7 @@ xatom-debug-toolbar {
       background-color: @button-background-color-hover!important;
     }
     &:active {
-      background-color: @accent-color!important;
-    }
-    i.bugs-icon {
-      width: 16px;
-      height: 16px;
-      margin-top: -4px;
+      background-color: @background-color-info!important;
     }
   }
 }
@@ -160,7 +167,7 @@ xatom-debug-toolbar {
     }
   }
   bugs-scheme-status {
-    max-width: 220px;
+    max-width: 300px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -173,6 +180,9 @@ xatom-debug-toolbar {
     color: darken(@text-color, 20%);
     margin: 0 5px;
     padding: 2px 10px;
+    .bugs-icon {
+      margin-right: 4px;
+    }
     .bugs-status-loading {
       display: none;
       &.active {
@@ -185,13 +195,13 @@ xatom-debug-toolbar {
       width: 100%;
       border-bottom-left-radius: @component-border-radius;
       border-bottom-right-radius: @component-border-radius;
-      background-color: fade(@accent-color, 10%);
+      background-color: fade(@background-color-info, 10%);
       &:before {
         content: '';
         position: absolute;
         width: 0%;
         height: 100%;
-        background-color: @accent-color;
+        background-color: @background-color-info;
         animation: slideIn 1.2s linear alternate infinite;
         border-bottom-left-radius: @component-border-radius;
         border-bottom-right-radius: @component-border-radius;

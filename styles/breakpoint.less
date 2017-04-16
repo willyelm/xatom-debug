@@ -4,13 +4,12 @@
  * MIT Licensed
  */
 
-@accent-color: hsl(hue(@syntax-background-color), 100%, 76%);
-@import "ui-variables";
+@import "variables";
 
 .bugs-break-line {
-  background-color: fadeOut(@accent-color, 75%)!important;
-  box-shadow: 0 .05rem 0 0 fadeOut(@accent-color, 30%) inset,
-              0 .05rem 0 0 fadeOut(@accent-color, 30%);
+  background-color: fadeOut(@background-color-info, 75%)!important;
+  box-shadow: 0 .05rem 0 0 fadeOut(@background-color-info, 30%) inset,
+              0 .05rem 0 0 fadeOut(@background-color-info, 30%);
 }
 
 .bugs-breakpoint-edit {
@@ -67,11 +66,11 @@
 .bugs-breakpoint {
   z-index: 1;
   &.cursor-line {
-    color: lighten(@accent-color, 25%)!important;
+    color: lighten(@background-color-info, 25%)!important;
   }
   &:after {
     content: '';
-    background-color: @accent-color;
+    background-color: @background-color-info;
     background-repeat: no-repeat;
     background-position: center left;
     background-size: 100% auto;

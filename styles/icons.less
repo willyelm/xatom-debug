@@ -4,16 +4,7 @@
  * MIT Licensed
  */
 
-@import "ui-variables";
-
-// @keyframes spinning {
-//   from {
-//     transform: rotate(0deg);
-//   }
-//   to {
-//     transform: rotate(360deg);
-//   }
-// }
+@import "variables";
 
 // Icons
 .bugs-icon {
@@ -43,7 +34,6 @@
   &.bugs-icon-pause {
     -webkit-mask-image: url('atom://xatom-debug/icons/pause.svg');
     background-color: @text-color-error;
-    // background-color: @text-color-success;
   }
   &.bugs-icon-resume {
     -webkit-mask-image: url('atom://xatom-debug/icons/resume.svg');
@@ -80,6 +70,18 @@
   &.bugs-icon-atom {
     -webkit-mask-image: url('atom://xatom-debug/icons/atom.svg');
     background-color: @text-color;
+  }
+  &.bugs-icon-status-success {
+    -webkit-mask-image: url('atom://xatom-debug/icons/status-success.svg');
+    background-color: @background-color-success;
+  }
+  &.bugs-icon-status-warning {
+    -webkit-mask-image: url('atom://xatom-debug/icons/status-warning.svg');
+    background-color: @background-color-warning;
+  }
+  &.bugs-icon-status-error {
+    -webkit-mask-image: url('atom://xatom-debug/icons/status-error.svg');
+    background-color: @background-color-error;
   }
   &.bugs-icon-add {
     -webkit-mask-image: url('atom://xatom-debug/icons/add.svg');
