@@ -13,7 +13,8 @@
       padding-right: 10px;
       height: 37px;
       .btn,
-      .form-control {
+      .form-control,
+      bugs-scheme-status {
         line-height: 22px;
       }
     }
@@ -61,6 +62,7 @@ xatom-debug-toolbar {
     background-image: none!important;
     background-color: @button-background-color!important;
     border-radius: @component-border-radius;
+    line-height: @component-line-height;
     outline: none!important;
     &[disabled] {
       opacity: .5;
@@ -181,8 +183,9 @@ xatom-debug-toolbar {
     border-radius: @component-border-radius;
     border: none;
     color: darken(@text-color, 20%);
+    line-height: @component-line-height;
     margin: 0 5px;
-    padding: 2px 10px;
+    padding: 0 10px;
     .bugs-status-text {
       animation: marquee 50s linear infinite;
       &:hover {
