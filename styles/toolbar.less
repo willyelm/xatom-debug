@@ -38,6 +38,9 @@ xatom-debug-toolbar {
     height: 16px;
     margin-top: -4px;
   }
+  bugs-scheme-status .bugs-icon {
+    margin-left: -4px;
+  }
 }
 
 xatom-debug-toolbar {
@@ -167,12 +170,12 @@ xatom-debug-toolbar {
     }
   }
   bugs-scheme-status {
+    display: inline-block;
     max-width: 300px;
+    text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
     position: relative;
-    display: inline-block;
     vertical-align: middle;
     background-color: lighten(@button-background-color, 3%);
     border-radius: @component-border-radius;
@@ -180,6 +183,12 @@ xatom-debug-toolbar {
     color: darken(@text-color, 20%);
     margin: 0 5px;
     padding: 2px 10px;
+    .bugs-status-text {
+      animation: marquee 50s linear infinite;
+      &:hover {
+        animation-play-state: paused
+      }
+    }
     .bugs-icon {
       margin-right: 4px;
     }
@@ -209,6 +218,12 @@ xatom-debug-toolbar {
     }
   }
 }
+
+@keyframes marquee {
+  0%   { text-indent: 27.5em }
+  100% { text-indent: -105em }
+}
+
 @keyframes slideIn {
   0% {
     left: 0;
