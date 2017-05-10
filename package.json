@@ -77,9 +77,9 @@
   },
   "xatom-debug": [
     {
-      "scheme": "Develop",
-      "plugin": "Node.js",
-      "settings": {
+      "schemeName": "Develop",
+      "pluginName": "Node.js",
+      "pluginOptions": {
         "binaryPath": "",
         "portNumber": "5858",
         "lauchArguments": [],

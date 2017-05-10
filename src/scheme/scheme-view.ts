@@ -14,6 +14,7 @@ import {
   createOption,
   createElement,
   createInput,
+  createTextEditor,
   insertElement,
   attachEventFromObject
 } from '../element/index'
@@ -153,7 +154,12 @@ export class SchemeView {
     }
   }
   createControlText (pluginName: string, key: string, config: any) {
-    let inputElement = createInput({
+    let value = this.data[pluginName][key] || ''
+    if (value === config.default) {
+      value = null
+    }
+    let inputElement = createTextEditor({
+      value,
       placeholder: config.default,
       // value: this.data[pluginName][key],
       change: (value) => {
@@ -165,10 +171,6 @@ export class SchemeView {
         this.events.emit('didChange')
       }
     })
-    let value = this.data[pluginName][key] || ''
-    if (value !== config.default) {
-      inputElement.value = value
-    }
     return createElement('scheme-control', {
       elements: [inputElement]
     })
@@ -222,7 +224,7 @@ export class SchemeView {
 
   createControlArray (pluginName: string, key: string, config: any) {
     let source = this.data[pluginName][key]
-    let addInput = createInput({})
+    let addInput: any = createTextEditor({})
     let itemsElement = createElement('div', {
       className: 'input-items'
     })
@@ -236,10 +238,12 @@ export class SchemeView {
             addInput,
             createButton({
               click: () => {
-                if (addInput.value.trim().length > 0) {
-                  let index = source.push(addInput.value)
+                let editor = addInput.getModel()
+                let value = editor.getText()
+                if (value.trim().length > 0) {
+                  let index = source.push(value)
                   let itemElement = this.createArrayItem(source, index - 1)
-                  addInput.value = ''
+                  editor.setText('')
                   insertElement(itemsElement, itemElement)
                   this.events.emit('didChange')
                 }
@@ -260,8 +264,8 @@ export class SchemeView {
 
   createControlObject (pluginName: string, key: string, config: any) {
     let source = this.data[pluginName][key]
-    let nameInput = createInput({})
-    let valueInput = createInput({})
+    let nameInput: any = createTextEditor({})
+    let valueInput: any = createTextEditor({})
     let itemsElement = createElement('div', {
       className: 'input-items'
     })
@@ -276,11 +280,15 @@ export class SchemeView {
             valueInput,
             createButton({
               click: () => {
-                if (nameInput.value.trim().length > 0 && valueInput.value.trim().length > 0) {
-                  source[nameInput.value] = valueInput.value
-                  let itemElement = this.createObjectItem(source, nameInput.value)
-                  nameInput.value = ''
-                  valueInput.value = ''
+                let nameEditor = nameInput.getModel()
+                let valueEditor = valueInput.getModel()
+                let nameValue = nameEditor.getText()
+                let value = valueEditor.getText()
+                if (nameValue.trim().length > 0 && value.trim().length > 0) {
+                  source[nameInput.value] = value
+                  let itemElement = this.createObjectItem(source, nameValue)
+                  nameEditor.setText('')
+                  valueEditor.setText('')
                   insertElement(itemsElement, itemElement)
                   this.events.emit('didChange')
                 }

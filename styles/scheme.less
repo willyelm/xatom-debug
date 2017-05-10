@@ -44,16 +44,12 @@ xatom-debug-scheme {
         outline: none!important;
         -webkit-appearance: none;
         background-color: lighten(@base-background-color, 5%);
-        box-shadow: 0 0 0 .05rem @button-border-color inset;
+        border: 1px solid @button-border-color;
         padding: 4px 7px;
         height: auto!important;
-        border: none;
-        border-radius: 4px;
+        border-radius: @component-border-radius;
         color: @text-color;
         width: 100%;
-        &:focus {
-          box-shadow: 0 0 0 .05rem @background-color-info inset;
-        }
         &::-webkit-input-placeholder {
           color: fadeOut(@text-color, 70%);
         }
@@ -79,6 +75,7 @@ xatom-debug-scheme {
           }
           button {
             background: transparent!important;
+            box-shadow: none!important;
             position: absolute;
             top: 0;
             right: 0;
@@ -100,10 +97,8 @@ xatom-debug-scheme {
           top: 0;
           right: 0;
           height: 100%;
-          // background: transparent!important;
           border-top-left-radius: 0;
           border-bottom-left-radius: 0;
-          box-shadow: 0 0 0 .05rem @button-border-color inset;
         }
       }
       .bugs-icon {
@@ -115,20 +110,20 @@ xatom-debug-scheme {
         display: block;
       }
       .input-object {
-        input {
+        atom-text-editor {
           width: 50%;
           display: inline-block;
-        }
-        .input-item {
-
+          vertical-align: top;
+          margin-bottom: 0!important;
+          padding-bottom: 0!important;
         }
         .input-form {
-          input {
+          atom-text-editor {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
             border-right: none;
           }
-          input + input {
+          atom-text-editor + atom-text-editor {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
             border-top-right-radius: @component-border-radius;
