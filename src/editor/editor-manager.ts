@@ -218,22 +218,24 @@ export class EditorManager {
     let element = e.target as HTMLElement
     if (element.classList.contains('line-number')) {
       // toggle breakpoints
-      let sourceFile = editor.getPath()
       let lineNumber = Number(element.textContent) - 1
-      let exists = this.breakpointManager.getBreakpoint(sourceFile, lineNumber)
-      if (exists) {
-        this.removeBreakpoint(exists)
-      } else {
-        let marker = this.createBreakpointMarkerForEditor(editor, lineNumber)
-        this
-          .breakpointManager
-          .addBreakpoint(marker, lineNumber, sourceFile)
-          .then(() => {
-            this.events.emit('didAddBreakpoint', sourceFile, lineNumber)
-            this.pluginManager.addBreakpoint(sourceFile, lineNumber)
-          })
+      if (lineNumber >= 0) {
+        let sourceFile = editor.getPath()
+        let exists = this.breakpointManager.getBreakpoint(sourceFile, lineNumber)
+        if (exists) {
+          this.removeBreakpoint(exists)
+        } else {
+          let marker = this.createBreakpointMarkerForEditor(editor, lineNumber)
+          this
+            .breakpointManager
+            .addBreakpoint(marker, lineNumber, sourceFile)
+            .then(() => {
+              this.events.emit('didAddBreakpoint', sourceFile, lineNumber)
+              this.pluginManager.addBreakpoint(sourceFile, lineNumber)
+            })
+        }
+        this.events.emit('didChange')
       }
-      this.events.emit('didChange')
     }
   }
 

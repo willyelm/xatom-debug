@@ -39,9 +39,9 @@ export class SchemeView {
     this.events = new EventEmitter()
     this.element = document.createElement('xatom-debug-scheme')
     this.listElement = createElement('xatom-debug-scheme-list')
-    this.listElement.setAttribute('tabindex', '-1')
+    // this.listElement.setAttribute('tabindex', '-1')
     this.editorElement = createElement('xatom-debug-scheme-editor', {
-      className: 'native-key-bindings'
+      // className: 'native-key-bindings'
     })
     insertElement(this.element, [
       createElement('xatom-debug-scheme-content', {
