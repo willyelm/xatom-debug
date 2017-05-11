@@ -35,6 +35,7 @@ export class EditorManager {
   private currentBreakMarker: any
   private currentExpressionMarker: any
   private currentEvaluationMarker: any
+  private currentEvaluationElement: HTMLElement
 
   private activateExpressionListerner: boolean = true
   private evaluateHandler: any
@@ -285,21 +286,24 @@ export class EditorManager {
   }
 
   private listenExpressionEvaluations (e: MouseEvent, editor: any) {
-    if (this.activateExpressionListerner) {
-      let sourceFile = editor.getPath()
-      let bufferPosition = this.getEditorPositionFromEvent(editor, e)
-      let scanRange = this.getEditorWordRangeFromPosition(editor, bufferPosition)
-      let expression = editor.getTextInBufferRange(scanRange)
-      clearTimeout(this.evaluateHandler)
-      this.evaluateHandler = setTimeout(() => {
-        if (expression && String(expression).trim().length > 0) {
-          let evaluationView = this.createEditorEvaluationView(editor, scanRange)
-          this
-            .pluginManager
-            .evaluateExpression(expression, evaluationView)
-        }
-      }, 500)
-    }
+    let sourceFile = editor.getPath()
+    let bufferPosition = this.getEditorPositionFromEvent(editor, e)
+    let scanRange = this.getEditorWordRangeFromPosition(editor, bufferPosition)
+    let expression = editor.getTextInBufferRange(scanRange)
+    clearTimeout(this.evaluateHandler)
+    this.evaluateHandler = setTimeout(() => {
+      let isEvaluationOverlay = this.currentEvaluationElement && this.currentEvaluationElement.contains(e.target as Node)
+      let isValidExpression = expression && String(expression).trim().length > 0
+      if (!isEvaluationOverlay && isValidExpression) {
+        let evaluationView = this.createEditorEvaluationView(editor, scanRange)
+        this
+          .pluginManager
+          .evaluateExpression(expression, evaluationView)
+      } else if (!isEvaluationOverlay) {
+        this.removeEvaluationMarker()
+        this.removeExpressionMarker()
+      }
+    }, 500)
   }
 
   createEditorEvaluationView (editor: any, range: any) {
@@ -339,25 +343,30 @@ export class EditorManager {
     })
     // overlay inspector
     this.removeEvaluationMarker()
-    let element = this.createInspectorOverlay(result)
+    this.currentEvaluationElement = this.createInspectorOverlay(result)
     this.currentEvaluationMarker = editor.markBufferRange(range)
     editor.decorateMarker(this.currentEvaluationMarker, {
       type: 'overlay',
       class: 'bugs-expression-overlay',
-      item: element
+      item: this.currentEvaluationElement
     })
     setTimeout(() => {
-      let close = () => {
-        this.activateExpressionListerner = true
-        this.removeEvaluationMarker()
-      }
+      // this.currentEvaluationElement.addEventListener('mouseleave', () => {
+      //   this.removeEvaluationMarker()
+      //   this.removeExpressionMarker()
+      // })
+      // let close = () => {
+      //   this.activateExpressionListerner = true
+      //   this.removeEvaluationMarker()
+      //   this.removeExpressionMarker()
+      // }
       // let autoClose = setTimeout(close, 15000)
-      element.addEventListener('mouseenter', () => {
-        // clearTimeout(autoClose)
-        this.activateExpressionListerner = false
-        element.addEventListener('mouseleave', () => close())
-      })
-    }, 0)
+      // element.addEventListener('mouseenter', () => {
+      //   // clearTimeout(autoClose)
+      //   this.activateExpressionListerner = false
+      //   // element.addEventListener('mouseleave', () => close())
+      // })
+    }, 250)
   }
 
   removeEvaluationMarker () {

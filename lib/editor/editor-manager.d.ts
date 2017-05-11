@@ -12,6 +12,7 @@ export declare class EditorManager {
     private currentBreakMarker;
     private currentExpressionMarker;
     private currentEvaluationMarker;
+    private currentEvaluationElement;
     private activateExpressionListerner;
     private evaluateHandler;
     breakpointManager: BreakpointManager;
