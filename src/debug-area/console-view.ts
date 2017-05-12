@@ -4,7 +4,6 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
-
 import {
   createGroupButtons,
   createButton,
