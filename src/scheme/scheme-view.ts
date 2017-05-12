@@ -285,7 +285,7 @@ export class SchemeView {
                 let nameValue = nameEditor.getText()
                 let value = valueEditor.getText()
                 if (nameValue.trim().length > 0 && value.trim().length > 0) {
-                  source[nameInput.value] = value
+                  source[nameValue] = value
                   let itemElement = this.createObjectItem(source, nameValue)
                   nameEditor.setText('')
                   valueEditor.setText('')
