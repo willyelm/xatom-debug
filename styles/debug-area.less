@@ -83,6 +83,19 @@ xatom-debug-area {
   }
   xatom-debug-group-header {
     margin-top: 1px;
+    .btn {
+      float: right;
+      margin-right: 2px;
+      background: transparent!important;
+      padding: 2px 6px;
+      line-height: 0!important;
+      box-shadow: none!important;
+      border: none;
+      .bugs-icon {
+        width: 12px;
+        height: 12px;
+      }
+    }
   }
   xatom-debug-group-content {
     background-color: lighten(@base-background-color, 3%);
@@ -121,6 +134,12 @@ xatom-debug-area {
     }
     xatom-debug-inspector {
       margin: 5px 0;
+    }
+    &.watch {
+      atom-text-editor {
+        border-radius: 0!important;
+      }
+      position: relative;
     }
   }
   xatom-debug-group-item {

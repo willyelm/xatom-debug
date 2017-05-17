@@ -11,6 +11,7 @@ import {
   createIcon,
   createIconFromPath,
   createText,
+  createTextEditor,
   createElement,
   insertElement,
   attachEventFromObject
@@ -45,6 +46,8 @@ export class DebugAreaView {
 
   private element: HTMLElement
   private callStackContentElement: HTMLElement
+  private watchExpressionContentElement: HTMLElement
+  private watchExpressionsContentElement: HTMLElement
   private scopeContentElement: HTMLElement
   private breakpointContentElement: HTMLElement
   private resizeElement: HTMLElement
@@ -73,12 +76,39 @@ export class DebugAreaView {
 
     this.togglePause(false)
 
+    let watchInputElement: any = createTextEditor({
+      placeholder: 'Add watch expression',
+      keyEvents: {
+        '13': () => createExpression(),
+        '27': () => resetExpression()
+      }
+    })
+    var resetExpression = () => {
+      watchInputElement.getModel().setText('')
+      watchInputElement.style.display = 'none'
+    }
+    var createExpression = () => {
+      let watchExpressionText = watchInputElement.getModel().getText();
+      if (watchExpressionText.trim().length > 0) {
+        this.createExpressionLine(watchExpressionText)
+      }
+      resetExpression()
+    }
+    watchInputElement.addEventListener('blur', createExpression)
+    resetExpression()
+
+    this.watchExpressionsContentElement = createElement('div')
+
     this.element = createElement('xatom-debug-area')
-    this.callStackContentElement = createElement('xatom-debug-group-content', {
-      className: 'callstack'
+    this.watchExpressionContentElement = createElement('xatom-debug-group-content', {
+      className: 'watch',
+      elements: [ watchInputElement, this.watchExpressionsContentElement ]
     })
     this.scopeContentElement = createElement('xatom-debug-group-content', {
       className: 'scope'
+    })
+    this.callStackContentElement = createElement('xatom-debug-group-content', {
+      className: 'callstack'
     })
     this.breakpointContentElement = createElement('xatom-debug-group-content', {
       className: 'breakpoint'
@@ -125,9 +155,22 @@ export class DebugAreaView {
       createElement('xatom-debug-group', {
         elements: [
           createElement('xatom-debug-group-header', {
-            elements: [createText('Call Stack')]
+            elements: [
+              createText('Watch Expressions'),
+              createButton({
+                click: () => {
+                  watchInputElement.style.display = null
+                  watchInputElement.focus()
+                }
+              }, createIcon('add')),
+              createButton({
+                click: () => {
+                  // refresh
+                }
+              }, createIcon('refresh'))
+            ]
           }),
-          this.callStackContentElement
+          this.watchExpressionContentElement
         ]
       }),
       createElement('xatom-debug-group', {
@@ -136,6 +179,14 @@ export class DebugAreaView {
             elements: [createText('Variables')]
           }),
           this.scopeContentElement
+        ]
+      }),
+      createElement('xatom-debug-group', {
+        elements: [
+          createElement('xatom-debug-group-header', {
+            elements: [createText('Call Stack')]
+          }),
+          this.callStackContentElement
         ]
       }),
       createElement('xatom-debug-group', {
@@ -247,6 +298,11 @@ export class DebugAreaView {
 
   setWorkspace (projectPath) {
     this.projectPath = projectPath;
+  }
+
+  createExpressionLine (expressionText: string) {
+    console.log('create', expressionText)
+    // this.watchExpressionsContentElement
   }
 
   createBreakpointLine (filePath: string, lineNumber: number) {

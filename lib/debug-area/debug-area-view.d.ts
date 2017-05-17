@@ -19,6 +19,8 @@ export interface DebugAreaOptions {
 export declare class DebugAreaView {
     private element;
     private callStackContentElement;
+    private watchExpressionContentElement;
+    private watchExpressionsContentElement;
     private scopeContentElement;
     private breakpointContentElement;
     private resizeElement;
@@ -34,6 +36,7 @@ export declare class DebugAreaView {
     createFrameLine(frame: CallStackFrame, indicate: boolean): any;
     getBreakpointId(filePath: string, lineNumber: number): string;
     setWorkspace(projectPath: any): void;
+    createExpressionLine(expressionText: string): void;
     createBreakpointLine(filePath: string, lineNumber: number): void;
     removeBreakpointLine(filePath: string, lineNumber: number): void;
     clearBreakpoints(): void;
