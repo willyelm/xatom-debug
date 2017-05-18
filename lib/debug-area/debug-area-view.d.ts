@@ -14,6 +14,7 @@ export interface DebugAreaOptions {
     didBreak?: Function;
     didOpenFile?: Function;
     didRequestProperties?: Function;
+    didEvaluateExpression?: Function;
     didOpenFrame?: Function;
 }
 export declare class DebugAreaView {
@@ -42,7 +43,7 @@ export declare class DebugAreaView {
     clearBreakpoints(): void;
     insertCallStackFromFrames(frames: CallStackFrames): void;
     clearCallStack(): void;
-    insertScope(scope: any): void;
+    insertScopeVariables(scope: any): void;
     clearScope(): void;
     getElement(): HTMLElement;
     destroy(): void;

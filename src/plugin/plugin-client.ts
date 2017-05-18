@@ -140,6 +140,6 @@ export class PluginClient {
     this.debugView.insertCallStackFromFrames(items)
   }
   setScope (scope: any) {
-    this.debugView.insertScope(scope)
+    this.debugView.insertScopeVariables(scope)
   }
 }

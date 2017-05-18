@@ -24,6 +24,7 @@ export interface EditorOptions {
   pluginManager: PluginManager,
   didAddBreakpoint?: Function,
   didRemoveBreakpoint?: Function,
+  didEvaluateExpression?: Function,
   didBreak?: Function,
   didChange?: Function
 }
@@ -52,6 +53,7 @@ export class EditorManager {
       'didAddBreakpoint',
       'didRemoveBreakpoint',
       'didChangeBreakpoint',
+      'didEvaluateExpression',
       'didBreak',
       'didChange'
     ], options)
@@ -296,9 +298,7 @@ export class EditorManager {
       let isValidExpression = expression && String(expression).trim().length > 0
       if (!isEvaluationOverlay && isValidExpression) {
         let evaluationView = this.createEditorEvaluationView(editor, scanRange)
-        this
-          .pluginManager
-          .evaluateExpression(expression, evaluationView)
+        this.pluginManager.evaluateExpression(expression, evaluationView)
       } else if (!isEvaluationOverlay) {
         this.removeEvaluationMarker()
         this.removeExpressionMarker()

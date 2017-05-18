@@ -4,6 +4,7 @@ export interface EditorOptions {
     pluginManager: PluginManager;
     didAddBreakpoint?: Function;
     didRemoveBreakpoint?: Function;
+    didEvaluateExpression?: Function;
     didBreak?: Function;
     didChange?: Function;
 }

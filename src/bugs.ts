@@ -102,10 +102,13 @@ export class Bugs {
         })
       },
       didOpenFrame: (frame: any) => {
-        this.debugView.insertScope(frame.scope)
+        this.debugView.insertScopeVariables(frame.scope)
       },
       didRequestProperties: (result, inspectView) => {
         return this.pluginManager.requestProperties(result, inspectView)
+      },
+      didEvaluateExpression: (expression, evaluationView) => {
+        return this.pluginManager.evaluateExpression(expression, evaluationView)
       }
     })
     // Atom bugs plugin client

@@ -39,6 +39,7 @@ export interface DebugAreaOptions {
   didBreak?: Function,
   didOpenFile?: Function,
   didRequestProperties?: Function,
+  didEvaluateExpression?: Function,
   didOpenFrame?: Function
 }
 
@@ -55,13 +56,12 @@ export class DebugAreaView {
   private pauseButton: HTMLElement
   private resumeButton: HTMLElement
   private events: EventEmitter
-  private projectPath: string;
-  private subscriptions:any = new CompositeDisposable();
+  private projectPath: string
+  private subscriptions:any = new CompositeDisposable()
 
   constructor (options?: DebugAreaOptions) {
 
     this.events = new EventEmitter()
-
     this.pauseButton = createButton({
       click: () => {
         this.events.emit('didPause')
@@ -88,7 +88,7 @@ export class DebugAreaView {
       watchInputElement.style.display = 'none'
     }
     var createExpression = () => {
-      let watchExpressionText = watchInputElement.getModel().getText();
+      let watchExpressionText = watchInputElement.getModel().getText()
       if (watchExpressionText.trim().length > 0) {
         this.createExpressionLine(watchExpressionText)
       }
@@ -115,7 +115,7 @@ export class DebugAreaView {
     })
     this.resizeElement = createElement('xatom-debug-resize', {
       className: 'resize-left'
-    });
+    })
 
     insertElement(this.element, [
       this.resizeElement,
@@ -207,6 +207,7 @@ export class DebugAreaView {
       'didBreak',
       'didOpenFile',
       'didRequestProperties',
+      'didEvaluateExpression',
       'didOpenFrame'
     ], options)
     window.addEventListener('resize', () => this.adjustDebugArea())
@@ -219,15 +220,15 @@ export class DebugAreaView {
     let reduce = ignoreElements.reduce((value, query): number => {
       let el = this.element.querySelectorAll(query)
       Array.from(el).forEach((child: HTMLElement) => {
-        value += child.clientHeight;
+        value += child.clientHeight
       })
       return value
     }, 6)
-    let contents = this.element.querySelectorAll('xatom-debug-group xatom-debug-group-content');
-    let items = Array.from(contents);
-    let availableHeight = (this.element.clientHeight - reduce) / items.length;
+    let contents = this.element.querySelectorAll('xatom-debug-group xatom-debug-group-content')
+    let items = Array.from(contents)
+    let availableHeight = (this.element.clientHeight - reduce) / items.length
     items.forEach((el: HTMLElement) => {
-      el.style.height = `${availableHeight}px`;
+      el.style.height = `${availableHeight}px`
     })
   }
 
@@ -235,9 +236,9 @@ export class DebugAreaView {
     let initialEvent
     let resize = (targetEvent) => {
       let offset = initialEvent.screenX - targetEvent.screenX
-      let width = this.element.clientWidth + offset;
+      let width = this.element.clientWidth + offset
       if (width > 240 && width < 600) {
-        this.element.style.width = `${width}px`;
+        this.element.style.width = `${width}px`
       }
       initialEvent = targetEvent
     }
@@ -297,19 +298,26 @@ export class DebugAreaView {
   }
 
   setWorkspace (projectPath) {
-    this.projectPath = projectPath;
+    this.projectPath = projectPath
   }
 
   createExpressionLine (expressionText: string) {
-    console.log('create', expressionText)
     // this.watchExpressionsContentElement
+    insertElement(this.watchExpressionsContentElement, createElement('xatom-debug-group-item', {
+      options: {
+        click () {}
+      },
+      elements: [
+        createText(expressionText)
+      ]
+    }))
   }
 
   createBreakpointLine (filePath: string, lineNumber: number) {
     // let file = parse(filePath)
-    let shortName = filePath;
+    let shortName = filePath
     if (this.projectPath) {
-      shortName = filePath.replace(this.projectPath, '');
+      shortName = filePath.replace(this.projectPath, '')
     }
     insertElement(this.breakpointContentElement, createElement('xatom-debug-group-item', {
       id: this.getBreakpointId(filePath, lineNumber),
@@ -358,7 +366,7 @@ export class DebugAreaView {
     this.callStackContentElement.innerHTML = ''
   }
 
-  insertScope (scope) {
+  insertScopeVariables (scope) {
     if (scope) {
       this.clearScope()
       let inspector = new InspectorView({
