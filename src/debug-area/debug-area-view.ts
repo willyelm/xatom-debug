@@ -302,15 +302,34 @@ export class DebugAreaView {
   }
 
   createExpressionLine (expressionText: string) {
+    let expressionResult = createElement('div')
     // this.watchExpressionsContentElement
     insertElement(this.watchExpressionsContentElement, createElement('xatom-debug-group-item', {
       options: {
         click () {}
       },
       elements: [
-        createText(expressionText)
+        createText(expressionText),
+        expressionResult
       ]
     }))
+    // if is running...
+    this.events.emit('didEvaluateExpression', expressionText, {
+      insertFromResult: (result) => {
+        if (result.type === 'object') {
+          result = [{
+            value: result
+          }]
+        }
+        let inspector = new InspectorView({
+          result,
+          didRequestProperties: (result, inspectorView) => {
+            this.events.emit('didRequestProperties', result, inspectorView)
+          }
+        })
+        insertElement(expressionResult, inspector.getElement())
+      }
+    })
   }
 
   createBreakpointLine (filePath: string, lineNumber: number) {
@@ -368,6 +387,7 @@ export class DebugAreaView {
 
   insertScopeVariables (scope) {
     if (scope) {
+      // render scope variables
       this.clearScope()
       let inspector = new InspectorView({
         result: scope,
@@ -376,6 +396,7 @@ export class DebugAreaView {
         }
       })
       insertElement(this.scopeContentElement, inspector.getElement())
+      // update watch expressions
     }
   }
 
