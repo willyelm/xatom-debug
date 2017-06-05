@@ -302,14 +302,16 @@ export class DebugAreaView {
   }
 
   createExpressionLine (expressionText: string) {
-    let expressionResult = createElement('div')
+    let expressionValue = createElement('span')
+    let expressionResult = createElement('span')
+    insertElement(expressionValue, createText(expressionText))
     // this.watchExpressionsContentElement
     insertElement(this.watchExpressionsContentElement, createElement('xatom-debug-group-item', {
       options: {
         click () {}
       },
       elements: [
-        createText(expressionText),
+        expressionValue,
         expressionResult
       ]
     }))
