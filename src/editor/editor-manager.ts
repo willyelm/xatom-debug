@@ -188,20 +188,20 @@ export class EditorManager {
         if (breakpoint.marker) breakpoint.marker.destroy()
         breakpoint.marker = this.createBreakpointMarkerForEditor(editor, breakpoint.lineNumber)
       })
-    }
-    this.currentEditor = editor
-    if (get(editor, 'editorElement.addEventListener', false) &&
-      !get(editor, 'editorElement.__atomBugsEnabledFeatures', false)) {
-      let breakpointHandler = (e) => this.listenBreakpoints(e, editor)
-      let expressionHandler = (e) => this.listenExpressionEvaluations(e, editor)
-      // add breakpoint handler
-      editor.editorElement.__atomBugsEnabledFeatures = true
-      editor.editorElement.addEventListener('click', breakpointHandler)
-      editor.editorElement.addEventListener('mousemove', expressionHandler)
-      editor.onDidDestroy(() => {
-        editor.editorElement.removeEventListener('click', breakpointHandler)
-        editor.editorElement.removeEventListener('mousemove', expressionHandler)
-      })
+      this.currentEditor = editor
+      if (get(editor, 'element.addEventListener', false) &&
+        !get(editor, 'element.__atomBugsEnabledFeatures', false)) {
+        let breakpointHandler = (e) => this.listenBreakpoints(e, editor)
+        let expressionHandler = (e) => this.listenExpressionEvaluations(e, editor)
+        // add breakpoint handler
+        editor.element.__atomBugsEnabledFeatures = true
+        editor.element.addEventListener('click', breakpointHandler)
+        editor.element.addEventListener('mousemove', expressionHandler)
+        editor.onDidDestroy(() => {
+          editor.element.removeEventListener('click', breakpointHandler)
+          editor.element.removeEventListener('mousemove', expressionHandler)
+        })
+      }
     }
   }
 
@@ -253,13 +253,13 @@ export class EditorManager {
   }
 
   private getEditorPositionFromEvent (editor, e: MouseEvent) {
-    let lines = editor.editorElement.querySelector('.lines')
+    let lines = editor.element.querySelector('.lines')
     var clientX = e.clientX
     var clientY = e.clientY
     let clientRect = lines.getBoundingClientRect()
-    let screenPosition = editor.editorElement.screenPositionForPixelPosition({
-      top: (clientY - clientRect.top) + editor.editorElement.getScrollTop(),
-      left: (clientX - clientRect.left) + editor.editorElement.getScrollLeft()
+    let screenPosition = editor.element.screenPositionForPixelPosition({
+      top: (clientY - clientRect.top) + editor.element.getScrollTop(),
+      left: (clientX - clientRect.left) + editor.element.getScrollLeft()
     })
     return editor.bufferPositionForScreenPosition(screenPosition)
   }
