@@ -4,7 +4,7 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
-import { Bugs } from './bugs'
+import { XAtomDebug } from './xatom-debug'
 const { CompositeDisposable } = require('atom')
 
 export default {
@@ -17,7 +17,7 @@ export default {
   activate (state: any) {
     require('atom-package-deps').install('xatom-debug', true)
     // create atom bugs instance
-    this.bugs = new Bugs();
+    this.bugs = new XAtomDebug();
     this.bugs.toolbarView.didRun(() => {
       this.consolePanel.show()
       this.debugPanel.show()
@@ -85,6 +85,10 @@ export default {
       'xatom-debug:step-over': () => this.bugs.pluginManager.stepOver(),
       'xatom-debug:step-into': () => this.bugs.pluginManager.stepInto(),
       'xatom-debug:step-out': () => this.bugs.pluginManager.stepOut(),
+      'xatom-debug:add-breakpoint': (event) => {
+        let editor = atom.workspace.getActiveTextEditor()
+        this.bugs.editorManager.addBreakpointFromEvent(event, editor)
+      },
       'xatom-debug:edit-breakpoint': (event) => {
         this.bugs.editorManager.editBreakpointFromEvent(event)
       },

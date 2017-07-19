@@ -32,7 +32,7 @@ export declare class EditorManager {
     removeExpressionMarker(): void;
     addFeatures(editor: any): Promise<void>;
     private removeBreakpoint(breakpoint);
-    private listenBreakpoints(e, editor);
+    private addBreakpointFromEvent(e, editor);
     private createBreakpointMarkerForEditor(editor, lineNumber);
     private getEditorPositionFromEvent(editor, e);
     private getEditorWordRangeFromPosition(editor, position);

@@ -59,6 +59,12 @@
       "command": "xatom-debug:remove-breakpoint"
     }, {
       "type": "separator"
+    }],
+    ".line-number": [{
+      "label": "Add Breakpoint",
+      "command": "xatom-debug:add-breakpoint"
+    }, {
+      "type": "separator"
     }]
   }
 }

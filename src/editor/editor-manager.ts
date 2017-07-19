@@ -191,7 +191,7 @@ export class EditorManager {
       this.currentEditor = editor
       if (get(editor, 'element.addEventListener', false) &&
         !get(editor, 'element.__atomBugsEnabledFeatures', false)) {
-        let breakpointHandler = (e) => this.listenBreakpoints(e, editor)
+        let breakpointHandler = (e) => this.addBreakpointFromEvent(e, editor)
         let expressionHandler = (e) => this.listenExpressionEvaluations(e, editor)
         // add breakpoint handler
         editor.element.__atomBugsEnabledFeatures = true
@@ -217,7 +217,7 @@ export class EditorManager {
       })
   }
 
-  private listenBreakpoints (e: MouseEvent, editor: any) {
+  private addBreakpointFromEvent (e: MouseEvent, editor: any) {
     let element = e.target as HTMLElement
     if (element.classList.contains('line-number')) {
       // toggle breakpoints

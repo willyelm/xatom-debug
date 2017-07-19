@@ -10,7 +10,7 @@ import { PluginManager, PluginClient } from './plugin/index'
 import { EditorManager } from './editor/index'
 import { Storage }  from './storage'
 
-export class Bugs {
+export class XAtomDebug {
   public storage: Storage = new Storage()
   public pluginManager: PluginManager = new PluginManager()
   public editorManager: EditorManager
