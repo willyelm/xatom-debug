@@ -295,7 +295,7 @@ export class EditorManager {
     clearTimeout(this.evaluateHandler)
     this.evaluateHandler = setTimeout(() => {
       let isEvaluationOverlay = this.currentEvaluationElement && this.currentEvaluationElement.contains(e.target as Node)
-      let isValidExpression = expression && String(expression).trim().length > 0
+      let isValidExpression = expression && expression.toString().trim().length > 0
       if (!isEvaluationOverlay && isValidExpression) {
         let evaluationView = this.createEditorEvaluationView(editor, scanRange)
         this.pluginManager.evaluateExpression(expression, evaluationView)
@@ -303,7 +303,7 @@ export class EditorManager {
         this.removeEvaluationMarker()
         this.removeExpressionMarker()
       }
-    }, 500)
+    }, 2000)
   }
 
   createEditorEvaluationView (editor: any, range: any) {
