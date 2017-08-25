@@ -1,9 +1,11 @@
-import { ToolbarView, SchemeView } from './scheme/index';
-import { DebugAreaView, ConsoleView } from './debug-area/index';
-import { PluginManager } from './plugin/index';
-import { EditorManager } from './editor/index';
+import { SchemeView } from './SchemeView';
+import { ToolbarView } from './ToolbarView';
+import { ConsoleView } from './ConsoleView';
+import { DebugAreaView } from './DebugAreaView';
+import { PluginManager } from './plugin';
+import { EditorManager } from './editor';
 import { Storage } from './storage';
-export declare class Bugs {
+export declare class XAtomDebug {
     storage: Storage;
     pluginManager: PluginManager;
     editorManager: EditorManager;

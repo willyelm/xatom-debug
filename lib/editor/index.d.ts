@@ -1,2 +1,2 @@
-export * from './breakpoint-manager';
-export * from './editor-manager';
+export * from './BreakpointManager';
+export * from './EditorManager';

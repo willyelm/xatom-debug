@@ -1,4 +1,4 @@
-import { BreakpointManager, Breakpoints } from './breakpoint-manager';
+import { BreakpointManager, Breakpoint, Breakpoints } from './BreakpointManager';
 import { PluginManager } from '../plugin/index';
 export interface EditorOptions {
     pluginManager: PluginManager;
@@ -21,7 +21,7 @@ export declare class EditorManager {
     private events;
     constructor(options: EditorOptions);
     restoreBreakpoints(breakpoints: Breakpoints): void;
-    getBreakpointFromEvent(event: any): any;
+    getBreakpointFromEvent(event: any): Breakpoint;
     removeBreakpointFromEvent(event: any): void;
     editBreakpointFromEvent(event: any): void;
     destroy(): void;

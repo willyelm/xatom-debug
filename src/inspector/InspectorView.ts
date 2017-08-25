@@ -10,7 +10,7 @@ import {
   createButton,
   createElement,
   insertElement
-} from '../element/index';
+} from '../element';
 import { EventEmitter }  from 'events';
 
 export interface InspectorViewOptions {

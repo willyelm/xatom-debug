@@ -6,7 +6,7 @@
  */
 
 import { parse } from 'path';
-import { EventEmitter }  from 'events';
+import { EventEmitter } from 'events';
 import { get } from 'lodash';
 
 const { CompositeDisposable } = require('atom');
@@ -21,7 +21,7 @@ import {
   createOption,
   insertElement,
   attachEventFromObject
-} from '../element/index';
+} from './element'
 
 export interface ToolbarOptions {
   didOpenScheme?: Function,
@@ -51,9 +51,9 @@ export class ToolbarView {
   };
   private activePath: string
   private events: EventEmitter;
-  private subscriptions:any = new CompositeDisposable();
+  private subscriptions: any = new CompositeDisposable();
 
-  constructor (options: ToolbarOptions) {
+  constructor(options: ToolbarOptions) {
 
     this.events = new EventEmitter();
     this.element = createElement('xatom-debug-toolbar');
@@ -73,17 +73,17 @@ export class ToolbarView {
       click: () => {
         this.events.emit('didRun');
       }
-    },[
-      createIcon('run')
-    ]);
+    }, [
+        createIcon('run')
+      ]);
     this.stopButton = createButton({
       disabled: true,
       click: () => {
         this.events.emit('didStop');
       }
-    },[
-      createIcon('stop')
-    ]);
+    }, [
+        createIcon('stop')
+      ]);
 
     this.logoElement = createIcon('logo')
     this.toggleLogo(false)
@@ -98,29 +98,29 @@ export class ToolbarView {
       createButton({
         className: 'bugs-scheme'
       }, [
-        createIcon('atom'),
-        this.schemePath.name,
-        createIcon('arrow-down'),
-        this.schemePath.select,
-        createElement('div', {
-          className: 'bugs-scheme-arrow'
-        })
-      ]),
+          createIcon('atom'),
+          this.schemePath.name,
+          createIcon('arrow-down'),
+          this.schemePath.select,
+          createElement('div', {
+            className: 'bugs-scheme-arrow'
+          })
+        ]),
       createButton({
         click: () => {
           this.events.emit('didOpenScheme');
         }
       }, [
-        this.scheme.icon,
-        this.scheme.name
-      ])
+          this.scheme.icon,
+          this.scheme.name
+        ])
     ]))
     // status
     this.statusLoadingElement = createElement('div', {
       className: 'bugs-status-loading'
     })
     this.statusTextElement = createElement('span', {
-      elements: [ createText('Not Started') ]
+      elements: [createText('Not Started')]
     })
 
     insertElement(this.element, createElement('bugs-scheme-status', {
@@ -159,35 +159,35 @@ export class ToolbarView {
     ], options);
   }
 
-  private toggleAtomTitleBar (value: boolean) {
+  private toggleAtomTitleBar(value: boolean) {
     let titleBar = document.querySelector('atom-panel .title-bar') as HTMLElement
     if (get(titleBar, 'nodeType', false) && titleBar.parentNode) {
-      (<HTMLElement> titleBar.parentNode).style.display = value ? null : 'none'
+      (<HTMLElement>titleBar.parentNode).style.display = value ? null : 'none'
     }
   }
 
-  public displayAsTitleBar () {
+  public displayAsTitleBar() {
     this.toggleAtomTitleBar(false)
     this.element.classList.add('bugs-title-bar')
   }
 
-  public displayDefault () {
+  public displayDefault() {
     this.toggleAtomTitleBar(true)
     this.element.classList.remove('bugs-title-bar')
   }
 
-  public didRun (cb: Function) {
+  public didRun(cb: Function) {
     this.events.on('didRun', cb)
   }
-  public didStop (cb: Function) {
+  public didStop(cb: Function) {
     this.events.on('didStop', cb)
   }
 
-  public didToggleConsole (cb) {
+  public didToggleConsole(cb) {
     this.events.on('didToggleConsole', cb)
   }
 
-  public didToggleDebugArea (cb) {
+  public didToggleDebugArea(cb) {
     this.events.on('didToggleDebugArea', cb)
   }
 
@@ -195,29 +195,29 @@ export class ToolbarView {
     this.statusLoadingElement.classList[value ? 'add' : 'remove']('active')
   }
 
-  public resetStatus () {
+  public resetStatus() {
     this.statusTextElement.innerHTML = '';
     return insertElement(this.statusTextElement, createText('Not Started'))
   }
 
-  public setStatus (text: string, iconName?: string) {
+  public setStatus(text: string, iconName?: string) {
     this.statusTextElement.innerHTML = '';
     let schemeName = get(this.scheme, 'name.nodeValue', '')
     if (schemeName.length > 0) {
       schemeName = `${schemeName}:`
     }
-    let contents: Array<HTMLElement|Text> = [ createText(`${schemeName} ${text}`) ]
+    let contents: Array<HTMLElement | Text> = [createText(`${schemeName} ${text}`)]
     if (iconName) {
       contents.unshift(createIcon(iconName))
     }
     return insertElement(this.statusTextElement, contents)
   }
 
-  toggleLogo (state: boolean) {
+  toggleLogo(state: boolean) {
     this.logoElement.style.display = state ? null : 'none';
   }
 
-  private setPathName (pathName: string) {
+  private setPathName(pathName: string) {
     this.activePath = pathName
     let baseName = parse(pathName).base
     this.schemePath.name.nodeValue = ` ${baseName}`
@@ -225,24 +225,24 @@ export class ToolbarView {
     this.events.emit('didChangePath', pathName);
   }
 
-  public getPathName (): string {
+  public getPathName(): string {
     return this.activePath
   }
 
-  public toggleRun (status: boolean) {
+  public toggleRun(status: boolean) {
     this.stopButton['disabled'] = status;
     this.runButton['disabled'] = !status;
     this.isRunning = !status
   }
 
-  public setScheme (plugin) {
+  public setScheme(plugin) {
     // set element icon bg
     this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
     // set element scheme name
     this.scheme.name.nodeValue = ` ${plugin.name}`;
   }
 
-  public setPaths (paths: Array<string>) {
+  public setPaths(paths: Array<string>) {
     // clear old list
     this.schemePath.select.innerHTML = '';
     // add new paths
@@ -256,11 +256,11 @@ export class ToolbarView {
     })
   }
 
-  public getElement (): HTMLElement {
+  public getElement(): HTMLElement {
     return this.element;
   }
 
-  public destroy () {
+  public destroy() {
     this.toggleAtomTitleBar(true)
     this.element.remove();
     this.subscriptions.dispose();

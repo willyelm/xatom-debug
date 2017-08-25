@@ -1,2 +1,2 @@
-export * from './plugin-client';
-export * from './plugin-manager';
+export * from './PluginClient';
+export * from './PluginManager';

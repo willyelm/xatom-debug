@@ -14,9 +14,13 @@ import {
   insertElement,
   attachEventFromObject
 } from '../element/index'
-import { ToolbarView, SchemeView } from '../scheme/index'
+import { SchemeView } from '../SchemeView'
+import { ToolbarView } from '../ToolbarView'
 import { InspectorView } from '../inspector/index'
-import { DebugAreaView, ConsoleView, CallStackFrames } from '../debug-area/index'
+
+import { ConsoleView } from '../ConsoleView'
+import { DebugAreaView, CallStackFrames } from '../DebugAreaView'
+
 import { EditorManager, Breakpoints } from '../editor/index'
 import { join } from 'path'
 import { get } from 'lodash'

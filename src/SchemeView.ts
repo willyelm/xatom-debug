@@ -17,8 +17,8 @@ import {
   createTextEditor,
   insertElement,
   attachEventFromObject
-} from '../element/index'
-import { Plugin } from '../plugin/index'
+} from './element'
+import { Plugin } from './plugin'
 import { EventEmitter }  from 'events'
 
 export interface SchemeOptions {

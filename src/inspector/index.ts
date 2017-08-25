@@ -5,4 +5,4 @@
  * MIT Licensed
  */
 
-export * from './inspector-view'
+export * from './InspectorView'

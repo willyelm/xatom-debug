@@ -12,9 +12,9 @@ import {
  createElement,
  insertElement,
  attachEventFromObject
-} from '../element/index'
+} from '../element'
 
-import { BreakpointManager, Breakpoint, Breakpoints } from './breakpoint-manager'
+import { BreakpointManager, Breakpoint, Breakpoints } from './BreakpointManager'
 import { PluginManager } from '../plugin/index'
 import { InspectorView } from '../inspector/index'
 import { EventEmitter }  from 'events'

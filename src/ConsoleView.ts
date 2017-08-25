@@ -13,7 +13,7 @@ import {
   createElement,
   insertElement,
   attachEventFromObject
-} from '../element/index'
+} from './element'
 
 import { EventEmitter }  from 'events'
 import { parse } from 'path'

@@ -67,7 +67,8 @@
   ],
   "dependencies": {
     "atom-package-deps": "^4.6.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "rxjs": "^5.4.3"
   },
   "devDependencies": {
     "@types/atom": "0.0.36",
