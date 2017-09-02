@@ -16,7 +16,7 @@ import {
   insertElement,
   attachEventFromObject
 } from './element'
-import { InspectorView } from './inspector'
+import { InspectorView } from './InspectorView'
 import { EventEmitter }  from 'events'
 const { CompositeDisposable } = require('atom')
 import { parse } from 'path'

@@ -7,14 +7,14 @@
 
 export function createIcon (name: string) {
   let icon = document.createElement('i');
-  icon.className = `bugs-icon bugs-icon-${name}`;
+  icon.className = `xatom-icon xatom-icon-${name}`;
   icon.innerHTML = '&nbsp;'
   return icon;
 }
 
 export function createIconFromPath (path: string) {
   let icon = document.createElement('i');
-  icon.className = `bugs-icon`;
+  icon.className = `xatom-icon`;
   icon.style.backgroundImage = `url(${path})`
   return icon;
 }

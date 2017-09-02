@@ -1,113 +1,113 @@
-/*!
- * XAtom Debug
- * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
- * MIT Licensed
- */
-
-@import "variables";
-
-// Icons
-.bugs-icon {
-  width: 20px;
-  height: 20px;
-  line-height: 1;
-  vertical-align: middle;
-  display: inline-block;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: top center;
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: top center;
-  &.bugs-icon-logo {
-    background-image: url('atom://xatom-debug/icons/xatom-debug.svg');
-    // animation: spinning 3s infinite;
-  }
-  &.bugs-icon-run {
-    -webkit-mask-image: url('atom://xatom-debug/icons/run.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-stop {
-    -webkit-mask-image: url('atom://xatom-debug/icons/stop.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-pause {
-    -webkit-mask-image: url('atom://xatom-debug/icons/pause.svg');
-    background-color: @text-color-error;
-  }
-  &.bugs-icon-resume {
-    -webkit-mask-image: url('atom://xatom-debug/icons/resume.svg');
-    background-color: @background-color-info;
-  }
-  &.bugs-icon-step-over {
-    -webkit-mask-image: url('atom://xatom-debug/icons/step-over.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-step-into {
-    -webkit-mask-image: url('atom://xatom-debug/icons/step-into.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-step-out {
-    -webkit-mask-image: url('atom://xatom-debug/icons/step-out.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-arrow-right-solid {
-    -webkit-mask-image: url('atom://xatom-debug/icons/arrow-right-solid.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-arrow-right {
-    -webkit-mask-image: url('atom://xatom-debug/icons/arrow-right.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-arrow-down {
-    -webkit-mask-image: url('atom://xatom-debug/icons/arrow-down.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-break {
-    -webkit-mask-image: url('atom://xatom-debug/icons/break.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-atom {
-    -webkit-mask-image: url('atom://xatom-debug/icons/atom.svg');
-    background-color: @text-color;
-  }
-  &.bugs-icon-status-success {
-    -webkit-mask-image: url('atom://xatom-debug/icons/status-success.svg');
-    background-color: @background-color-success;
-  }
-  &.bugs-icon-status-warning {
-    -webkit-mask-image: url('atom://xatom-debug/icons/status-warning.svg');
-    background-color: @background-color-warning;
-  }
-  &.bugs-icon-status-error {
-    -webkit-mask-image: url('atom://xatom-debug/icons/status-error.svg');
-    background-color: @background-color-error;
-  }
-  &.bugs-icon-add {
-    -webkit-mask-image: url('atom://xatom-debug/icons/add.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-refresh {
-    -webkit-mask-image: url('atom://xatom-debug/icons/refresh.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-check {
-    -webkit-mask-image: url('atom://xatom-debug/icons/check.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-remove {
-    -webkit-mask-image: url('atom://xatom-debug/icons/remove.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-panel-right {
-    -webkit-mask-image: url('atom://xatom-debug/icons/panel-right.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.bugs-icon-panel-bottom {
-    -webkit-mask-image: url('atom://xatom-debug/icons/panel-bottom.svg');
-    background-color: darken(@text-color, 5%);
-  }
-  &.active {
-    background-color: hsl(hue(@syntax-background-color), 100%, 60%)!important;
-  }
-}
+// /*!
+//  * XAtom Debug
+//  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+//  * MIT Licensed
+//  */
+//
+// @import "variables";
+//
+// // Icons
+// .xatom-icon {
+//   width: 20px;
+//   height: 20px;
+//   line-height: 1;
+//   vertical-align: middle;
+//   display: inline-block;
+//   background-size: contain;
+//   background-repeat: no-repeat;
+//   background-position: top center;
+//   -webkit-mask-size: contain;
+//   -webkit-mask-repeat: no-repeat;
+//   -webkit-mask-position: top center;
+//   &.xatom-icon-logo {
+//     background-image: url('atom://xatom-debug/icons/xatom-debug.svg');
+//     // animation: spinning 3s infinite;
+//   }
+//   &.xatom-icon-run {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/run.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-stop {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/stop.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-pause {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/pause.svg');
+//     background-color: @text-color-error;
+//   }
+//   &.xatom-icon-resume {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/resume.svg');
+//     background-color: @background-color-info;
+//   }
+//   &.xatom-icon-step-over {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/step-over.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-step-into {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/step-into.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-step-out {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/step-out.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-arrow-right-solid {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/arrow-right-solid.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-arrow-right {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/arrow-right.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-arrow-down {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/arrow-down.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-break {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/break.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-atom {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/atom.svg');
+//     background-color: @text-color;
+//   }
+//   &.xatom-icon-status-success {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/status-success.svg');
+//     background-color: @background-color-success;
+//   }
+//   &.xatom-icon-status-warning {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/status-warning.svg');
+//     background-color: @background-color-warning;
+//   }
+//   &.xatom-icon-status-error {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/status-error.svg');
+//     background-color: @background-color-error;
+//   }
+//   &.xatom-icon-add {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/add.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-refresh {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/refresh.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-check {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/check.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-remove {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/remove.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-panel-right {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/panel-right.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.xatom-icon-panel-bottom {
+//     -webkit-mask-image: url('atom://xatom-debug/icons/panel-bottom.svg');
+//     background-color: darken(@text-color, 5%);
+//   }
+//   &.active {
+//     background-color: hsl(hue(@syntax-background-color), 100%, 60%)!important;
+//   }
+// }

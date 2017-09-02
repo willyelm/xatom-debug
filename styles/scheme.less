@@ -1,200 +1,200 @@
-/*!
- * XAtom Debug
- * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
- * MIT Licensed
- */
-
-@import "variables";
-
-.xatom-debug-modal {
-  top: 0!important;
-  border-top-left-radius: 0!important;
-  border-top-right-radius: 0!important;
-}
-
-xatom-debug-scheme {
-  display: block;
-  margin: -10px;
-  xatom-debug-scheme-config {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 5px 10px;
-    scheme-label,
-    scheme-control {
-      position: relative;
-      box-flex: 0;
-      width: 100%;
-    }
-    scheme-label {
-      flex: 0 0 35%;
-      max-width: 35%;
-      text-align: right;
-      padding: 5px 7px;
-      padding-right: 14px;
-    }
-    scheme-control {
-      flex: 0 0 65%;
-      max-width: 65%;
-      p {
-        margin: 5px 0;
-        font-size: 90%;
-      }
-      .form-control,
-      select {
-        outline: none!important;
-        -webkit-appearance: none;
-        background-color: lighten(@base-background-color, 5%);
-        border: 1px solid @button-border-color;
-        padding: 4px 7px;
-        height: auto!important;
-        border-radius: @component-border-radius;
-        color: @text-color;
-        width: 100%;
-        &::-webkit-input-placeholder {
-          color: fadeOut(@text-color, 70%);
-        }
-      }
-      .input-items {
-        display: block;
-        border: 1px solid @base-border-color;
-        border-radius: 3px;
-        margin-bottom: 5px;
-        &:empty {
-          display: none;
-          margin-bottom: 0;
-        }
-        .input-item {
-          position: relative;
-          box-shadow: 0 -1px 0 0 @base-border-color;
-          input, button {
-            border-radius: 0;
-            border: none!important;
-          }
-          input {
-            background-color: transparent;
-          }
-          button {
-            background: transparent!important;
-            box-shadow: none!important;
-            position: absolute;
-            top: 0;
-            right: 0;
-            margin: 4px;
-            line-height: 1;
-            padding: 2px 8px;
-            .bugs-icon {
-              height: 10px;
-              width: 8px;
-            }
-          }
-        }
-      }
-      .input-form {
-        display: block;
-        position: relative;
-        button {
-          position: absolute;
-          top: 0;
-          right: 0;
-          height: 100%;
-          border-top-left-radius: 0;
-          border-bottom-left-radius: 0;
-        }
-      }
-      .bugs-icon {
-        height: 16px;
-        width: 12px;
-      }
-      .input-array,
-      .input-object {
-        display: block;
-      }
-      .input-object {
-        input,
-        atom-text-editor {
-          width: 50%;
-          display: inline-block;
-        }
-        atom-text-editor {
-          width: 50%;
-          display: inline-block;
-          vertical-align: top;
-          margin-bottom: 0!important;
-          padding-bottom: 0!important;
-        }
-        .input-form {
-          atom-text-editor {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-            border-right: none;
-          }
-          atom-text-editor + atom-text-editor {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            border-top-right-radius: @component-border-radius;
-            border-bottom-right-radius: @component-border-radius;
-          }
-        }
-      }
-    }
-  }
-  xatom-debug-scheme-item {
-    padding: 7px 10px;
-    line-height: 20px;
-    display: block;
-    border-bottom: 1px solid @base-border-color;
-    .bugs-icon {
-      width: 24px;
-      height: 24px;
-      margin-right: 5px;
-    }
-    &.active {
-      background-color: @background-color-info;
-      color: lighten(@text-color, 60%)!important;
-    }
-  }
-  xatom-debug-scheme-content {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0;
-    background-color: @base-background-color;
-    xatom-debug-scheme-list,
-    xatom-debug-scheme-editor {
-      position: relative;
-      box-flex: 0;
-      width: 100%;
-      min-height: 360px;
-      max-height: 360px;
-      // border: 1px solid @base-border-color;
-      overflow: auto;
-    }
-    xatom-debug-scheme-list {
-      flex: 0 0 25%;
-      max-width: 25%;
-      background-color: darken(@base-background-color, 2%);
-      // border-top-left-radius: @component-border-radius;
-      border-bottom-left-radius: @component-border-radius;
-      z-index: 2;
-    }
-    xatom-debug-scheme-editor {
-      flex: 0 0 75%;
-      max-width: 75%;
-      margin-left: -1px;
-      padding: 15px;
-      // border-top-right-radius: 4px;
-      border-bottom-right-radius: @component-border-radius;
-      z-index: 1;
-    }
-  }
-  xatom-debug-scheme-buttons {
-    display: block;
-    text-align: right;
-    padding: 7px 10px;
-    border-top: 1px solid @base-border-color;
-    .btn {
-      padding-left: 30px;
-      padding-right: 30px;
-      border-radius: 4px;
-    }
-  }
-}
+// /*!
+//  * XAtom Debug
+//  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+//  * MIT Licensed
+//  */
+//
+// @import "variables";
+//
+// .xatom-debug-modal {
+//   top: 0!important;
+//   border-top-left-radius: 0!important;
+//   border-top-right-radius: 0!important;
+// }
+//
+// xatom-debug-scheme {
+//   display: block;
+//   margin: -10px;
+//   xatom-debug-scheme-config {
+//     display: flex;
+//     flex-wrap: wrap;
+//     padding: 5px 10px;
+//     scheme-label,
+//     scheme-control {
+//       position: relative;
+//       box-flex: 0;
+//       width: 100%;
+//     }
+//     scheme-label {
+//       flex: 0 0 35%;
+//       max-width: 35%;
+//       text-align: right;
+//       padding: 5px 7px;
+//       padding-right: 14px;
+//     }
+//     scheme-control {
+//       flex: 0 0 65%;
+//       max-width: 65%;
+//       p {
+//         margin: 5px 0;
+//         font-size: 90%;
+//       }
+//       .form-control,
+//       select {
+//         outline: none!important;
+//         -webkit-appearance: none;
+//         background-color: lighten(@base-background-color, 5%);
+//         border: 1px solid @button-border-color;
+//         padding: 4px 7px;
+//         height: auto!important;
+//         border-radius: @component-border-radius;
+//         color: @text-color;
+//         width: 100%;
+//         &::-webkit-input-placeholder {
+//           color: fadeOut(@text-color, 70%);
+//         }
+//       }
+//       .input-items {
+//         display: block;
+//         border: 1px solid @base-border-color;
+//         border-radius: 3px;
+//         margin-bottom: 5px;
+//         &:empty {
+//           display: none;
+//           margin-bottom: 0;
+//         }
+//         .input-item {
+//           position: relative;
+//           box-shadow: 0 -1px 0 0 @base-border-color;
+//           input, button {
+//             border-radius: 0;
+//             border: none!important;
+//           }
+//           input {
+//             background-color: transparent;
+//           }
+//           button {
+//             background: transparent!important;
+//             box-shadow: none!important;
+//             position: absolute;
+//             top: 0;
+//             right: 0;
+//             margin: 4px;
+//             line-height: 1;
+//             padding: 2px 8px;
+//             .xatom-icon {
+//               height: 10px;
+//               width: 8px;
+//             }
+//           }
+//         }
+//       }
+//       .input-form {
+//         display: block;
+//         position: relative;
+//         button {
+//           position: absolute;
+//           top: 0;
+//           right: 0;
+//           height: 100%;
+//           border-top-left-radius: 0;
+//           border-bottom-left-radius: 0;
+//         }
+//       }
+//       .xatom-icon {
+//         height: 16px;
+//         width: 12px;
+//       }
+//       .input-array,
+//       .input-object {
+//         display: block;
+//       }
+//       .input-object {
+//         input,
+//         atom-text-editor {
+//           width: 50%;
+//           display: inline-block;
+//         }
+//         atom-text-editor {
+//           width: 50%;
+//           display: inline-block;
+//           vertical-align: top;
+//           margin-bottom: 0!important;
+//           padding-bottom: 0!important;
+//         }
+//         .input-form {
+//           atom-text-editor {
+//             border-top-right-radius: 0;
+//             border-bottom-right-radius: 0;
+//             border-right: none;
+//           }
+//           atom-text-editor + atom-text-editor {
+//             border-top-left-radius: 0;
+//             border-bottom-left-radius: 0;
+//             border-top-right-radius: @component-border-radius;
+//             border-bottom-right-radius: @component-border-radius;
+//           }
+//         }
+//       }
+//     }
+//   }
+//   xatom-debug-scheme-item {
+//     padding: 7px 10px;
+//     line-height: 20px;
+//     display: block;
+//     border-bottom: 1px solid @base-border-color;
+//     .xatom-icon {
+//       width: 24px;
+//       height: 24px;
+//       margin-right: 5px;
+//     }
+//     &.active {
+//       background-color: @background-color-info;
+//       color: lighten(@text-color, 60%)!important;
+//     }
+//   }
+//   xatom-debug-scheme-content {
+//     display: flex;
+//     flex-wrap: wrap;
+//     margin: 0;
+//     background-color: @base-background-color;
+//     xatom-debug-scheme-list,
+//     xatom-debug-scheme-editor {
+//       position: relative;
+//       box-flex: 0;
+//       width: 100%;
+//       min-height: 360px;
+//       max-height: 360px;
+//       // border: 1px solid @base-border-color;
+//       overflow: auto;
+//     }
+//     xatom-debug-scheme-list {
+//       flex: 0 0 25%;
+//       max-width: 25%;
+//       background-color: darken(@base-background-color, 2%);
+//       // border-top-left-radius: @component-border-radius;
+//       border-bottom-left-radius: @component-border-radius;
+//       z-index: 2;
+//     }
+//     xatom-debug-scheme-editor {
+//       flex: 0 0 75%;
+//       max-width: 75%;
+//       margin-left: -1px;
+//       padding: 15px;
+//       // border-top-right-radius: 4px;
+//       border-bottom-right-radius: @component-border-radius;
+//       z-index: 1;
+//     }
+//   }
+//   xatom-debug-scheme-buttons {
+//     display: block;
+//     text-align: right;
+//     padding: 7px 10px;
+//     border-top: 1px solid @base-border-color;
+//     .btn {
+//       padding-left: 30px;
+//       padding-right: 30px;
+//       border-radius: 4px;
+//     }
+//   }
+// }

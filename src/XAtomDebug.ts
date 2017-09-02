@@ -13,13 +13,13 @@ import { EditorManager } from './editor'
 import { Storage }  from './storage'
 
 export class XAtomDebug {
-  public storage: Storage = new Storage()
-  public pluginManager: PluginManager = new PluginManager()
-  public editorManager: EditorManager
-  public schemeView: SchemeView
-  public toolbarView: ToolbarView
-  public debugView: DebugAreaView
-  public consoleView: ConsoleView
+  public storage: Storage = new Storage();
+  public pluginManager: PluginManager = new PluginManager();
+  public editorManager: EditorManager;
+  public schemeView: SchemeView;
+  public toolbarView: ToolbarView;
+  public debugView: DebugAreaView;
+  public consoleView: ConsoleView;
   constructor () {
     // Create Editor Manager
     this.editorManager = new EditorManager({
@@ -40,17 +40,6 @@ export class XAtomDebug {
       didChange: () => {
         let breakpoints = this.editorManager.breakpointManager.getPlainBreakpoints()
         this.storage.saveObjectFromKey('breakpoints', breakpoints)
-      }
-    })
-    // Scheme Editor
-    this.schemeView = new SchemeView({
-      didSelectPlugin: (plugin) => {
-        this.pluginManager.activatePlugin(plugin)
-        this.toolbarView.setScheme(plugin)
-        this.storage.saveObjectFromKey('currentPluginName', plugin.name)
-      },
-      didChange: () => {
-        this.storage.saveObjectFromKey('schemes', this.schemeView.getData())
       }
     })
     // Create toolbar
@@ -83,13 +72,26 @@ export class XAtomDebug {
           this.toolbarView.setScheme(firstPlugin)
         }
       }
-    })
+    });
+    // Scheme Editor
+    this.schemeView = new SchemeView();
+    this
+      .schemeView
+      .changes()
+      .subscribe(({activePlugin}) => {
+        if (activePlugin) {
+          this.pluginManager.activatePlugin(activePlugin);
+          this.toolbarView.setScheme(activePlugin);
+          this.storage.saveObjectFromKey('currentPluginName', activePlugin.name);
+        }
+        this.storage.saveObjectFromKey('schemes', this.schemeView.getData());
+      });
     // Console View
     this.consoleView = new ConsoleView({
       didRequestProperties: (result, inspectView) => {
         return this.pluginManager.requestProperties(result, inspectView)
       }
-    })
+    });
     // Create debug area
     this.debugView = new DebugAreaView({
       didPause: () => this.pluginManager.pause(),
@@ -112,7 +114,7 @@ export class XAtomDebug {
       didEvaluateExpression: (expression, evaluationView) => {
         return this.pluginManager.evaluateExpression(expression, evaluationView)
       }
-    })
+    });
     // Atom bugs plugin client
     let client = new PluginClient({
       debugView: this.debugView,
@@ -120,19 +122,19 @@ export class XAtomDebug {
       schemeView: this.schemeView,
       toolbarView: this.toolbarView,
       editorManager: this.editorManager
-    })
+    });
     // Add editor features
     atom.workspace['observeActivePaneItem']((editor) => {
       if (editor) {
         this.editorManager.addFeatures(editor)
       }
-    })
+    });
     // Listen plugin addition
     this.pluginManager.didAddPlugin((plugin) => {
       this.schemeView.addPlugin(plugin)
       // Register client
       if (plugin.register) plugin.register(client)
-    })
+    });
   }
 
   getToolbarElement () {

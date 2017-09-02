@@ -16,7 +16,7 @@ import {
 
 import { BreakpointManager, Breakpoint, Breakpoints } from './BreakpointManager'
 import { PluginManager } from '../plugin/index'
-import { InspectorView } from '../inspector/index'
+import { InspectorView } from '../InspectorView'
 import { EventEmitter }  from 'events'
 import { get } from 'lodash'
 
@@ -116,12 +116,12 @@ export class EditorManager {
         elements: [
           conditionInput,
           conditionButton,
-          createElement('bugs-breakpoint-edit-arrow')
+          createElement('xatom-breakpoint-edit-arrow')
         ]
       })
       let decorator = editor.decorateMarker(marker, {
         type: 'overlay',
-        class: 'bugs-breakpoint-edit',
+        class: 'xatom-breakpoint-edit',
         item: breakpointEditor
       })
       setTimeout(() => {
@@ -157,7 +157,7 @@ export class EditorManager {
     this.currentBreakMarker = editor.markBufferRange(range)
     editor.decorateMarker(this.currentBreakMarker, {
       type: 'line',
-      class: 'bugs-break-line'
+      class: 'xatom-break-line'
     })
   }
 
@@ -247,7 +247,7 @@ export class EditorManager {
     let marker = editor.markBufferRange(range)
     let decorator = editor.decorateMarker(marker, {
       type: 'line-number',
-      class: 'bugs-breakpoint'
+      class: 'xatom-breakpoint'
     })
     return marker
   }
@@ -339,7 +339,7 @@ export class EditorManager {
     this.currentExpressionMarker = editor.markBufferRange(range)
     editor.decorateMarker(this.currentExpressionMarker, {
       type: 'highlight',
-      class: 'bugs-expression'
+      class: 'xatom-expression'
     })
     // overlay inspector
     this.removeEvaluationMarker()
@@ -347,26 +347,9 @@ export class EditorManager {
     this.currentEvaluationMarker = editor.markBufferRange(range)
     editor.decorateMarker(this.currentEvaluationMarker, {
       type: 'overlay',
-      class: 'bugs-expression-overlay',
+      class: 'xatom-expression-overlay',
       item: this.currentEvaluationElement
     })
-    setTimeout(() => {
-      // this.currentEvaluationElement.addEventListener('mouseleave', () => {
-      //   this.removeEvaluationMarker()
-      //   this.removeExpressionMarker()
-      // })
-      // let close = () => {
-      //   this.activateExpressionListerner = true
-      //   this.removeEvaluationMarker()
-      //   this.removeExpressionMarker()
-      // }
-      // let autoClose = setTimeout(close, 15000)
-      // element.addEventListener('mouseenter', () => {
-      //   // clearTimeout(autoClose)
-      //   this.activateExpressionListerner = false
-      //   // element.addEventListener('mouseleave', () => close())
-      // })
-    }, 250)
   }
 
   removeEvaluationMarker () {

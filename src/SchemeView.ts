@@ -15,34 +15,36 @@ import {
   createElement,
   createInput,
   createTextEditor,
-  insertElement,
-  attachEventFromObject
-} from './element'
-import { Plugin } from './plugin'
-import { EventEmitter }  from 'events'
+  insertElement
+} from './element';
+import { isEqual } from 'lodash';
+import { Plugin } from './plugin';
+import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs/Rx';
 
-export interface SchemeOptions {
-  didSelectPlugin?: Function,
-  didChange?: Function
+export interface SchemeState {
+  activePlugin: Plugin;
+  plugins: Array<Plugin>;
 }
 
 export class SchemeView {
-  private element: HTMLElement
-  private listElement: HTMLElement
-  private editorElement: HTMLElement
-  private data: Object = {}
-  private events: EventEmitter
-  private panel: any
-  private activePlugin: Plugin
-  private plugins: Array<Plugin> = []
-  constructor (options: SchemeOptions) {
-    this.events = new EventEmitter()
-    this.element = document.createElement('xatom-debug-scheme')
-    this.listElement = createElement('xatom-debug-scheme-list')
-    // this.listElement.setAttribute('tabindex', '-1')
+  private element: HTMLElement;
+  private listElement: HTMLElement;
+  private editorElement: HTMLElement;
+  private data: Object = {};
+  private panel: any;
+  private activePlugin: Plugin;
+  private plugins: Array<Plugin> = [];
+  private subject: BehaviorSubject<SchemeState>;
+  constructor () {
+    this.element = document.createElement('xatom-debug-scheme');
+    this.listElement = createElement('xatom-debug-scheme-list');
     this.editorElement = createElement('xatom-debug-scheme-editor', {
       // className: 'native-key-bindings'
-    })
+    });
+    this.subject = new BehaviorSubject(<SchemeState> {
+      activePlugin: this.activePlugin,
+      plugins: this.plugins
+    });
     insertElement(this.element, [
       createElement('xatom-debug-scheme-content', {
         elements: [ this.listElement, this.editorElement ]
@@ -54,51 +56,57 @@ export class SchemeView {
           }, [createText('Close')])
         ]
       })
-    ])
-    let modalConfig = {
+    ]);
+    let modalOptions = {
+      className: 'xatom-debug-modal',
       item: this.element,
       visible: false
-    }
-    modalConfig['className'] = 'xatom-debug-modal'
-    this.panel = atom.workspace.addModalPanel(modalConfig)
-    attachEventFromObject(this.events, [
-      'didSelectPlugin',
-      'didChange'
-    ], options)
+    };
+    this.panel = atom.workspace.addModalPanel(modalOptions);
   }
-  open (activePlugin?: Plugin) {
+  open (activePlugin?: Plugin): void {
     if (activePlugin) {
       this.openPlugin(activePlugin)
     }
     this.panel.show()
   }
-  close () {
+  changes () {
+    return this.subject.asObservable();
+  }
+  close (): void {
     this.panel.hide()
   }
-  activatePlugin (plugin: Plugin) {
-    this.activePlugin = plugin
+  activatePlugin (plugin: Plugin): void {
+    this.activePlugin = plugin;
+    this.registerChange();
+  }
+  registerChange (): void {
+    const newValue = {
+      activePlugin: this.activePlugin,
+      plugins: this.plugins
+    };
+    this.subject.next(newValue);
   }
   openPlugin (plugin: Plugin) {
     let id = this.getPluginId(plugin)
-    // fund plugin and activate
+    // find plugin and activate
     let item = this.listElement.querySelector(`[id="${id}"]`)
     if (!item.classList.contains('active')) {
       // remove active
       let items = this.listElement.querySelectorAll('xatom-debug-scheme-item.active');
-      Array.from(items, (item: HTMLElement) => item.classList.remove('active'))
-      this.activatePlugin(plugin)
-      this.events.emit('didSelectPlugin', plugin)
+      Array.from(items, (item: HTMLElement) => item.classList.remove('active'));
+      this.activatePlugin(plugin);
       // add active class
       item.classList.add('active');
       this.editorElement.innerHTML = '';
       // build options
       let optionVisibles = []
       let optionElements = Object.keys(plugin.options).map((name) => {
-        let config = plugin.options[name];
+        let elementOptions = plugin.options[name];
         let configElement = createElement('xatom-debug-scheme-config', {
           elements: [
             createElement('scheme-label', {
-              elements: [createText(config.title)]
+              elements: [createText(elementOptions.title)]
             })
           ]
         })
@@ -106,51 +114,52 @@ export class SchemeView {
           this.data[plugin.name] = {}
         }
         if (this.data[plugin.name][name] === undefined) {
-          this.data[plugin.name][name] = config.default
+          this.data[plugin.name][name] = elementOptions.default
         }
         let controlElement
-        switch (config.type) {
+        switch (elementOptions.type) {
           case 'string':
           case 'number':
             let controlType = 'createControlText'
-            if (Array.isArray(config.enum)) {
+            if (Array.isArray(elementOptions.enum)) {
               controlType = 'createControlSelect'
             }
-            controlElement = this[controlType](plugin.name, name, config)
+            controlElement = this[controlType](plugin.name, name, elementOptions)
             break;
           case 'boolean':
-            controlElement = this.createControlCheckbox(plugin.name, name, config)
+            controlElement = this.createControlCheckbox(plugin.name, name, elementOptions)
             break;
           case 'object':
-            controlElement = this.createControlObject(plugin.name, name, config)
+            controlElement = this.createControlObject(plugin.name, name, elementOptions)
             break;
           case 'array':
-            controlElement = this.createControlArray(plugin.name, name, config)
+            controlElement = this.createControlArray(plugin.name, name, elementOptions)
             break;
         }
         if (controlElement) {
           insertElement(configElement, controlElement)
         }
-        if (config.description && controlElement) {
+        if (elementOptions.description && controlElement) {
           insertElement(controlElement, createElement('p', {
             className: 'text-muted',
             elements: [
-              createText(config.description)
+              createText(elementOptions.description)
             ]
           }))
         }
-        if (config.visible) {
-          let visible = config.visible
-          let visibleHandler = () => this.analizeVisibleControl(plugin.name, configElement, config.visible)
-          optionVisibles.push(visibleHandler)
-          this.events.on('didChange', visibleHandler)
+        if (elementOptions.visible) {
+          let visible = elementOptions.visible
+          let visibleHandler = () => this.analizeVisibleControl(plugin.name, configElement, elementOptions.visible);
+          optionVisibles.push(visibleHandler);
+          if (elementOptions.$subscriber) {
+            elementOptions.$subscriber.unsubscribe();
+          }
+          elementOptions.$subscriber = this.subject.subscribe(() => visibleHandler());
         }
         return configElement
       })
-      // verify visibles after element creation
-      optionVisibles.forEach((analize) => analize())
-      // insert option elements to editor
-      insertElement(this.editorElement, optionElements)
+      optionVisibles.forEach((analize) => analize());
+      insertElement(this.editorElement, optionElements);
     }
   }
   createControlText (pluginName: string, key: string, config: any) {
@@ -161,14 +170,13 @@ export class SchemeView {
     let inputElement = createTextEditor({
       value,
       placeholder: config.default,
-      // value: this.data[pluginName][key],
       change: (value) => {
         if (String(value).trim().length > 0) {
           this.data[pluginName][key] = value
         } else {
           this.data[pluginName][key] = config.default
         }
-        this.events.emit('didChange')
+        this.registerChange();
       }
     })
     return createElement('scheme-control', {
@@ -182,8 +190,8 @@ export class SchemeView {
         className: 'input-checkbox',
         value: this.data[pluginName][key],
         change: (value) => {
-          this.data[pluginName][key] = value
-          this.events.emit('didChange')
+          this.data[pluginName][key] = value;
+          this.registerChange();
         }
       })]
     })
@@ -192,8 +200,8 @@ export class SchemeView {
     let selectOptions = config.enum.map((value) => createOption(value, value))
     let selectElement = createSelect({
       change: (value) => {
-        this.data[pluginName][key] = value
-        this.events.emit('didChange')
+        this.data[pluginName][key] = value;
+        this.registerChange();
       }
     }, selectOptions)
     selectElement.value = this.data[pluginName][key]
@@ -212,9 +220,9 @@ export class SchemeView {
         itemInput,
         createButton ({
           click: () => {
-            itemElement.remove()
-            data.splice(index, 1)
-            this.events.emit('didChange')
+            itemElement.remove();
+            data.splice(index, 1);
+            this.registerChange();
           }
         }, createIcon('remove'))
       ]
@@ -241,11 +249,11 @@ export class SchemeView {
                 let editor = addInput.getModel()
                 let value = editor.getText()
                 if (value.trim().length > 0) {
-                  let index = source.push(value)
-                  let itemElement = this.createArrayItem(source, index - 1)
-                  editor.setText('')
-                  insertElement(itemsElement, itemElement)
-                  this.events.emit('didChange')
+                  let index = source.push(value);
+                  let itemElement = this.createArrayItem(source, index - 1);
+                  editor.setText('');
+                  insertElement(itemsElement, itemElement);
+                  this.registerChange();
                 }
               }
             }, createIcon('add'))
@@ -289,8 +297,8 @@ export class SchemeView {
                   let itemElement = this.createObjectItem(source, nameValue)
                   nameEditor.setText('')
                   valueEditor.setText('')
-                  insertElement(itemsElement, itemElement)
-                  this.events.emit('didChange')
+                  insertElement(itemsElement, itemElement);
+                  this.registerChange();
                 }
               }
             }, createIcon('add'))
@@ -317,9 +325,9 @@ export class SchemeView {
         valueInput,
         createButton ({
           click: () => {
-            itemElement.remove()
-            delete data[index]
-            this.events.emit('didChange')
+            itemElement.remove();
+            delete data[index];
+            this.registerChange();
           }
         }, createIcon('remove'))
       ]

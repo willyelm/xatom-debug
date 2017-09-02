@@ -16,7 +16,7 @@ import {
 } from '../element/index'
 import { SchemeView } from '../SchemeView'
 import { ToolbarView } from '../ToolbarView'
-import { InspectorView } from '../inspector/index'
+import { InspectorView } from '../InspectorView'
 
 import { ConsoleView } from '../ConsoleView'
 import { DebugAreaView, CallStackFrames } from '../DebugAreaView'

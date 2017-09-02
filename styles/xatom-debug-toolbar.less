@@ -1,0 +1,152 @@
+/*!
+ * XAtom Debug
+ * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+ * MIT Licensed
+ */
+@import "ui-variables";
+
+.btn-select {
+  position: relative;
+  &:after {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    content: '';
+    right: 0;
+    top: 50%;
+    margin-top: -6px;
+    z-index: 1;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: top center;
+    -webkit-mask-image: url('atom://xatom-debug/icons/select.svg');
+    background-color: @text-color;
+  }
+  select {
+    position: relative;
+    background-color: transparent;
+    border: none;
+    -webkit-appearance: none;
+    padding: 0 15px;
+    z-index: 2;
+  }
+}
+
+xatom-debug-toolbar {
+  padding: 7px 15px;
+  display: block;
+  .xatom-debug-status {
+    width: auto;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    .xatom-debug-status-text {
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  // Buttons
+  .btn-separator {
+    position: relative;
+    z-index: 2!important;
+    padding-left: 0;
+    padding-right: 0;
+    border-right: none!important;
+    select {
+      margin-right: -14px;
+      padding-right: 29px;
+    }
+    & + .btn {
+      padding-left: 27px;
+      margin-left: -2px;
+    }
+    &:hover .arrow:before {
+      background-color: @button-background-color-hover;
+    }
+    &:focus {
+      background-color: @button-background-color;
+      border-right: none;
+      .arrow:before {
+        border-color: @button-background-color-selected;
+        background-color: @button-background-color;
+      }
+    }
+    &:active .arrow:before {
+      background-color: @button-background-color-selected;
+    }
+    &.disabled .arrow:before,
+    &[disabled] .arrow:before{
+      opacity: .65;
+    }
+    .arrow {
+      position: absolute;
+      top: 0;
+      right: -14px;
+      overflow: hidden;
+      height: 100%;
+      width: 14px;
+      &:before {
+        position: absolute;
+        content: '';
+        background-color: @button-background-color;
+        transform: rotate(-45deg);
+        width: 30px;
+        height: 30px;
+        top: 50%;
+        margin-top: -15px;
+        right: 5px;
+        border-radius: 0 0 5px 0;
+        border: 1px solid @button-border-color;
+      }
+    }
+  }
+  // Status
+  .xatom-debug-status {
+    margin-left: 1.5rem!important;
+    position: relative;
+    &.loading:before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: @background-color-info;
+      animation: loading 1.2s linear alternate infinite;
+      border-bottom-left-radius: @component-border-radius;
+      border-bottom-right-radius: @component-border-radius;
+    }
+  }
+}
+
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
+@keyframes loading {
+  0% {
+    left: 0;
+    width: 0%
+  }
+  25% {
+    left: 0;
+    width: 33%;
+  }
+  50% {
+    left: 33%;
+    width: 67%;
+  }
+  75% {
+    left: 67%;
+    width: 33%;
+  }
+  100% {
+    left: 100%;
+    width: 0%;
+  }
+}

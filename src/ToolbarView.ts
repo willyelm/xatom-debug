@@ -4,7 +4,6 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
-
 import { parse } from 'path';
 import { EventEmitter } from 'events';
 import { get } from 'lodash';
@@ -33,7 +32,6 @@ export interface ToolbarOptions {
 }
 
 export class ToolbarView {
-  public isRunning: boolean;
   private element: HTMLElement;
   private logoElement: HTMLElement;
   private statusTextElement: HTMLElement;
@@ -96,14 +94,14 @@ export class ToolbarView {
     insertElement(this.element, this.stopButton)
     insertElement(this.element, createGroupButtons([
       createButton({
-        className: 'bugs-scheme'
+        className: 'xatom-scheme'
       }, [
           createIcon('atom'),
           this.schemePath.name,
           createIcon('arrow-down'),
           this.schemePath.select,
           createElement('div', {
-            className: 'bugs-scheme-arrow'
+            className: 'xatom-scheme-arrow'
           })
         ]),
       createButton({
@@ -117,13 +115,13 @@ export class ToolbarView {
     ]))
     // status
     this.statusLoadingElement = createElement('div', {
-      className: 'bugs-status-loading'
+      className: 'xatom-status-loading'
     })
     this.statusTextElement = createElement('span', {
       elements: [createText('Not Started')]
     })
 
-    insertElement(this.element, createElement('bugs-scheme-status', {
+    insertElement(this.element, createElement('xatom-scheme-status', {
       // className: 'form-control',
       elements: [
         this.statusLoadingElement,
@@ -147,7 +145,7 @@ export class ToolbarView {
         click: () => this.events.emit('didToggleDebugArea')
       }, [createIcon('panel-right')])
     ])
-    toggleButtons.classList.add('bugs-toggle-buttons')
+    toggleButtons.classList.add('xatom-toggle-buttons')
     insertElement(this.element, toggleButtons)
     attachEventFromObject(this.events, [
       'didRun',
@@ -168,12 +166,12 @@ export class ToolbarView {
 
   public displayAsTitleBar() {
     this.toggleAtomTitleBar(false)
-    this.element.classList.add('bugs-title-bar')
+    this.element.classList.add('xatom-title-bar')
   }
 
   public displayDefault() {
     this.toggleAtomTitleBar(true)
-    this.element.classList.remove('bugs-title-bar')
+    this.element.classList.remove('xatom-title-bar')
   }
 
   public didRun(cb: Function) {
@@ -232,17 +230,16 @@ export class ToolbarView {
   public toggleRun(status: boolean) {
     this.stopButton['disabled'] = status;
     this.runButton['disabled'] = !status;
-    this.isRunning = !status
   }
 
-  public setScheme(plugin) {
+  public setScheme (plugin) {
     // set element icon bg
     this.scheme.icon.style.backgroundImage = `url(${plugin.iconPath})`;
     // set element scheme name
     this.scheme.name.nodeValue = ` ${plugin.name}`;
   }
 
-  public setPaths(paths: Array<string>) {
+  public setPaths (paths: Array<string>) {
     // clear old list
     this.schemePath.select.innerHTML = '';
     // add new paths

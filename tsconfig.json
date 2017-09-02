@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "declaration": true,
+    "declaration": false,
     "noImplicitAny": false,
     "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "moduleResolution": "node",
     "removeComments": false,
     "outDir": "lib",
@@ -19,6 +21,7 @@
   },
   "compileOnSave": false,
   "include": [
-    "./src/**/*.ts"
+    "index.d.ts",
+    "./src2/**/*.ts"
   ]
 }

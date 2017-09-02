@@ -1,10 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
-    <title>Icon</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M24.5,5 L5.5,5 C5.224,5 5,5.224 5,5.5 L5,24.5 C5,24.776 5.224,25 5.5,25 L24.5,25 C24.776,25 25,24.776 25,24.5 L25,5.5 C25,5.224 24.776,5 24.5,5 Z" id="Stop" fill="#FFFFFF" fill-rule="nonzero"></path>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <path d="M19.5,0 L0.5,0 C0.224,0 0,0.224 0,0.5 L0,19.5 C0,19.776 0.224,20 0.5,20 L19.5,20 C19.776,20 20,19.776 20,19.5 L20,0.5 C20,0.224 19.776,0 19.5,0 Z" transform="translate(2 2)"/>
 </svg>

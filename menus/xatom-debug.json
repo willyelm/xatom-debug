@@ -51,7 +51,7 @@
         }]
       }]
     }],
-    ".bugs-breakpoint": [{
+    ".xatom-breakpoint": [{
       "label": "Edit Breakpoint",
       "command": "xatom-debug:edit-breakpoint"
     }, {

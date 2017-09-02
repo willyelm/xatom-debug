@@ -1,49 +1,49 @@
-/*!
- * XAtom Debug
- * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
- * MIT Licensed
- */
-@import "variables";
-
-.bugs-expression .region {
-  background-color: fadeOut(saturate(@background-color-info, 20%), 50%);
-  border-radius: @component-border-radius;
-  border: 1px solid saturate(@background-color-info, 20%);
-}
-
-.bugs-expression-overlay {
-  z-index: 1000000;
-  margin-left: -50px;
-}
-
-xatom-debug-overlay {
-  background-color:  lighten(@overlay-background-color, 1%);
-  white-space: normal;
-  border-radius: @component-border-radius;
-  display: block;
-  min-width: 160px;
-  max-width: 320px;
-  box-shadow: 0 0 4px fade(@overlay-border-color, 20%);
-  // word-wrap: break-word;
-  xatom-debug-overlay-header,
-  xatom-debug-inspector {
-    display: block;
-  }
-  xatom-debug-overlay-header {
-    border-top-left-radius: @component-border-radius;
-    border-top-right-radius: @component-border-radius;
-    background-color: darken(@overlay-background-color, 1%);
-    border: 1px solid @overlay-border-color;
-    padding: 3px 5px;
-  }
-  xatom-debug-inspector {
-    padding: 5px;
-    max-height: 200px;
-    overflow: auto;
-    -webkit-user-select: all;
-    border: 1px solid @button-border-color;
-    border-top: 0;
-      border-bottom-left-radius: @component-border-radius;
-      border-bottom-right-radius: @component-border-radius;
-  }
-}
+// /*!
+//  * XAtom Debug
+//  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+//  * MIT Licensed
+//  */
+// @import "variables";
+//
+// .xatom-expression .region {
+//   background-color: fadeOut(saturate(@background-color-info, 20%), 50%);
+//   border-radius: @component-border-radius;
+//   border: 1px solid saturate(@background-color-info, 20%);
+// }
+//
+// .xatom-expression-overlay {
+//   z-index: 1000000;
+//   margin-left: -50px;
+// }
+//
+// xatom-debug-overlay {
+//   background-color:  lighten(@overlay-background-color, 1%);
+//   white-space: normal;
+//   border-radius: @component-border-radius;
+//   display: block;
+//   min-width: 160px;
+//   max-width: 320px;
+//   box-shadow: 0 0 4px fade(@overlay-border-color, 20%);
+//   // word-wrap: break-word;
+//   xatom-debug-overlay-header,
+//   xatom-debug-inspector {
+//     display: block;
+//   }
+//   xatom-debug-overlay-header {
+//     border-top-left-radius: @component-border-radius;
+//     border-top-right-radius: @component-border-radius;
+//     background-color: darken(@overlay-background-color, 1%);
+//     border: 1px solid @overlay-border-color;
+//     padding: 3px 5px;
+//   }
+//   xatom-debug-inspector {
+//     padding: 5px;
+//     max-height: 200px;
+//     overflow: auto;
+//     -webkit-user-select: all;
+//     border: 1px solid @button-border-color;
+//     border-top: 0;
+//       border-bottom-left-radius: @component-border-radius;
+//       border-bottom-right-radius: @component-border-radius;
+//   }
+// }

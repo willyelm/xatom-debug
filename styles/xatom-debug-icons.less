@@ -1,0 +1,68 @@
+/*!
+ * XAtom Debug
+ * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
+ * MIT Licensed
+ */
+
+@import "variables";
+
+// Icons
+.xatom-icon {
+  width: 13px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: top center;
+  &[name="run"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/run.svg');
+    background-color: @text-color;
+  }
+  &[name="stop"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/stop.svg');
+    background-color: @text-color;
+  }
+  &[name="continue"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/continue.svg');
+    // background-color: @text-color;
+    background-color: @background-color-success;
+  }
+  &[name="pause"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/pause.svg');
+    // background-color: @text-color;
+    background-color: @background-color-error;
+  }
+  &[name="step-into"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/step-into.svg');
+    background-color: @text-color;
+  }
+  &[name="step-out"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/step-out.svg');
+    background-color: @text-color;
+  }
+  &[name="step-over"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/step-over.svg');
+    background-color: @text-color;
+  }
+  &[name="collapse-in"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/collapse-in.svg');
+    background-color: @text-color;
+  }
+  &[name="collapse-out"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/collapse-out.svg');
+    background-color: @text-color;
+  }
+  &[name="success"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/status-success.svg');
+    background-color: @background-color-success;
+  }
+  &[name="warning"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/status-warning.svg');
+    background-color: @background-color-warning;
+  }
+  &[name="error"] {
+    -webkit-mask-image: url('atom://xatom-debug/icons/status-error.svg');
+    background-color: @background-color-error;
+  }
+}
