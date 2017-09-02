@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "moduleResolution": "node",
+    "lib": ["es6", "dom"],
+    "outDir": "lib",
+    "sourceMap": true,
+    /*"inlineSourceMap": true,*/
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "inlineSources": true,
+    "removeComments": true,
+    "skipLibCheck": true
+  },
+  "compileOnSave": false,
+  "include": [
+    "node_modules/@types",
+    "src/**/*.ts"
+  ]
+}

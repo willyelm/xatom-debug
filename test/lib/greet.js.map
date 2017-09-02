@@ -1,0 +1,1 @@
+{"version":3,"file":"greet.js","sourceRoot":"","sources":["../src/greet.ts"],"names":[],"mappings":";;AAEA,eAAuB,MAAc;IACnC,MAAM,CAAC,qBAAmB,MAAM,CAAC,IAAM,CAAA;AACzC,CAAC;AAFD,sBAEC","sourcesContent":["import { Person } from './person';\n\nexport function Greet (person: Person) {\n  return `Hi!, my name is ${person.name}`\n}\n"]}
