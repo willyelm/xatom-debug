@@ -25,6 +25,7 @@ export type Breakpoints = Array<Breakpoint>;
 
 export class BreakpointManager {
   private emitter = new Emitter();
+  private lineNumbers: HTMLElement;
   private breakpoints: Breakpoints = [];
   private currentEditor: any;
   private lineEventListener: EventListenerOrEventListenerObject;
@@ -46,9 +47,21 @@ export class BreakpointManager {
   }
   setBreakpoints (breakpoints: Breakpoints) {
     this.breakpoints = breakpoints;
+    this.restoreMarkers();
   }
   getBreakpoints (): Breakpoints {
     return this.breakpoints;
+  }
+  restoreMarkers () {
+    if (this.currentEditor) {
+      this
+        .breakpoints
+        .filter((b) => b.filePath === this.currentEditor.getPath())
+        .forEach((b) => {
+          if (b.marker) b.marker.destroy();
+          b.marker = this.createMarker(this.currentEditor, b.lineNumber - 1);
+        });
+    }
   }
   getEditorLineNumbers (editor): Promise<HTMLElement> {
     return new Promise((resolve, reject) => {
@@ -63,23 +76,16 @@ export class BreakpointManager {
   }
   async attachBreakpoints (editor: any) {
     this.dettachBreakpoints();
+    this.lineNumbers = await this.getEditorLineNumbers(editor);
     this.currentEditor = editor;
     // Listen gutter line number
-    const lineNumbers = await this.getEditorLineNumbers(editor);
-    lineNumbers.addEventListener('click', this.lineEventListener);
+    this.lineNumbers.addEventListener('click', this.lineEventListener);
     // Restore breakpoint markers
-    const breakpoints = this.breakpoints.filter((b) => {
-      return b.filePath === editor.getPath()
-    });
-    breakpoints.forEach((b) => {
-      if (b.marker) b.marker.destroy();
-      b.marker = this.createMarker(editor, b.lineNumber - 1);
-    });
+    this.restoreMarkers();
   }
-  async dettachBreakpoints () {
-    if (this.currentEditor) {
-      const lineNumbers = await this.getEditorLineNumbers(this.currentEditor);
-      lineNumbers.removeEventListener('click', this.lineEventListener);
+  dettachBreakpoints () {
+    if (this.currentEditor && this.lineNumbers) {
+      this.lineNumbers.removeEventListener('click', this.lineEventListener);
     }
   }
   addBreakpoint (filePath: string, lineNumber: number) {
@@ -111,6 +117,7 @@ export class BreakpointManager {
     }
     if (index > -1) {
       this.emitter.emit('didRemoveBreakpoint', breakpoint);
+      console.log('remove', breakpoint);
       this.breakpoints.splice(index, 1);
     }
   }
