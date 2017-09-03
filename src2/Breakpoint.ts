@@ -10,8 +10,6 @@ const {
   Range,
   Disposable
 } = require('atom');
-const cuid = require('cuid');
-import { Storage } from './Storage';
 
 export interface Breakpoint {
   lineNumber: number,
@@ -29,7 +27,7 @@ export class BreakpointManager {
   private breakpoints: Breakpoints = [];
   private currentEditor: any;
   private lineEventListener: EventListenerOrEventListenerObject;
-  public projectPath: string;
+  public storage: string;
   constructor () {
     this.lineEventListener = (e) => {
       const element = (<HTMLElement> e.target);
@@ -99,15 +97,10 @@ export class BreakpointManager {
       breakpoint.marker = this.createMarker(this.currentEditor, lineNumber - 1);
     }
     this.emitter.emit('didAddBreakpoint', breakpoint);
-    Storage
-      .breakpoints
-      .sublevel(this.projectPath)
-      .put(cuid(), {
-        filePath,
-        lineNumber
-      }, (err, data) => {
-        console.log('put', err, data);
-      });
+    this.storage.put({
+      filePath,
+      lineNumber
+    });
   }
   removeBreakpoint (filePath: string, lineNumber: number) {
     const breakpoint = this.getBreakpoint(filePath, lineNumber);
@@ -117,8 +110,11 @@ export class BreakpointManager {
     }
     if (index > -1) {
       this.emitter.emit('didRemoveBreakpoint', breakpoint);
-      console.log('remove', breakpoint);
       this.breakpoints.splice(index, 1);
+      this.storage.delete({
+        filePath,
+        lineNumber
+      });
     }
   }
   getBreakpoint (filePath: string, lineNumber: number) {

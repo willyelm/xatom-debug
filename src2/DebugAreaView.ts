@@ -118,7 +118,10 @@ export class DebugAreaView {
   getURI () {
     return DEBUG_AREA_URI;
   }
-  getTitle() {
+  getIconName () {
+    return 'debug-area';
+  }
+  getTitle () {
     return 'Debug Area';
   }
 }

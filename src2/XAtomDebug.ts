@@ -52,21 +52,19 @@ export class XAtomDebug {
       // Listen Toolbar events
       this.toolbarView.onDidRun(() => this.pluginManager.execute('run')),
       this.toolbarView.onDidStop(() => this.pluginManager.execute('stop')),
-      this.toolbarView.onDidSelectProject((projectPath) => {
-        this.breakpointManager.projectPath = projectPath;
-        Storage.projects.get(projectPath, (err, project) => {
-          if (err) {
-            Storage.projects.put(projectPath, { path: projectPath });
-          } else {
-            const items = [];
-            Storage
-              .breakpoints
-              .sublevel(projectPath)
-              .createValueStream()
-              .on('data', (breakpoint) => items.push(breakpoint))
-              .once('end', () => this.breakpointManager.setBreakpoints(items));
-          }
+      this.toolbarView.onDidSelectProject(async (projectPath) => {
+        let project = await Storage.findOne({
+          path: projectPath
         });
+        if (project) {
+          const breakpoints = await project.breakpoints.getItems();
+          this.breakpointManager.setBreakpoints(breakpoints);
+        } else {
+          project = await Storage.put({
+            path: projectPath
+          });
+        }
+        this.breakpointManager.storage = project.breakpoints;
       }),
       // Listen Debug Navigator events
       this.debugControlView.onDidContinue(() => this.pluginManager.execute('continue')),
