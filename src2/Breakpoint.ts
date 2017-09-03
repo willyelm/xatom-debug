@@ -4,6 +4,9 @@
  * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>
  * MIT Licensed
  */
+
+import { Storage, Collection } from './Storage';
+
 const {
   CompositeDisposable,
   Emitter,
@@ -27,7 +30,7 @@ export class BreakpointManager {
   private breakpoints: Breakpoints = [];
   private currentEditor: any;
   private lineEventListener: EventListenerOrEventListenerObject;
-  public storage: string;
+  public storage: Collection;
   constructor () {
     this.lineEventListener = (e) => {
       const element = (<HTMLElement> e.target);

@@ -11,7 +11,8 @@ import { DebugControlView } from './DebugControlView';
 import { DebugAreaView, DEBUG_AREA_URI } from './DebugAreaView';
 import { DebugNavigatorView, DEBUG_NAVIGATOR_URI } from './DebugNavigatorView';
 import { SchemeEditorView, SCHEME_EDITOR_URI } from './SchemeEditorView';
-import { Session, PluginManager } from './Plugin';
+import { PluginManager } from './Plugin';
+import { Session } from './Session';
 import { Storage } from './Storage';
 import { Breakpoint, BreakpointManager } from './Breakpoint';
 
