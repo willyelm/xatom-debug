@@ -1,0 +1,35 @@
+@import "ui-variables";
+
+xatom-debug-frame {
+  display: block;
+  .xatom-group-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    .xatom-debug-frame-name {
+      display: flex;
+      margin-right: 5px;
+    }
+    .xatom-debug-frame-location {
+      display: flex;
+      align-items: flex-end;
+      .xatom-debug-frame-file {
+        word-break: break-word;
+        white-space: pre-wrap;
+        opacity: .65;
+      }
+      .xatom-debug-frame-position {
+        margin-left: 5px;
+        padding: 0 5px;
+        background-color: @text-color-subtle;
+        border-radius: 3px;
+        color: #fff;
+      }
+    }
+  }
+  &.active {
+    background-color: @background-color-info;
+    color: #fff;
+  }
+}

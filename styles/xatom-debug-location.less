@@ -3,9 +3,19 @@
 .xatom-debug-location {
   &.line,
   &.line-number {
-    // background-color: fadeOut(@background-color-info, 50%)!important;
-    // border: 1px solid fadeOut(@background-color-info, 25%);
-    background-color: fadeOut(@background-color-info, 50%)!important;
+    background-color: fadeOut(@text-color, 60%)!important;
+  }
+  &.xatom-debug-location-breakpoint {
+    &.line,
+    &.line-number {
+      background-color: fadeOut(@background-color-info, 40%)!important;
+    }
+  }
+  &.xatom-debug-location-exception {
+    &.line,
+    &.line-number {
+      background-color: fadeOut(@background-color-error, 50%)!important;
+    }
   }
   &.line {
     opacity: 1;

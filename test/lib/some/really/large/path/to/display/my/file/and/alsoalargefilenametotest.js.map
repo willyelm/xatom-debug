@@ -1,0 +1,1 @@
+{"version":3,"file":"alsoalargefilenametotest.js","sourceRoot":"","sources":["../../../../../../../../../../src/some/really/large/path/to/display/my/file/and/alsoalargefilenametotest.ts"],"names":[],"mappings":";;AAAA;IACE,MAAM,IAAI,KAAK,CAAC,MAAM,CAAC,CAAC;AAC1B,CAAC;AAFD,oBAEC","sourcesContent":["export function Test () {\n  throw new Error('test');\n}\n"]}

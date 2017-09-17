@@ -5,69 +5,72 @@
  */
 
 @import "ui-variables";
-
-.xatom-breakpoint-line {
-  background-color: fadeOut(@background-color-info, 75%)!important;
-  box-shadow: 0 .05rem 0 0 fadeOut(@background-color-info, 30%) inset,
-              0 .05rem 0 0 fadeOut(@background-color-info, 30%);
-}
-
-.xatom-breakpoint-edit {
-  padding: 2px;
-  width: auto;
-  min-width: 340px;
-  background-color: @base-background-color;
-  border-radius: @component-border-radius;
-  border: 1px solid @button-border-color;
-  margin-top: -24px;
-  z-index: 1;
-  atom-text-editor {
-    margin-right: 36px;
-    border-top-right-radius: 0!important;
-    border-bottom-right-radius: 0!important;
-  }
-  button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 35px;
-    margin: 2px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    .xatom-icon {
-      height: 10px;
-      width: 8px;
-    }
-  }
-  xatom-breakpoint-edit-arrow {
-    position: absolute;
-    left: -10px;
-    top: 50%;
-    margin-top: -8px;
-    width: 10px;
-    overflow: hidden;
-    height: 16px;
-    &:before {
-      content: '';
-      transform: rotate(45deg);
-      background-color: @base-background-color;
-      width: 14px;
-      height: 14px;
-      position: absolute;
-      top: 50%;
-      left: 4px;
-      margin-top: -7px;
-      border-radius: 0 0 0 @component-border-radius;
-      box-shadow: 0 0 0 .05rem @button-border-color inset
-    }
-  }
-}
+//
+// .xatom-breakpoint-line {
+//   background-color: fadeOut(@background-color-info, 75%)!important;
+//   box-shadow: 0 .05rem 0 0 fadeOut(@background-color-info, 30%) inset,
+//               0 .05rem 0 0 fadeOut(@background-color-info, 30%);
+// }
+//
+// .xatom-breakpoint-edit {
+//   padding: 2px;
+//   width: auto;
+//   min-width: 340px;
+//   background-color: @base-background-color;
+//   border-radius: @component-border-radius;
+//   border: 1px solid @button-border-color;
+//   margin-top: -24px;
+//   z-index: 1;
+//   atom-text-editor {
+//     margin-right: 36px;
+//     border-top-right-radius: 0!important;
+//     border-bottom-right-radius: 0!important;
+//   }
+//   button {
+//     position: absolute;
+//     top: 0;
+//     right: 0;
+//     width: 35px;
+//     margin: 2px;
+//     border-top-left-radius: 0;
+//     border-bottom-left-radius: 0;
+//     .xatom-icon {
+//       height: 10px;
+//       width: 8px;
+//     }
+//   }
+//   xatom-breakpoint-edit-arrow {
+//     position: absolute;
+//     left: -10px;
+//     top: 50%;
+//     margin-top: -8px;
+//     width: 10px;
+//     overflow: hidden;
+//     height: 16px;
+//     &:before {
+//       content: '';
+//       transform: rotate(45deg);
+//       background-color: @base-background-color;
+//       width: 14px;
+//       height: 14px;
+//       position: absolute;
+//       top: 50%;
+//       left: 4px;
+//       margin-top: -7px;
+//       border-radius: 0 0 0 @component-border-radius;
+//       box-shadow: 0 0 0 .05rem @button-border-color inset
+//     }
+//   }
+// }
 
 // Breakpoint
 .xatom-breakpoint {
   z-index: 1;
-  // color: #fff!important;
-  opacity: 1!important;
+  opacity: .5!important;
+  &.xatom-debug-location-breakpoint {
+    opacity: 1!important;
+    color: white!important;
+  }
   &:after {
     content: '';
     background-color: @background-color-info;

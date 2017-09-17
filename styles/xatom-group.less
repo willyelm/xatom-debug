@@ -1,0 +1,42 @@
+@import "ui-variables";
+
+xatom-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  section.xatom-group-body {
+    max-height: 200px;
+    overflow: auto;
+  }
+  header.xatom-group-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid @panel-heading-border-color;
+    padding: 0 5px;
+    .btn {
+      background-color: transparent;
+    }
+    .xatom-icon {
+      width: 16px;
+      height: 20px;
+    }
+    .xatom-group-title {
+      font-weight: bold;
+      padding: 0 10px;
+      line-height: 2.5em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+  }
+  .xatom-group-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    padding: 5px 10px;
+    padding-left: 16px;
+    overflow: hidden;
+    -webkit-user-select: none;
+    cursor: default;
+  }
+}

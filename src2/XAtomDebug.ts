@@ -5,42 +5,42 @@
  * MIT Licensed
  */
 const { CompositeDisposable, Disposable } = require('atom');
+import { XAtom } from './XAtom';
+import { Project } from './Project';
+
 import { ToolbarView } from './ToolbarView';
-import { DebugControlView } from './DebugControlView';
-// import { OutputView, OUTPUT_URI } from './OutputView';
-import { DebugAreaView, DEBUG_AREA_URI } from './DebugAreaView';
-import { DebugNavigatorView, DEBUG_NAVIGATOR_URI } from './DebugNavigatorView';
+import {
+  DebugControlView,
+  DebugAreaView,
+  DebugNavigatorView,
+  DEBUG_NAVIGATOR_URI,
+  DEBUG_AREA_URI
+} from './debug';
+import { Breakpoint, BreakpointManager, BreakpointNavigatorView, BREAKPOINT_NAVIGATOR_URI } from './breakpoint';
 import { SchemeEditorView, SCHEME_EDITOR_URI } from './SchemeEditorView';
-import { PluginManager } from './Plugin';
-import { Session } from './Session';
-import { Storage } from './Storage';
-import { Breakpoint, BreakpointManager } from './Breakpoint';
+import { PluginManager, PluginSession } from './plugin';
+import { Storage } from './storage';
 
 export class XAtomDebug {
-  private toolbarView: ToolbarView;
-  private schemeEditorView: SchemeEditorView;
-  private debugControlView: DebugControlView;
-  private debugAreaView: DebugAreaView;
-  private debugNavigatorView: DebugNavigatorView;
-  private subscriptions: any;
   private pluginManager: PluginManager;
-  private breakpointManager: BreakpointManager;
-  activate (): void {
-    // views
-    this.toolbarView = new ToolbarView(null);
-    this.schemeEditorView = new SchemeEditorView(null);
-    this.debugControlView = new DebugControlView(null);
-    this.debugNavigatorView = new DebugNavigatorView(null);
-    this.debugAreaView = new DebugAreaView(null);
+  // static views
+  private toolbarView = new ToolbarView(null);
+  private debugControlView = new DebugControlView(null);
+  // dynamic views
+  private schemeEditorView = new SchemeEditorView(null);
+  private debugAreaView = new DebugAreaView(null);
+  private debugNavigatorView = new DebugNavigatorView(null);
+
+  private subscriptions: any;
+  constructor () {
     // managers
-    this.breakpointManager = new BreakpointManager();
     this.pluginManager = new PluginManager(
       this.toolbarView,
       this.debugControlView,
       this.debugAreaView,
-      this.debugNavigatorView,
-      this.breakpointManager
+      this.debugNavigatorView
     );
+    // subscriptions
     this.subscriptions = new CompositeDisposable(
       // Set projects
       atom.project.onDidChangePaths(() => {
@@ -54,19 +54,13 @@ export class XAtomDebug {
       this.toolbarView.onDidRun(() => this.pluginManager.execute('run')),
       this.toolbarView.onDidStop(() => this.pluginManager.execute('stop')),
       this.toolbarView.onDidSelectProject(async (projectPath) => {
-        let project = await Storage.findOne({
-          path: projectPath
-        });
-        if (project) {
-          const breakpoints = await project.breakpoints.getItems();
-          this.breakpointManager.setBreakpoints(breakpoints);
-        } else {
-          project = await Storage.put({
-            path: projectPath
-          });
+        let project = await Storage.project.findOne({ projectPath });
+        if (!project) {
+          project = await Storage.project.insert(<Project> { projectPath });
         }
-        this.breakpointManager.storage = project.breakpoints;
+        XAtom.project.setActive(<Project> project);
       }),
+      XAtom.project.onDidChange(() => XAtom.breakpoints.restore()),
       // Listen Debug Navigator events
       this.debugControlView.onDidContinue(() => this.pluginManager.execute('continue')),
       this.debugControlView.onDidPause(() => this.pluginManager.execute('pause')),
@@ -77,13 +71,13 @@ export class XAtomDebug {
       // Observe text editors ::observeActiveTextEditor
       atom.workspace.getCenter().observeActivePaneItem((item) => {
         if (!atom.workspace.isTextEditor(item)) return;
-        this.breakpointManager.attachBreakpoints(item);
+        XAtom.breakpoints.attachEditor(item);
       }),
       // Listean Breakpoints
-      this.breakpointManager.onDidAddBreakpoint((b: Breakpoint) => {
+      XAtom.breakpoints.onDidAdd((b: Breakpoint) => {
         this.pluginManager.execute('addBreakpoint', [b]);
       }),
-      this.breakpointManager.onDidRemoveBreakpoint((b: Breakpoint) => {
+      XAtom.breakpoints.onDidRemove((b: Breakpoint) => {
         this.pluginManager.execute('removeBreakpoint', [b]);
       }),
       // Register panel toggle views
@@ -91,23 +85,34 @@ export class XAtomDebug {
         if (uri === DEBUG_NAVIGATOR_URI) return this.debugNavigatorView;
         if (uri === DEBUG_AREA_URI) return this.debugAreaView;
         if (uri === SCHEME_EDITOR_URI) return this.schemeEditorView;
+        if (uri === BREAKPOINT_NAVIGATOR_URI) return new BreakpointNavigatorView(null);
       }),
       // Destroy panel views when package is deactivated
       new Disposable(() => {
         atom.workspace.getPaneItems().forEach((item) => {
           if (item instanceof DebugNavigatorView ||
             item instanceof DebugAreaView ||
-            item instanceof SchemeEditorView) {
+            item instanceof SchemeEditorView ||
+            item instanceof BreakpointNavigatorView) {
             item.destroy();
           }
         });
+      }),
+      // Commands
+      atom.commands.add('atom-workspace', {
+        'XAtom: Toggle Debugger': () => {
+          this.toolbarView.toggle();
+        },
+        'XAtom: Open Breakpoint Navigator': () => {
+          atom.workspace.open(BREAKPOINT_NAVIGATOR_URI, {});
+        }
       })
     );
   }
   bind (object: any, functionName: string): Function {
     return object[functionName].bind(object);
   }
-  providePlugin () {
+  getProvider () {
     return {
       addPlugin: this.bind(this.pluginManager, 'addPlugin'),
       removePlugin: this.bind(this.pluginManager, 'removePlugin'),
@@ -119,12 +124,10 @@ export class XAtomDebug {
       }
     };
   }
-  deactivate (): void {
+  destroy (): void {
+    XAtom.breakpoints.destroy();
     this.subscriptions.dispose();
     this.toolbarView.destroy();
-    this.breakpointManager.destroy();
     this.pluginManager.destroy();
   }
 }
-
-module.exports = new XAtomDebug();

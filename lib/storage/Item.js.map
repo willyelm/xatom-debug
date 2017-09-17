@@ -1,0 +1,1 @@
+{"version":3,"file":"Item.js","sourceRoot":"","sources":["../../src2/storage/Item.ts"],"names":[],"mappings":"AAAA,WAAW,CAAC","sourcesContent":["'use babel';\n/*!\n * XAtom Debug\n * Copyright(c) 2017 Williams Medina <williams.medinaa@gmail.com>\n * MIT Licensed\n */\n\nexport interface Item {\n  _id?: string;\n}\n"]}

@@ -7,28 +7,31 @@
 import { EventEmitter } from 'events';
 import 'reflect-metadata';
 
-const viewControllerRegistry = new EventEmitter();
-viewControllerRegistry.setMaxListeners(0);
-
-function getViewController (target: any): Promise<{
-  viewController: ViewController,
-  complete: Function
-}> {
-  return new Promise ((resolve, reject) => {
-    viewControllerRegistry.on('viewControllerLoad', function eventListener (controller: ViewController) {
-      if (Object.getPrototypeOf(controller.controller) === target) {
-        const task = new Promise((taskResolve, taskReject) => {
-          resolve({
-            viewController: controller,
-            complete: taskResolve
-          });
-        });
-        controller.tasks.push(task);
-        viewControllerRegistry.removeListener('viewControllerLoad', eventListener);
-      }
-    })
-  })
-}
+// const viewControllerRegistry = new EventEmitter();
+const viewRegistry = [];
+// viewControllerRegistry.setMaxListeners(0);
+//
+//
+// function getViewController (target: any): Promise<{
+//   viewController: ViewController,
+//   complete: Function
+// }> {
+//   return new Promise ((resolve, reject) => {
+//     viewControllerRegistry.on('viewControllerLoad', function eventListener (controller: ViewController) {
+//       if (Object.getPrototypeOf(controller.controller) === target) {
+//         const task = new Promise((taskResolve, taskReject) => {
+//           resolve({
+//             viewController: controller,
+//             complete: taskResolve
+//           });
+//         });
+//         console.log('register');
+//         controller.tasks.push(task);
+//         viewControllerRegistry.removeListener('viewControllerLoad', eventListener);
+//       }
+//     })
+//   })
+// }
 
 function getHTMLElement (controller: ViewController, query: string): Promise<HTMLElement> {
   return new Promise ((resolve, reject) => {
@@ -44,14 +47,16 @@ function getHTMLElement (controller: ViewController, query: string): Promise<HTM
 
 export function Action (eventName: string, query: string) {
   return function (target, key, descriptor) {
-    getViewController(target).then(async ({ viewController, complete }) => {
-      const el = await getHTMLElement(viewController, query);
-      el.addEventListener(eventName, (event) => {
-        if (target[key]) {
-          target[key].apply(viewController.controller, [event]);
-        }
-      });
-      complete();
+    viewRegistry.push({
+      target,
+      async create (viewController: ViewController, instance: any) {
+        const el = await getHTMLElement(viewController, query);
+        el.addEventListener(eventName, (event) => {
+          if (instance[key]) {
+            instance[key](event);
+          }
+        });
+      }
     });
     return descriptor;
   }
@@ -59,22 +64,12 @@ export function Action (eventName: string, query: string) {
 
 export function Element (query: string) {
   return <any> function (target, key, descriptor) {
-    getViewController(target).then(async ({ viewController, complete }) => {
-      const el = await getHTMLElement(viewController, query);
-      target[key] = el;
-      complete();
-    });
-    return descriptor;
-  }
-}
-
-
-export function ElementObserver (query: string) {
-  return <any> function (target, key, descriptor) {
-    getViewController(target).then(async ({ viewController, complete }) => {
-      const el = await getHTMLElement(viewController, query);
-      target[key] = el;
-      complete();
+    viewRegistry.push({
+      target,
+      async create (viewController: ViewController, instance: any) {
+        const el = await getHTMLElement(viewController, query);
+        instance[key] = el;
+      }
     });
     return descriptor;
   }
@@ -90,34 +85,38 @@ export class ViewElement {
 
 export class ViewController {
   public controller: any;
-  public tasks: Array<any> = [];
   constructor (public viewElement: ViewElement) {
     // do something
   }
 }
 
 export function View (options: { name: string, template?: string }) {
-  return <any> function (target: any, key: string, descriptor: Object) {
-    const paramTypes = Reflect.getMetadata('design:paramtypes', target, key);
-    const element = new ViewElement(options.name, options.template);
-    const controller = new ViewController(element);
-    const paramValues = paramTypes.map((param) => {
-      if (param === ViewElement) return element;
-      if (param === ViewController) return controller;
-      return null;
-    });
-    const createView: any = function () {
+  return <any> function createView (target: any, key: string, descriptor: Object) {
+    const instance: any = function () {
+      const paramTypes = Reflect.getMetadata('design:paramtypes', target, key);
+      const viewElement = new ViewElement(options.name, options.template);
+      const viewController = new ViewController(viewElement);
+      const paramValues = paramTypes.map((param, index) => {
+        if (param === ViewElement) return viewElement;
+        if (param === ViewController) return viewController;
+        return arguments[index];
+      });
       target.apply(this, paramValues);
-      controller.controller = this;
-      viewControllerRegistry.emit('viewControllerLoad', controller);
-      if (this.viewDidLoad) {
-        Promise.all(controller.tasks).then(() => {
-          this.viewDidLoad();
+      const load = viewRegistry
+        .filter(({target}) => {
+          return Object.getPrototypeOf(this) === target;
         })
-      }
-      return controller.controller;
+        .map(({create}) => {
+          return create(viewController, this);
+        })
+        .reduce((r, p) => p.then(r), Promise.resolve())
+        .then(() => {
+          if (this.viewDidLoad) {
+            this.viewDidLoad();
+          }
+        });
     };
-    createView.prototype = target.prototype;
-    return createView;
+    instance.prototype = target.prototype;
+    return instance;
   }
 }

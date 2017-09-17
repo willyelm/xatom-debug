@@ -12,4 +12,7 @@ declare namespace AtomCore {
 		getDirectories(): string[];
 		getPaths(): string[];
 	}
+	interface IAtom {
+		tooltips: any;
+	}
 }

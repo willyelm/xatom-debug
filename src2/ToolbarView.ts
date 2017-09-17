@@ -41,8 +41,9 @@ import { parse } from 'path';
 })
 export class ToolbarView {
   public emitter = new Emitter();
+  private panel: any;
   constructor (private viewElement: ViewElement) {
-    atom.workspace.addHeaderPanel({
+    this.panel = atom.workspace.addHeaderPanel({
       item: this.getElement(),
       visible: true
     });
@@ -122,6 +123,13 @@ export class ToolbarView {
   }
   viewDidLoad () {
     this.setProjects(atom.project.getDirectories());
+  }
+  toggle () {
+    if (this.panel.visible) {
+      this.panel.hide();
+    } else {
+      this.panel.show();
+    }
   }
   destroy () {
     this.viewElement.element.remove();
