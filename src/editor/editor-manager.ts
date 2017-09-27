@@ -257,10 +257,18 @@ export class EditorManager {
     var clientX = e.clientX
     var clientY = e.clientY
     let clientRect = lines.getBoundingClientRect()
-    let screenPosition = editor.element.screenPositionForPixelPosition({
-      top: (clientY - clientRect.top) + editor.element.getScrollTop(),
-      left: (clientX - clientRect.left) + editor.element.getScrollLeft()
-    })
+    let screenPosition = null
+    if (typeof editor.screenPositionForPixelPosition != 'undefined'){ // using new api
+      screenPosition = editor.screenPositionForPixelPosition({
+        top: (clientY - clientRect.top) + editor.element.scrollTop,
+        left: (clientX - clientRect.left) + editor.element.scrollLeft
+      })
+    } else { // must be using depricated api, see commit: https://github.com/atom/atom/commit/535a9da94657f92498f8bc7f3f27c07c779555d6
+      screenPosition = editor.element.screenPositionForPixelPosition({
+        top: (clientY - clientRect.top) + editor.element.getScrollTop(),
+        left: (clientX - clientRect.left) + editor.element.getScrollLeft()
+      })
+    }
     return editor.bufferPositionForScreenPosition(screenPosition)
   }
 
