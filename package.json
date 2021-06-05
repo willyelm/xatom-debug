@@ -70,7 +70,7 @@
     "nedb": "^1.8.0",
     "node-pty": "^0.7.0",
     "resize-observer-polyfill": "^1.4.2",
-    "xterm": "^2.9.2"
+    "xterm": "^4.1.0"
   },
   "devDependencies": {
     "@types/atom": "0.0.36",
